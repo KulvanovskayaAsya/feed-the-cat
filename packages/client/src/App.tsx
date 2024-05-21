@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Game } from './components/Game'
 import './App.css'
 
 function App() {
@@ -10,9 +11,9 @@ function App() {
       console.log(data)
     }
 
-    fetchServerData()
+    fetchServerData().then()
   }, [])
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>
+  return <Game />
 }
 
 export default App
