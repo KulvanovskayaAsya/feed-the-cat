@@ -1,5 +1,12 @@
 export type GameObjectType = 'Hero' | 'Enemy' | 'Eat' | ''
 
+export interface RectObject {
+  top: number
+  left: number
+  bottom: number
+  right: number
+}
+
 export interface GameObjectProps {
   x: number
   y: number
@@ -27,12 +34,7 @@ export class GameObject {
     }
   }
 
-  rectFromGameObject(): {
-    top: number
-    left: number
-    bottom: number
-    right: number
-  } {
+  rectFromGameObject(): RectObject {
     return {
       top: this.y,
       left: this.x,
