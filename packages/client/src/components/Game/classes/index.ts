@@ -4,4 +4,5 @@ export {
   type RectObject,
   GameObject,
 } from './GameObject'
-export { type SpriteProps, Sprite } from './Sprite'
+export { type Coords, type SpriteProps, Sprite } from './Sprite'
+export { type BoundaryProps, Boundary } from './Boundary'
