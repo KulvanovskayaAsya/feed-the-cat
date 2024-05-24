@@ -8,12 +8,12 @@ import {
 } from 'react'
 import './Game.css'
 import { clearGame, loadTexture, rectangularCollision } from './utils'
-import { collisions } from './data'
-import { hero } from './data'
-import { Boundary, Sprite } from './classes'
+import { collisions, hero, eat } from './data'
+import { Boundary, Eat, Sprite } from './classes'
 
 const collisionsMap: number[][] = []
 const heroMap: number[][] = []
+const eatMap: number[][] = []
 
 // Размер карты 20*15 тайлов, 1 тайл 40*40 пикселей
 for (let i = 0; i < collisions.length; i += 20) {
@@ -22,6 +22,10 @@ for (let i = 0; i < collisions.length; i += 20) {
 
 for (let i = 0; i < collisions.length; i += 20) {
   heroMap.push(hero.slice(i, 20 + i))
+}
+
+for (let i = 0; i < collisions.length; i += 20) {
+  eatMap.push(eat.slice(i, 20 + i))
 }
 
 const boundaries: Boundary[] = []
@@ -116,6 +120,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [level, setLevel] = useState<Sprite | null>(null)
   const [foreground, setForeground] = useState<Sprite | null>(null)
   const [hero, setHero] = useState<Sprite | null>(null)
+  const [eatArray, setEatArray] = useState<Array<Eat>>([])
 
   const [moving, setMoving] = useState<boolean>(true)
 
@@ -142,6 +147,10 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         if (level) {
           level.draw(ctx)
         }
+
+        eatArray.forEach((eatPiece: Eat) => {
+          eatPiece.draw(ctx)
+        })
 
         if (hero) {
           hero.moving = false
@@ -311,6 +320,9 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       const heroDownImg = await loadTexture('heroDown.png')
       const heroLeftImg = await loadTexture('heroLeft.png')
       const heroRightImg = await loadTexture('heroRight.png')
+      const chickenImg = await loadTexture('chicken.png')
+      const hotdogImg = await loadTexture('hotdog.png')
+      const pizzaImg = await loadTexture('pizza.png')
 
       const levelSprite = new Sprite({
         position: { x: 0, y: 0 },
@@ -358,6 +370,52 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
       const heroSprite = heroArray[0]
       setHero(heroSprite)
+
+      const eatArr: Eat[] = []
+
+      eatMap.forEach((row: number[], i: number) => {
+        row.forEach((symbol: number, j: number) => {
+          if (symbol === 1036) {
+            const chicken = new Eat({
+              position: {
+                x: j * boundaryWidth + (boundaryWidth - heroDownImg.width) / 2,
+                y:
+                  i * boundaryHeight +
+                  (boundaryHeight - heroDownImg.height) / 2,
+              },
+              image: chickenImg,
+            })
+
+            eatArr.push(chicken)
+          } else if (symbol === 1037) {
+            const hotdog = new Eat({
+              position: {
+                x: j * boundaryWidth + (boundaryWidth - heroDownImg.width) / 2,
+                y:
+                  i * boundaryHeight +
+                  (boundaryHeight - heroDownImg.height) / 2,
+              },
+              image: hotdogImg,
+            })
+
+            eatArr.push(hotdog)
+          } else if (symbol === 1038) {
+            const pizza = new Eat({
+              position: {
+                x: j * boundaryWidth + (boundaryWidth - heroDownImg.width) / 2,
+                y:
+                  i * boundaryHeight +
+                  (boundaryHeight - heroDownImg.height) / 2,
+              },
+              image: pizzaImg,
+            })
+
+            eatArr.push(pizza)
+          }
+        })
+      })
+
+      setEatArray(eatArr)
     }
 
     const canvas: HTMLCanvasElement | null = canvasRef.current
