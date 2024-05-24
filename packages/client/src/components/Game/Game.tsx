@@ -165,7 +165,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                     },
                   })
                 ) ||
-                hero.position.y < 3
+                hero.position.y < 9
               ) {
                 console.log('colliding')
                 setMoving(false)
@@ -197,7 +197,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                     },
                   })
                 ) ||
-                hero.position.y + hero.height > canvas.height - 3
+                hero.position.y + hero.height > canvas.height - 9
               ) {
                 console.log('colliding')
                 setMoving(false)
@@ -229,7 +229,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                     },
                   })
                 ) ||
-                hero.position.x < 3
+                hero.position.x < 9
               ) {
                 console.log('colliding')
                 setMoving(false)
@@ -261,7 +261,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                     },
                   })
                 ) ||
-                hero.position.x + hero.width > canvas.width - 3
+                hero.position.x + hero.width > canvas.width - 9
               ) {
                 console.log('colliding')
                 setMoving(false)
