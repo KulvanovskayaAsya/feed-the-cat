@@ -378,10 +378,9 @@ export const Game: FC<GameProps> = (props: GameProps) => {
           if (symbol === 1036) {
             const chicken = new Eat({
               position: {
-                x: j * boundaryWidth + (boundaryWidth - heroDownImg.width) / 2,
+                x: j * boundaryWidth + (boundaryWidth - chickenImg.width) / 2,
                 y:
-                  i * boundaryHeight +
-                  (boundaryHeight - heroDownImg.height) / 2,
+                  i * boundaryHeight + (boundaryHeight - chickenImg.height) / 2,
               },
               image: chickenImg,
             })
@@ -390,10 +389,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
           } else if (symbol === 1037) {
             const hotdog = new Eat({
               position: {
-                x: j * boundaryWidth + (boundaryWidth - heroDownImg.width) / 2,
-                y:
-                  i * boundaryHeight +
-                  (boundaryHeight - heroDownImg.height) / 2,
+                x: j * boundaryWidth + (boundaryWidth - hotdogImg.width) / 2,
+                y: i * boundaryHeight + (boundaryHeight - hotdogImg.height) / 2,
               },
               image: hotdogImg,
             })
@@ -402,10 +399,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
           } else if (symbol === 1038) {
             const pizza = new Eat({
               position: {
-                x: j * boundaryWidth + (boundaryWidth - heroDownImg.width) / 2,
-                y:
-                  i * boundaryHeight +
-                  (boundaryHeight - heroDownImg.height) / 2,
+                x: j * boundaryWidth + (boundaryWidth - pizzaImg.width) / 2,
+                y: i * boundaryHeight + (boundaryHeight - pizzaImg.height) / 2,
               },
               image: pizzaImg,
             })
