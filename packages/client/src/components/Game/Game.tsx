@@ -144,7 +144,14 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         }
 
         if (hero) {
+          hero.moving = false
+
           if (pressedKey === 'ArrowUp' && lastKey === 'ArrowUp') {
+            hero.moving = true
+            if (hero.sprites) {
+              hero.image = hero.sprites.up
+            }
+
             for (let i = 0; i < boundaries.length; i++) {
               const boundary = boundaries[i]
 
@@ -172,6 +179,11 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               hero.position.y -= hero.velocity
             }
           } else if (pressedKey === 'ArrowDown' && lastKey === 'ArrowDown') {
+            hero.moving = true
+            if (hero.sprites) {
+              hero.image = hero.sprites.down
+            }
+
             for (let i = 0; i < boundaries.length; i++) {
               const boundary = boundaries[i]
 
@@ -199,6 +211,11 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               hero.position.y += hero.velocity
             }
           } else if (pressedKey === 'ArrowLeft' && lastKey === 'ArrowLeft') {
+            hero.moving = true
+            if (hero.sprites) {
+              hero.image = hero.sprites.left
+            }
+
             for (let i = 0; i < boundaries.length; i++) {
               const boundary = boundaries[i]
 
@@ -226,6 +243,11 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               hero.position.x -= hero.velocity
             }
           } else if (pressedKey === 'ArrowRight' && lastKey === 'ArrowRight') {
+            hero.moving = true
+            if (hero.sprites) {
+              hero.image = hero.sprites.right
+            }
+
             for (let i = 0; i < boundaries.length; i++) {
               const boundary = boundaries[i]
 
@@ -285,7 +307,10 @@ export const Game: FC<GameProps> = (props: GameProps) => {
     const run = async (): Promise<void> => {
       const levelImg = await loadTexture('level.png')
       const foregroundImg = await loadTexture('foregroundObjects.png')
-      const heroImg = await loadTexture('heroDown.png')
+      const heroUpImg = await loadTexture('heroUp.png')
+      const heroDownImg = await loadTexture('heroDown.png')
+      const heroLeftImg = await loadTexture('heroLeft.png')
+      const heroRightImg = await loadTexture('heroRight.png')
 
       const levelSprite = new Sprite({
         position: { x: 0, y: 0 },
@@ -310,12 +335,21 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               new Sprite({
                 position: {
                   x:
-                    j * boundaryWidth + (boundaryWidth - heroImg.width / 4) / 2,
-                  y: i * boundaryHeight + (boundaryHeight - heroImg.height) / 2,
+                    j * boundaryWidth +
+                    (boundaryWidth - heroDownImg.width / 4) / 2,
+                  y:
+                    i * boundaryHeight +
+                    (boundaryHeight - heroDownImg.height) / 2,
                 },
                 velocity: 1,
-                image: heroImg,
-                frames: { max: 4 },
+                image: heroDownImg,
+                frames: { max: 4, val: 0, elapsed: 0 },
+                sprites: {
+                  up: heroUpImg,
+                  down: heroDownImg,
+                  left: heroLeftImg,
+                  right: heroRightImg,
+                },
               })
             )
           }
