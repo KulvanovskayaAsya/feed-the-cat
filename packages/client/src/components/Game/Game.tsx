@@ -137,7 +137,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         clearGame(canvas, ctx)
       }
 
-      if (ctx) {
+      if (canvas && ctx) {
         if (level) {
           level.draw(ctx)
         }
@@ -156,7 +156,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                       y: boundary.position.y + 3,
                     },
                   })
-                )
+                ) ||
+                hero.position.y < 3
               ) {
                 console.log('colliding')
                 setMoving(false)
@@ -182,7 +183,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                       y: boundary.position.y - 3,
                     },
                   })
-                )
+                ) ||
+                hero.position.y + hero.height > canvas.height - 3
               ) {
                 console.log('colliding')
                 setMoving(false)
@@ -235,7 +237,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                       y: boundary.position.y,
                     },
                   })
-                )
+                ) ||
+                hero.position.x + hero.width > canvas.width - 3
               ) {
                 console.log('colliding')
                 setMoving(false)
