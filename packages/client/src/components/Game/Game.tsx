@@ -114,6 +114,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [lastKey, setLastKey] = useState('')
 
   const [level, setLevel] = useState<Sprite | null>(null)
+  const [foreground, setForeground] = useState<Sprite | null>(null)
   const [hero, setHero] = useState<Sprite | null>(null)
 
   const [moving, setMoving] = useState<boolean>(true)
@@ -256,6 +257,10 @@ export const Game: FC<GameProps> = (props: GameProps) => {
           hero.draw(ctx)
         }
 
+        if (foreground) {
+          foreground.draw(ctx)
+        }
+
         boundaries.forEach((boundary: Boundary) => {
           boundary.draw(ctx)
         })
@@ -279,14 +284,22 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   useEffect(() => {
     const run = async (): Promise<void> => {
       const levelImg = await loadTexture('level.png')
+      const foregroundImg = await loadTexture('foregroundObjects.png')
       const heroImg = await loadTexture('heroDown.png')
 
-      const level = new Sprite({
+      const levelSprite = new Sprite({
         position: { x: 0, y: 0 },
         velocity: 0,
         image: levelImg,
       })
-      setLevel(level)
+      setLevel(levelSprite)
+
+      const foregroundSprite = new Sprite({
+        position: { x: 0, y: 0 },
+        velocity: 0,
+        image: foregroundImg,
+      })
+      setForeground(foregroundSprite)
 
       const heroArray: Sprite[] = []
 
