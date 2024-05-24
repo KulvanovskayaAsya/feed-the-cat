@@ -123,6 +123,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [eatArray, setEatArray] = useState<Array<Eat>>([])
 
   const [moving, setMoving] = useState<boolean>(true)
+  const [scores, setScores] = useState<number>(0)
 
   // Эффект для обновления игры с частотой около 60 кадров в секунду
   useEffect(() => {
@@ -184,6 +185,20 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               }
             }
 
+            for (const eatPeace of eatArray) {
+              if (rectangularCollision(hero, eatPeace)) {
+                setScores((prevScores: number) => prevScores + eatPeace.score)
+
+                setEatArray((prevEatArray: Eat[]) =>
+                  prevEatArray.filter(eat => {
+                    return eat !== eatPeace
+                  })
+                )
+
+                break
+              }
+            }
+
             if (moving) {
               hero.position.y -= hero.velocity
             }
@@ -213,6 +228,20 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                 break
               } else {
                 setMoving(true)
+              }
+            }
+
+            for (const eatPeace of eatArray) {
+              if (rectangularCollision(hero, eatPeace)) {
+                setScores((prevScores: number) => prevScores + eatPeace.score)
+
+                setEatArray((prevEatArray: Eat[]) =>
+                  prevEatArray.filter(eat => {
+                    return eat !== eatPeace
+                  })
+                )
+
+                break
               }
             }
 
@@ -248,6 +277,20 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               }
             }
 
+            for (const eatPeace of eatArray) {
+              if (rectangularCollision(hero, eatPeace)) {
+                setScores((prevScores: number) => prevScores + eatPeace.score)
+
+                setEatArray((prevEatArray: Eat[]) =>
+                  prevEatArray.filter(eat => {
+                    return eat !== eatPeace
+                  })
+                )
+
+                break
+              }
+            }
+
             if (moving) {
               hero.position.x -= hero.velocity
             }
@@ -277,6 +320,20 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                 break
               } else {
                 setMoving(true)
+              }
+            }
+
+            for (const eatPeace of eatArray) {
+              if (rectangularCollision(hero, eatPeace)) {
+                setScores((prevScores: number) => prevScores + eatPeace.score)
+
+                setEatArray((prevEatArray: Eat[]) =>
+                  prevEatArray.filter(eat => {
+                    return eat !== eatPeace
+                  })
+                )
+
+                break
               }
             }
 
@@ -383,6 +440,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                   i * boundaryHeight + (boundaryHeight - chickenImg.height) / 2,
               },
               image: chickenImg,
+              score: 100,
             })
 
             eatArr.push(chicken)
@@ -393,6 +451,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                 y: i * boundaryHeight + (boundaryHeight - hotdogImg.height) / 2,
               },
               image: hotdogImg,
+              score: 200,
             })
 
             eatArr.push(hotdog)
@@ -403,6 +462,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                 y: i * boundaryHeight + (boundaryHeight - pizzaImg.height) / 2,
               },
               image: pizzaImg,
+              score: 300,
             })
 
             eatArr.push(pizza)
@@ -450,8 +510,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         height={height}
         ref={canvasRef}></canvas>
       <p>{FPS}</p>
-      <p>{JSON.stringify(pressedKey, null, 2)}</p>
-      <p>{JSON.stringify(lastKey, null, 2)}</p>
+      <p>{scores}</p>
     </>
   )
 }

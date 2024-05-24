@@ -1,8 +1,8 @@
-import { Boundary, Sprite } from '../classes'
+import { Boundary, Eat, Sprite } from '../classes'
 
 export function rectangularCollision(
-  rectangle1: Sprite | Boundary,
-  rectangle2: Sprite | Boundary
+  rectangle1: Sprite | Boundary | Eat,
+  rectangle2: Sprite | Boundary | Eat
 ): boolean {
   return (
     rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
