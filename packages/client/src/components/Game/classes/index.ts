@@ -6,4 +6,4 @@ export {
 } from './GameObject'
 export { type Coords, type SpriteProps, Sprite } from './Sprite'
 export { type BoundaryProps, Boundary } from './Boundary'
-export { type EatProps, Eat } from './Eat'
+export { type FoodProps, Food } from './Food'

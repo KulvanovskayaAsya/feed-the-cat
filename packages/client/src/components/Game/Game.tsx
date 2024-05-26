@@ -8,12 +8,12 @@ import {
 } from 'react'
 import './Game.css'
 import { clearGame, loadTexture, rectangularCollision } from './utils'
-import { collisions, hero, eat } from './data'
-import { Boundary, Eat, Sprite } from './classes'
+import { collisions, hero, food } from './data'
+import { Boundary, Food, Sprite } from './classes'
 
 const collisionsMap: number[][] = []
 const heroMap: number[][] = []
-const eatMap: number[][] = []
+const foodMap: number[][] = []
 
 // Размер карты 20*15 тайлов, 1 тайл 40*40 пикселей
 for (let i = 0; i < collisions.length; i += 20) {
@@ -25,7 +25,7 @@ for (let i = 0; i < collisions.length; i += 20) {
 }
 
 for (let i = 0; i < collisions.length; i += 20) {
-  eatMap.push(eat.slice(i, 20 + i))
+  foodMap.push(food.slice(i, 20 + i))
 }
 
 const boundaries: Boundary[] = []
@@ -120,7 +120,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [level, setLevel] = useState<Sprite | null>(null)
   const [foreground, setForeground] = useState<Sprite | null>(null)
   const [hero, setHero] = useState<Sprite | null>(null)
-  const [eatArray, setEatArray] = useState<Array<Eat>>([])
+  const [foodArray, setFoodArray] = useState<Array<Food>>([])
 
   const [moving, setMoving] = useState<boolean>(true)
   const [scores, setScores] = useState<number>(0)
@@ -149,8 +149,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
           level.draw(ctx)
         }
 
-        eatArray.forEach((eatPiece: Eat) => {
-          eatPiece.draw(ctx)
+        foodArray.forEach((foodPiece: Food) => {
+          foodPiece.draw(ctx)
         })
 
         if (hero) {
@@ -185,13 +185,13 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               }
             }
 
-            for (const eatPeace of eatArray) {
-              if (rectangularCollision(hero, eatPeace)) {
-                setScores((prevScores: number) => prevScores + eatPeace.score)
+            for (const foodPiece of foodArray) {
+              if (rectangularCollision(hero, foodPiece)) {
+                setScores((prevScores: number) => prevScores + foodPiece.score)
 
-                setEatArray((prevEatArray: Eat[]) =>
-                  prevEatArray.filter(eat => {
-                    return eat !== eatPeace
+                setFoodArray((prevFoodArray: Food[]) =>
+                  prevFoodArray.filter(prevFoodPiece => {
+                    return prevFoodPiece !== foodPiece
                   })
                 )
 
@@ -231,13 +231,13 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               }
             }
 
-            for (const eatPeace of eatArray) {
-              if (rectangularCollision(hero, eatPeace)) {
-                setScores((prevScores: number) => prevScores + eatPeace.score)
+            for (const foodPiece of foodArray) {
+              if (rectangularCollision(hero, foodPiece)) {
+                setScores((prevScores: number) => prevScores + foodPiece.score)
 
-                setEatArray((prevEatArray: Eat[]) =>
-                  prevEatArray.filter(eat => {
-                    return eat !== eatPeace
+                setFoodArray((prevFoodArray: Food[]) =>
+                  prevFoodArray.filter(prevFoodPiece => {
+                    return prevFoodPiece !== foodPiece
                   })
                 )
 
@@ -277,13 +277,13 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               }
             }
 
-            for (const eatPeace of eatArray) {
-              if (rectangularCollision(hero, eatPeace)) {
-                setScores((prevScores: number) => prevScores + eatPeace.score)
+            for (const foodPiece of foodArray) {
+              if (rectangularCollision(hero, foodPiece)) {
+                setScores((prevScores: number) => prevScores + foodPiece.score)
 
-                setEatArray((prevEatArray: Eat[]) =>
-                  prevEatArray.filter(eat => {
-                    return eat !== eatPeace
+                setFoodArray((prevFoodArray: Food[]) =>
+                  prevFoodArray.filter(prevFoodPiece => {
+                    return prevFoodPiece !== foodPiece
                   })
                 )
 
@@ -323,13 +323,13 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               }
             }
 
-            for (const eatPeace of eatArray) {
-              if (rectangularCollision(hero, eatPeace)) {
-                setScores((prevScores: number) => prevScores + eatPeace.score)
+            for (const foodPiece of foodArray) {
+              if (rectangularCollision(hero, foodPiece)) {
+                setScores((prevScores: number) => prevScores + foodPiece.score)
 
-                setEatArray((prevEatArray: Eat[]) =>
-                  prevEatArray.filter(eat => {
-                    return eat !== eatPeace
+                setFoodArray((prevFoodArray: Food[]) =>
+                  prevFoodArray.filter(prevFoodPiece => {
+                    return prevFoodPiece !== foodPiece
                   })
                 )
 
@@ -366,7 +366,17 @@ export const Game: FC<GameProps> = (props: GameProps) => {
     return () => {
       window.cancelAnimationFrame(animationFrameId)
     }
-  }, [hero, pressedKey, lastKey, moving, setMoving])
+  }, [
+    hero,
+    pressedKey,
+    lastKey,
+    moving,
+    setMoving,
+    foodArray,
+    foreground,
+    boundaries,
+    scores,
+  ])
 
   // Эффект для начальной инициализации игры
   useEffect(() => {
@@ -428,12 +438,12 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       const heroSprite = heroArray[0]
       setHero(heroSprite)
 
-      const eatArr: Eat[] = []
+      const foodArr: Food[] = []
 
-      eatMap.forEach((row: number[], i: number) => {
+      foodMap.forEach((row: number[], i: number) => {
         row.forEach((symbol: number, j: number) => {
           if (symbol === 1036) {
-            const chicken = new Eat({
+            const chicken = new Food({
               position: {
                 x: j * boundaryWidth + (boundaryWidth - chickenImg.width) / 2,
                 y:
@@ -443,9 +453,9 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               score: 100,
             })
 
-            eatArr.push(chicken)
+            foodArr.push(chicken)
           } else if (symbol === 1037) {
-            const hotdog = new Eat({
+            const hotdog = new Food({
               position: {
                 x: j * boundaryWidth + (boundaryWidth - hotdogImg.width) / 2,
                 y: i * boundaryHeight + (boundaryHeight - hotdogImg.height) / 2,
@@ -454,9 +464,9 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               score: 200,
             })
 
-            eatArr.push(hotdog)
+            foodArr.push(hotdog)
           } else if (symbol === 1038) {
-            const pizza = new Eat({
+            const pizza = new Food({
               position: {
                 x: j * boundaryWidth + (boundaryWidth - pizzaImg.width) / 2,
                 y: i * boundaryHeight + (boundaryHeight - pizzaImg.height) / 2,
@@ -465,12 +475,12 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               score: 300,
             })
 
-            eatArr.push(pizza)
+            foodArr.push(pizza)
           }
         })
       })
 
-      setEatArray(eatArr)
+      setFoodArray(foodArr)
     }
 
     const canvas: HTMLCanvasElement | null = canvasRef.current

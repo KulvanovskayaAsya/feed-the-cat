@@ -1,19 +1,19 @@
 import { Coords } from './Sprite'
 
-export interface EatProps {
+export interface FoodProps {
   position: Coords
   image: HTMLImageElement
   score: number
 }
 
-export class Eat {
+export class Food {
   width: number
   height: number
   position: Coords
   image: HTMLImageElement
   score: number
 
-  constructor(props: EatProps) {
+  constructor(props: FoodProps) {
     const { position, image, score } = props
 
     this.position = position
