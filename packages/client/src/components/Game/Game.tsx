@@ -124,6 +124,29 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
   const [moving, setMoving] = useState<boolean>(true)
   const [scores, setScores] = useState<number>(0)
+  const [time, setTime] = useState<number>(2 * 60)
+  const [isWin, setIsWin] = useState<boolean>(false)
+
+  // Функция, возвращающая оставшееся время игры
+  const getGameTime = (time: number): string => {
+    const gameTime = new Date(time * 1000)
+
+    const gameTimeString = gameTime.toLocaleTimeString([], {
+      minute: '2-digit',
+      second: '2-digit',
+    })
+
+    return gameTimeString
+  }
+
+  // Эффект для обновления оставшегося времени игры
+  useEffect(() => {
+    const timerID = setInterval(() => setTime(prevTime => prevTime - 1), 1000)
+
+    return () => {
+      clearInterval(timerID)
+    }
+  }, [time, setTime])
 
   // Эффект для обновления игры с частотой около 60 кадров в секунду
   useEffect(() => {
@@ -511,6 +534,15 @@ export const Game: FC<GameProps> = (props: GameProps) => {
     }
   }, [])
 
+  // Эффект для определения победы в игре
+  useEffect(() => {
+    if (time > 0 && foodArray.length === 0 && scores > 0) {
+      setIsWin(true)
+    } else {
+      setIsWin(false)
+    }
+  }, [time, setIsWin, foodArray, scores])
+
   return (
     <>
       <canvas
@@ -519,8 +551,10 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         width={width}
         height={height}
         ref={canvasRef}></canvas>
-      <p>{FPS}</p>
-      <p>{scores}</p>
+      <p>FPS: {FPS}</p>
+      <p>Time: {getGameTime(time)}</p>
+      <p>Scores: {scores}</p>
+      <p>Is win: {isWin ? 'Yes' : 'No'}</p>
     </>
   )
 }
