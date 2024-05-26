@@ -8,27 +8,33 @@ import {
 } from 'react'
 import './Game.css'
 import { clearGame, loadTexture, rectangularCollision } from './utils'
-import { collisions, hero, food } from './data'
+import { collisions, hero, food, enemy } from './data'
 import { Boundary, Food, Sprite } from './classes'
 
 const collisionsMap: number[][] = []
 const heroMap: number[][] = []
 const foodMap: number[][] = []
+const enemyMap: number[][] = []
 
 // Размер карты 20*15 тайлов, 1 тайл 40*40 пикселей
 for (let i = 0; i < collisions.length; i += 20) {
   collisionsMap.push(collisions.slice(i, 20 + i))
 }
 
-for (let i = 0; i < collisions.length; i += 20) {
+for (let i = 0; i < hero.length; i += 20) {
   heroMap.push(hero.slice(i, 20 + i))
 }
 
-for (let i = 0; i < collisions.length; i += 20) {
+for (let i = 0; i < food.length; i += 20) {
   foodMap.push(food.slice(i, 20 + i))
 }
 
+for (let i = 0; i < enemy.length; i += 20) {
+  enemyMap.push(enemy.slice(i, 20 + i))
+}
+
 const boundaries: Boundary[] = []
+const enemies: Boundary[] = []
 const boundaryWidth = 40
 const boundaryHeight = 40
 
@@ -46,6 +52,45 @@ collisionsMap.forEach((row: number[], i: number) => {
     }
   })
 })
+
+enemyMap.forEach((row: number[], i: number) => {
+  row.forEach((symbol: number, j: number) => {
+    if (symbol === 1039) {
+      enemies.push(
+        new Boundary({
+          position: {
+            x: j * boundaryWidth,
+            y: i * boundaryWidth,
+          },
+        })
+      )
+    }
+  })
+})
+
+const newEnemies: Boundary[] = []
+newEnemies[0] = enemies[0]
+newEnemies[1] = enemies[1]
+newEnemies[2] = enemies[2]
+newEnemies[3] = enemies[3]
+newEnemies[4] = enemies[4]
+newEnemies[5] = enemies[5]
+newEnemies[6] = enemies[7]
+newEnemies[7] = enemies[9]
+newEnemies[8] = enemies[11]
+newEnemies[9] = enemies[13]
+newEnemies[10] = enemies[15]
+newEnemies[11] = enemies[21]
+newEnemies[12] = enemies[20]
+newEnemies[13] = enemies[19]
+newEnemies[14] = enemies[18]
+newEnemies[15] = enemies[17]
+newEnemies[16] = enemies[16]
+newEnemies[17] = enemies[14]
+newEnemies[18] = enemies[12]
+newEnemies[19] = enemies[10]
+newEnemies[20] = enemies[8]
+newEnemies[21] = enemies[6]
 
 // Функция-обработчик нажатия клавиш
 const onKeyDown = (
@@ -121,6 +166,9 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [foreground, setForeground] = useState<Sprite | null>(null)
   const [hero, setHero] = useState<Sprite | null>(null)
   const [foodArray, setFoodArray] = useState<Array<Food>>([])
+  const [enemy, setEnemy] = useState<Sprite | null>(null)
+  // const [enemyPrevXCoord, setEnemyPrevXCoord] = useState<number>(0)
+  // const [enemyPrevYCoord, setEnemyPrevYCoord] = useState<number>(0)
 
   const [moving, setMoving] = useState<boolean>(true)
   const [scores, setScores] = useState<number>(0)
@@ -375,6 +423,127 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         boundaries.forEach((boundary: Boundary) => {
           boundary.draw(ctx)
         })
+
+        if (enemy) {
+          enemy.moving = true
+
+          // let enemyPrevXCoord = 0
+          // let enemyPrevYCoord = 0
+
+          for (let i = 0; i < newEnemies.length; i++) {
+            const tileLeftXCoord = newEnemies[i].position.x
+            const tileRightXCoord = newEnemies[i].position.x + boundaryWidth
+            const tileUpYCoord = newEnemies[i].position.y
+            const tileDownYCoord = newEnemies[i].position.y + boundaryWidth
+
+            // const enemyLeftCoord =
+            //   enemies[i].position.x +
+            //   (boundaryWidth - enemy.image.width / 4) / 2
+            // const enemyUpCoord =
+            //   enemies[i].position.y + (boundaryWidth - enemy.image.height) / 2
+
+            if (
+              tileLeftXCoord <= enemy.position.x &&
+              enemy.position.x <= tileRightXCoord &&
+              tileUpYCoord <= enemy.position.y &&
+              enemy.position.y <= tileDownYCoord &&
+              enemy.sprites
+            ) {
+              // const nextIndex = i === newEnemies.length - 1 ? 0 : i + 1
+              let nextIndex = i + 1
+
+              if (i === newEnemies.length - 1) {
+                nextIndex = 0
+              }
+
+              console.log(nextIndex)
+              // console.log(enemies[nextIndex].position.x)
+              // console.log(enemies[nextIndex].position.y)
+
+              // let nextIndex = 0
+              //
+              // for (let j = 0; j < enemies.length; j++) {
+              //   if (
+              //     Math.abs(enemies[j].position.x - enemy.position.x) <=
+              //       boundaryWidth &&
+              //     Math.abs(enemies[j].position.y - enemy.position.y) <=
+              //       boundaryHeight &&
+              //     i !== j
+              //   ) {
+              //     // if (j === enemies.length - 1) {
+              //     //   nextIndex = enemies.length - 5
+              //     // } else {
+              //     nextIndex = j
+              //     // }
+              //
+              //     // console.log(j)
+              //     break
+              //   }
+              // }
+
+              if (
+                newEnemies[nextIndex].position.x > enemy.position.x
+                // enemies[nextIndex].position.x > enemyPrevXCoord
+                // enemies[nextIndex].position.y <= enemyPrevYCoord
+                // enemies[nextIndex].position.x > enemyLeftCoord
+              ) {
+                console.log('right')
+
+                enemy.image = enemy.sprites.right
+                // enemyPrevXCoord = enemy.position.x
+                // enemyPrevYCoord = enemy.position.y
+                enemy.position.x += enemy.velocity
+              } else if (
+                newEnemies[nextIndex].position.y > enemy.position.y
+                // enemies[nextIndex].position.y > enemyPrevYCoord
+                // enemies[nextIndex].position.x <= enemyPrevXCoord
+                // enemies[nextIndex].position.y > enemyPrevYCoord
+                // enemies[nextIndex].position.y > enemyUpCoord
+              ) {
+                console.log('down')
+
+                enemy.image = enemy.sprites.down
+                // enemyPrevXCoord = enemy.position.x
+                // enemyPrevYCoord = enemy.position.y
+                enemy.position.y += enemy.velocity
+              } else if (
+                newEnemies[nextIndex].position.x +
+                  (boundaryWidth - enemy.image.width / 4) / 2 <
+                enemy.position.x
+                // enemies[nextIndex].position.x < enemyPrevXCoord
+                // enemies[nextIndex].position.y >= enemyPrevYCoord
+                // enemies[nextIndex].position.y > enemyPrevYCoord
+                // enemies[nextIndex].position.x < enemyLeftCoord
+              ) {
+                console.log('left')
+
+                enemy.image = enemy.sprites.left
+                // enemyPrevXCoord = enemy.position.x
+                // enemyPrevYCoord = enemy.position.y
+                enemy.position.x -= enemy.velocity
+              } else if (
+                newEnemies[nextIndex].position.y +
+                  (boundaryHeight - enemy.image.height) / 2 <
+                enemy.position.y
+                // enemies[nextIndex].position.y < enemyPrevYCoord
+                // enemies[nextIndex].position.x >= enemyPrevYCoord
+                // enemies[nextIndex].position.y > enemyPrevYCoord
+                // enemies[nextIndex].position.y < enemyUpCoord
+              ) {
+                console.log('up')
+
+                enemy.image = enemy.sprites.up
+                // enemyPrevXCoord = enemy.position.x
+                // enemyPrevYCoord = enemy.position.y
+                enemy.position.y -= enemy.velocity
+              }
+
+              break
+            }
+          }
+
+          enemy.draw(ctx)
+        }
       }
 
       const dt = (timestamp - lastFrame) / 1000
@@ -413,6 +582,10 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       const chickenImg = await loadTexture('chicken.png')
       const hotdogImg = await loadTexture('hotdog.png')
       const pizzaImg = await loadTexture('pizza.png')
+      const enemyUpImg = await loadTexture('enemyUp.png')
+      const enemyDownImg = await loadTexture('enemyDown.png')
+      const enemyLeftImg = await loadTexture('enemyLeft.png')
+      const enemyRightImg = await loadTexture('enemyRight.png')
 
       const levelSprite = new Sprite({
         position: { x: 0, y: 0 },
@@ -504,6 +677,39 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       })
 
       setFoodArray(foodArr)
+
+      const enemyArray: Sprite[] = []
+
+      enemyMap.forEach((row: number[], i: number) => {
+        row.forEach((symbol: number, j: number) => {
+          if (symbol === 1039) {
+            enemyArray.push(
+              new Sprite({
+                position: {
+                  x:
+                    j * boundaryWidth +
+                    (boundaryWidth - enemyDownImg.width / 4) / 2,
+                  y:
+                    i * boundaryHeight +
+                    (boundaryHeight - enemyDownImg.height) / 2,
+                },
+                velocity: 2,
+                image: enemyRightImg,
+                frames: { max: 4, val: 0, elapsed: 0 },
+                sprites: {
+                  up: enemyUpImg,
+                  down: enemyDownImg,
+                  left: enemyLeftImg,
+                  right: enemyRightImg,
+                },
+              })
+            )
+          }
+        })
+      })
+
+      const enemySprite = enemyArray[0]
+      setEnemy(enemySprite)
     }
 
     const canvas: HTMLCanvasElement | null = canvasRef.current
