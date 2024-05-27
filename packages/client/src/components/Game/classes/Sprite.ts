@@ -1,5 +1,7 @@
-export type Coords = { x: number; y: number }
+import { GameObject, type GameObjectProps } from './GameObject'
+
 export type Frames = { max: number; val: number; elapsed: number }
+
 export type SpriteImages = {
   up: HTMLImageElement
   down: HTMLImageElement
@@ -7,8 +9,7 @@ export type SpriteImages = {
   right: HTMLImageElement
 }
 
-export interface SpriteProps {
-  position: Coords
+export interface SpriteProps extends GameObjectProps {
   velocity: number
   velocityAnimation?: number
   image: HTMLImageElement
@@ -16,20 +17,19 @@ export interface SpriteProps {
   sprites?: SpriteImages
 }
 
-export class Sprite {
-  position: Coords
+// Класс игрока и врага
+export class Sprite extends GameObject {
   velocity: number
   velocityAnimation: number
   image: HTMLImageElement
   frames: Frames
-  width: number
-  height: number
   moving: boolean
   sprites?: SpriteImages
 
   constructor(props: SpriteProps) {
+    super(props)
+
     const {
-      position,
       velocity,
       velocityAnimation = 6, // 6 раз в секунду по умолчанию
       image,
@@ -37,7 +37,6 @@ export class Sprite {
       sprites,
     } = props
 
-    this.position = position
     this.velocity = velocity
     this.velocityAnimation = velocityAnimation
     this.image = image

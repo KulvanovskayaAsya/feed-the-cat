@@ -1,45 +1,23 @@
-export type GameObjectType = 'Hero' | 'Enemy' | 'Eat' | ''
-
-export interface RectObject {
-  top: number
-  left: number
-  bottom: number
-  right: number
-}
+// Тип для координат
+export type Coords = { x: number; y: number }
 
 export interface GameObjectProps {
-  x: number
-  y: number
+  position: Coords
+  width?: number
+  height?: number
 }
 
+// Класс базового игрового объекта
 export class GameObject {
-  x: number
-  y: number
-  type: GameObjectType = ''
-  dead = false
-  width = 0
-  height = 0
-  img: HTMLImageElement | undefined = undefined
+  width: number
+  height: number
+  position: Coords
 
   constructor(props: GameObjectProps) {
-    const { x, y } = props
+    const { position, width = 40, height = 40 } = props
 
-    this.x = x
-    this.y = y
-  }
-
-  draw(ctx: CanvasRenderingContext2D) {
-    if (this.img) {
-      ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-    }
-  }
-
-  rectFromGameObject(): RectObject {
-    return {
-      top: this.y,
-      left: this.x,
-      bottom: this.y + this.height,
-      right: this.x + this.width,
-    }
+    this.position = position
+    this.width = width
+    this.height = height
   }
 }

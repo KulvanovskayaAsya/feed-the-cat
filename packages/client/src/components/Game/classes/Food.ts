@@ -1,22 +1,20 @@
-import { Coords } from './Sprite'
+import { GameObject, GameObjectProps } from './GameObject'
 
-export interface FoodProps {
-  position: Coords
+export interface FoodProps extends GameObjectProps {
   image: HTMLImageElement
   score: number
 }
 
-export class Food {
-  width: number
-  height: number
-  position: Coords
+// Класс еды
+export class Food extends GameObject {
   image: HTMLImageElement
   score: number
 
   constructor(props: FoodProps) {
-    const { position, image, score } = props
+    super(props)
 
-    this.position = position
+    const { image, score } = props
+
     this.image = image
     this.width = image.width
     this.height = image.height

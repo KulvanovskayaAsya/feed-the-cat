@@ -1,22 +1,9 @@
-import { Coords } from './Sprite'
+import { GameObject, GameObjectProps } from './GameObject'
 
-export interface BoundaryProps {
-  position: Coords
-  width?: number
-  height?: number
-}
-
-export class Boundary {
-  width: number
-  height: number
-  position: Coords
-
-  constructor(props: BoundaryProps) {
-    const { position, width = 40, height = 40 } = props
-
-    this.position = position
-    this.width = width
-    this.height = height
+// Класс границы в игре
+export class Boundary extends GameObject {
+  constructor(props: GameObjectProps) {
+    super(props)
   }
 
   draw(ctx: CanvasRenderingContext2D) {

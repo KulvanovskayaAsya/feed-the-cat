@@ -9,7 +9,7 @@ import {
 import './Game.css'
 import { clearGame, loadTexture, rectangularCollision } from './utils'
 import { collisions, hero, food, enemy } from './data'
-import { Boundary, Food, Sprite, type Coords } from './classes'
+import { type Coords, Boundary, Food, Sprite } from './classes'
 import levelImage from '../../assets/level.png'
 import foregroundImage from '../../assets/foregroundObjects.png'
 import heroUpImage from '../../assets/heroUp.png'

@@ -1,9 +1,4 @@
-export {
-  type GameObjectType,
-  type GameObjectProps,
-  type RectObject,
-  GameObject,
-} from './GameObject'
-export { type Coords, type SpriteProps, Sprite } from './Sprite'
-export { type BoundaryProps, Boundary } from './Boundary'
+export { type Coords, type GameObjectProps, GameObject } from './GameObject'
+export { type SpriteProps, Sprite } from './Sprite'
+export { Boundary } from './Boundary'
 export { type FoodProps, Food } from './Food'
