@@ -10,6 +10,7 @@ export type SpriteImages = {
 export interface SpriteProps {
   position: Coords
   velocity: number
+  velocityAnimation?: number
   image: HTMLImageElement
   frames?: Frames
   sprites?: SpriteImages
@@ -18,6 +19,7 @@ export interface SpriteProps {
 export class Sprite {
   position: Coords
   velocity: number
+  velocityAnimation: number
   image: HTMLImageElement
   frames: Frames
   width: number
@@ -29,6 +31,7 @@ export class Sprite {
     const {
       position,
       velocity,
+      velocityAnimation = 6, // 6 раз в секунду по умолчанию
       image,
       frames = { max: 1, val: 0, elapsed: 0 },
       sprites,
@@ -36,6 +39,7 @@ export class Sprite {
 
     this.position = position
     this.velocity = velocity
+    this.velocityAnimation = velocityAnimation
     this.image = image
     this.frames = frames
     this.width = image.width / this.frames.max
@@ -44,7 +48,7 @@ export class Sprite {
     this.sprites = sprites
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
+  draw(ctx: CanvasRenderingContext2D, FPS: number) {
     if (this.image) {
       ctx.drawImage(
         this.image,
@@ -66,7 +70,9 @@ export class Sprite {
         this.frames.elapsed++
       }
 
-      if (this.frames.elapsed % 10 === 0) {
+      const animationFramesPerSecond = Math.round(FPS / this.velocityAnimation)
+
+      if (this.frames.elapsed % animationFramesPerSecond === 0) {
         if (this.frames.val < this.frames.max - 1) {
           this.frames.val++
         } else {

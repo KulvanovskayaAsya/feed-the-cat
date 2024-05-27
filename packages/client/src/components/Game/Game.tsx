@@ -218,7 +218,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   // Функция, отображающая жизни игрока
   function drawLife(ctx: CanvasRenderingContext2D, life: number): void {
     for (let i = 0; i < life; i++) {
-      lifeArray[i].draw(ctx)
+      lifeArray[i].draw(ctx, FPS)
     }
   }
 
@@ -250,7 +250,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         clearGame(canvas, ctx)
 
         if (level) {
-          level.draw(ctx)
+          level.draw(ctx, FPS)
         }
 
         foodArray.forEach((foodPiece: Food) => {
@@ -259,6 +259,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
         if (hero) {
           hero.moving = false
+
+          const heroVelocity = hero.velocity
 
           if (pressedKey === 'ArrowUp' && lastKey === 'ArrowUp') {
             hero.moving = true
@@ -303,7 +305,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
             }
 
             if (moving) {
-              hero.position.y -= hero.velocity
+              hero.position.y -= heroVelocity
             }
           } else if (pressedKey === 'ArrowDown' && lastKey === 'ArrowDown') {
             hero.moving = true
@@ -348,7 +350,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
             }
 
             if (moving) {
-              hero.position.y += hero.velocity
+              hero.position.y += heroVelocity
             }
           } else if (pressedKey === 'ArrowLeft' && lastKey === 'ArrowLeft') {
             hero.moving = true
@@ -393,7 +395,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
             }
 
             if (moving) {
-              hero.position.x -= hero.velocity
+              hero.position.x -= heroVelocity
             }
           } else if (pressedKey === 'ArrowRight' && lastKey === 'ArrowRight') {
             hero.moving = true
@@ -438,15 +440,15 @@ export const Game: FC<GameProps> = (props: GameProps) => {
             }
 
             if (moving) {
-              hero.position.x += hero.velocity
+              hero.position.x += heroVelocity
             }
           }
 
-          hero.draw(ctx)
+          hero.draw(ctx, FPS)
         }
 
         if (foreground) {
-          foreground.draw(ctx)
+          foreground.draw(ctx, FPS)
         }
 
         boundaries.forEach((boundary: Boundary) => {
@@ -455,6 +457,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
         if (enemy) {
           enemy.moving = true
+
+          const enemyVelocity = enemy.velocity
 
           for (let i = 0; i < newEnemies.length; i++) {
             const tileLeftXCoord = newEnemies[i].position.x
@@ -487,23 +491,23 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                 newEnemyTopYCoord === enemy.position.y
               ) {
                 enemy.image = enemy.sprites.right
-                enemy.position.x += enemy.velocity
+                enemy.position.x += enemyVelocity
               } else if (newEnemyTopYCoord > enemy.position.y) {
                 enemy.image = enemy.sprites.down
-                enemy.position.y += enemy.velocity
+                enemy.position.y += enemyVelocity
               } else if (newEnemyLeftXCoord < enemy.position.x) {
                 enemy.image = enemy.sprites.left
-                enemy.position.x -= enemy.velocity
+                enemy.position.x -= enemyVelocity
               } else if (newEnemyTopYCoord < enemy.position.y) {
                 enemy.image = enemy.sprites.up
-                enemy.position.y -= enemy.velocity
+                enemy.position.y -= enemyVelocity
               }
 
               break
             }
           }
 
-          enemy.draw(ctx)
+          enemy.draw(ctx, FPS)
 
           if (hero && enemy && heroInitCoords && hero.sprites) {
             if (rectangularCollision(hero, enemy)) {
@@ -513,7 +517,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               hero.position.y = heroInitCoords.y
               hero.image = hero.sprites.down
               hero.frames.val = 0
-              hero.draw(ctx)
+              hero.draw(ctx, FPS)
             }
           }
         }
