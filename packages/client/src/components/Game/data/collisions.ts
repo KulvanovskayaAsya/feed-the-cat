@@ -1,4 +1,6 @@
-export const collisions = [
+import { mapWidth } from './consts'
+
+const collisions = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -15,3 +17,12 @@ export const collisions = [
   0, 0, 1034, 0, 1034, 1034, 1034, 1034, 1034, 1034, 1034, 1034, 1034, 1034,
   1034, 1034, 1034, 1034, 1034, 1034, 1034, 1034, 0,
 ]
+
+const collisionsMap: number[][] = []
+
+// Размер карты 20*15 тайлов, 1 тайл 40*40 пикселей
+for (let i = 0; i < collisions.length; i += mapWidth) {
+  collisionsMap.push(collisions.slice(i, mapWidth + i))
+}
+
+export { collisionsMap }

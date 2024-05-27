@@ -1,4 +1,6 @@
-export const enemy = [
+import { mapWidth } from './consts'
+
+const enemy = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -13,3 +15,11 @@ export const enemy = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
+
+const enemyMap: number[][] = []
+
+for (let i = 0; i < enemy.length; i += mapWidth) {
+  enemyMap.push(enemy.slice(i, mapWidth + i))
+}
+
+export { enemyMap }

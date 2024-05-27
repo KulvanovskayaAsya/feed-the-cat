@@ -1,5 +1,7 @@
+import { mapWidth } from './consts'
+
 // 1036 - chicken, 1037 - hotdog, 1038 - pizza
-export const food = [
+const food = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -14,3 +16,11 @@ export const food = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 1037, 1037, 1037, 1037, 1037, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
+
+const foodMap: number[][] = []
+
+for (let i = 0; i < food.length; i += mapWidth) {
+  foodMap.push(food.slice(i, mapWidth + i))
+}
+
+export { foodMap }
