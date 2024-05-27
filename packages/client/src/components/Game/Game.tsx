@@ -23,6 +23,7 @@ import enemyUpImage from '../../assets/enemyUp.png'
 import enemyDownImage from '../../assets/enemyDown.png'
 import enemyLeftImage from '../../assets/enemyLeft.png'
 import enemyRightImage from '../../assets/enemyRight.png'
+import lifeImage from '../../assets/life.png'
 
 const collisionsMap: number[][] = []
 const heroMap: number[][] = []
@@ -182,6 +183,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [heroInitCoords, setHeroInitCoords] = useState<Coords | null>(null)
   const [foodArray, setFoodArray] = useState<Array<Food>>([])
   const [enemy, setEnemy] = useState<Sprite | null>(null)
+  const [lifeArray, setLifeArray] = useState<Array<Sprite>>([])
 
   const [moving, setMoving] = useState<boolean>(true)
   const [scores, setScores] = useState<number>(0)
@@ -197,6 +199,27 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       minute: '2-digit',
       second: '2-digit',
     })
+  }
+
+  // Функция, отображающая оставшееся время игры
+  function drawGameTime(
+    ctx: CanvasRenderingContext2D,
+    time: string,
+    x: number,
+    y: number
+  ): void {
+    ctx.font = '36px VT323'
+    ctx.fillStyle = 'white'
+    ctx.textAlign = 'left'
+
+    ctx.fillText(time, x, y)
+  }
+
+  // Функция, отображающая жизни игрока
+  function drawLife(ctx: CanvasRenderingContext2D, life: number): void {
+    for (let i = 0; i < life; i++) {
+      lifeArray[i].draw(ctx)
+    }
   }
 
   // Эффект для обновления оставшегося времени игры
@@ -223,11 +246,9 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
       const canvas: HTMLCanvasElement | null = canvasRef.current
 
-      if (canvas) {
-        clearGame(canvas, ctx)
-      }
-
       if (canvas && ctx) {
+        clearGame(canvas, ctx)
+
         if (level) {
           level.draw(ctx)
         }
@@ -496,6 +517,9 @@ export const Game: FC<GameProps> = (props: GameProps) => {
             }
           }
         }
+
+        drawGameTime(ctx, getGameTime(time), 27, 50)
+        drawLife(ctx, life)
       }
 
       const dt = (timestamp - lastFrame) / 1000
@@ -523,11 +547,12 @@ export const Game: FC<GameProps> = (props: GameProps) => {
     life,
     setLife,
     heroInitCoords,
+    time,
   ])
 
   // Эффект для начальной инициализации игры
   useEffect(() => {
-    const run = async (): Promise<void> => {
+    const run = async (canvas: HTMLCanvasElement): Promise<void> => {
       const levelImg = await loadTexture(levelImage)
       const foregroundImg = await loadTexture(foregroundImage)
       const heroUpImg = await loadTexture(heroUpImage)
@@ -541,6 +566,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       const enemyDownImg = await loadTexture(enemyDownImage)
       const enemyLeftImg = await loadTexture(enemyLeftImage)
       const enemyRightImg = await loadTexture(enemyRightImage)
+      const lifeImg = await loadTexture(lifeImage)
 
       const levelSprite = new Sprite({
         position: { x: 0, y: 0 },
@@ -669,6 +695,24 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
       const enemySprite = enemyArray[0]
       setEnemy(enemySprite)
+
+      const lifeArr: Sprite[] = []
+
+      for (let i = 0; i < life; i++) {
+        const lifeSprite = new Sprite({
+          position: {
+            x: canvas.width - 97 + i * lifeImg.width,
+            y: 25,
+          },
+          velocity: 0,
+          image: lifeImg,
+          frames: { max: 1, val: 0, elapsed: 0 },
+        })
+
+        lifeArr.push(lifeSprite)
+      }
+
+      setLifeArray(lifeArr)
     }
 
     const canvas: HTMLCanvasElement | null = canvasRef.current
@@ -676,9 +720,9 @@ export const Game: FC<GameProps> = (props: GameProps) => {
     if (canvas) {
       setCtx(canvas.getContext('2d'))
       clearGame(canvas, ctx)
-      run().then()
+      run(canvas).then()
     }
-  }, [ctx])
+  }, [canvasRef, ctx])
 
   // Эффект для добавления слушателей событий нажатия и отпускания клавиш
   useEffect(() => {
