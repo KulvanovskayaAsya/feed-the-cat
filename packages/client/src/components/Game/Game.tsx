@@ -10,6 +10,19 @@ import './Game.css'
 import { clearGame, loadTexture, rectangularCollision } from './utils'
 import { collisions, hero, food, enemy } from './data'
 import { Boundary, Food, Sprite, type Coords } from './classes'
+import levelImage from '../../assets/level.png'
+import foregroundImage from '../../assets/foregroundObjects.png'
+import heroUpImage from '../../assets/heroUp.png'
+import heroDownImage from '../../assets/heroDown.png'
+import heroLeftImage from '../../assets/heroLeft.png'
+import heroRightImage from '../../assets/heroRight.png'
+import chickenImage from '../../assets/chicken.png'
+import hotdogImage from '../../assets/hotdog.png'
+import pizzaImage from '../../assets/pizza.png'
+import enemyUpImage from '../../assets/enemyUp.png'
+import enemyDownImage from '../../assets/enemyDown.png'
+import enemyLeftImage from '../../assets/enemyLeft.png'
+import enemyRightImage from '../../assets/enemyRight.png'
 
 const collisionsMap: number[][] = []
 const heroMap: number[][] = []
@@ -180,12 +193,10 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const getGameTime = (time: number): string => {
     const gameTime = new Date(time * 1000)
 
-    const gameTimeString = gameTime.toLocaleTimeString([], {
+    return gameTime.toLocaleTimeString([], {
       minute: '2-digit',
       second: '2-digit',
     })
-
-    return gameTimeString
   }
 
   // Эффект для обновления оставшегося времени игры
@@ -249,7 +260,6 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                 ) ||
                 hero.position.y < 9
               ) {
-                console.log('colliding')
                 setMoving(false)
                 break
               } else {
@@ -295,7 +305,6 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                 ) ||
                 hero.position.y + hero.height > canvas.height - 9
               ) {
-                console.log('colliding')
                 setMoving(false)
                 break
               } else {
@@ -341,7 +350,6 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                 ) ||
                 hero.position.x < 9
               ) {
-                console.log('colliding')
                 setMoving(false)
                 break
               } else {
@@ -387,7 +395,6 @@ export const Game: FC<GameProps> = (props: GameProps) => {
                 ) ||
                 hero.position.x + hero.width > canvas.width - 9
               ) {
-                console.log('colliding')
                 setMoving(false)
                 break
               } else {
@@ -479,15 +486,13 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
           if (hero && enemy && heroInitCoords && hero.sprites) {
             if (rectangularCollision(hero, enemy)) {
-              console.log('hero-enemy colliding')
               setMoving(false)
               setLife(prevLife => prevLife - 1)
               hero.position.x = heroInitCoords.x
               hero.position.y = heroInitCoords.y
               hero.image = hero.sprites.down
+              hero.frames.val = 0
               hero.draw(ctx)
-            } else {
-              setMoving(true)
             }
           }
         }
@@ -523,19 +528,19 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   // Эффект для начальной инициализации игры
   useEffect(() => {
     const run = async (): Promise<void> => {
-      const levelImg = await loadTexture('level.png')
-      const foregroundImg = await loadTexture('foregroundObjects.png')
-      const heroUpImg = await loadTexture('heroUp.png')
-      const heroDownImg = await loadTexture('heroDown.png')
-      const heroLeftImg = await loadTexture('heroLeft.png')
-      const heroRightImg = await loadTexture('heroRight.png')
-      const chickenImg = await loadTexture('chicken.png')
-      const hotdogImg = await loadTexture('hotdog.png')
-      const pizzaImg = await loadTexture('pizza.png')
-      const enemyUpImg = await loadTexture('enemyUp.png')
-      const enemyDownImg = await loadTexture('enemyDown.png')
-      const enemyLeftImg = await loadTexture('enemyLeft.png')
-      const enemyRightImg = await loadTexture('enemyRight.png')
+      const levelImg = await loadTexture(levelImage)
+      const foregroundImg = await loadTexture(foregroundImage)
+      const heroUpImg = await loadTexture(heroUpImage)
+      const heroDownImg = await loadTexture(heroDownImage)
+      const heroLeftImg = await loadTexture(heroLeftImage)
+      const heroRightImg = await loadTexture(heroRightImage)
+      const chickenImg = await loadTexture(chickenImage)
+      const hotdogImg = await loadTexture(hotdogImage)
+      const pizzaImg = await loadTexture(pizzaImage)
+      const enemyUpImg = await loadTexture(enemyUpImage)
+      const enemyDownImg = await loadTexture(enemyDownImage)
+      const enemyLeftImg = await loadTexture(enemyLeftImage)
+      const enemyRightImg = await loadTexture(enemyRightImage)
 
       const levelSprite = new Sprite({
         position: { x: 0, y: 0 },
