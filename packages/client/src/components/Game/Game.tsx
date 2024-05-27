@@ -68,6 +68,7 @@ enemyMap.forEach((row: number[], i: number) => {
   })
 })
 
+// Преобразование координат врага в траекторию его движения
 const newEnemies: Boundary[] = []
 newEnemies[0] = enemies[0]
 newEnemies[1] = enemies[1]
@@ -167,8 +168,6 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [hero, setHero] = useState<Sprite | null>(null)
   const [foodArray, setFoodArray] = useState<Array<Food>>([])
   const [enemy, setEnemy] = useState<Sprite | null>(null)
-  // const [enemyPrevXCoord, setEnemyPrevXCoord] = useState<number>(0)
-  // const [enemyPrevYCoord, setEnemyPrevYCoord] = useState<number>(0)
 
   const [moving, setMoving] = useState<boolean>(true)
   const [scores, setScores] = useState<number>(0)
@@ -427,20 +426,11 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         if (enemy) {
           enemy.moving = true
 
-          // let enemyPrevXCoord = 0
-          // let enemyPrevYCoord = 0
-
           for (let i = 0; i < newEnemies.length; i++) {
             const tileLeftXCoord = newEnemies[i].position.x
             const tileRightXCoord = newEnemies[i].position.x + boundaryWidth
             const tileUpYCoord = newEnemies[i].position.y
             const tileDownYCoord = newEnemies[i].position.y + boundaryWidth
-
-            // const enemyLeftCoord =
-            //   enemies[i].position.x +
-            //   (boundaryWidth - enemy.image.width / 4) / 2
-            // const enemyUpCoord =
-            //   enemies[i].position.y + (boundaryWidth - enemy.image.height) / 2
 
             if (
               tileLeftXCoord <= enemy.position.x &&
@@ -449,92 +439,33 @@ export const Game: FC<GameProps> = (props: GameProps) => {
               enemy.position.y <= tileDownYCoord &&
               enemy.sprites
             ) {
-              // const nextIndex = i === newEnemies.length - 1 ? 0 : i + 1
               let nextIndex = i + 1
 
-              if (i === newEnemies.length - 1) {
+              if (nextIndex === newEnemies.length) {
                 nextIndex = 0
               }
 
-              console.log(nextIndex)
-              // console.log(enemies[nextIndex].position.x)
-              // console.log(enemies[nextIndex].position.y)
-
-              // let nextIndex = 0
-              //
-              // for (let j = 0; j < enemies.length; j++) {
-              //   if (
-              //     Math.abs(enemies[j].position.x - enemy.position.x) <=
-              //       boundaryWidth &&
-              //     Math.abs(enemies[j].position.y - enemy.position.y) <=
-              //       boundaryHeight &&
-              //     i !== j
-              //   ) {
-              //     // if (j === enemies.length - 1) {
-              //     //   nextIndex = enemies.length - 5
-              //     // } else {
-              //     nextIndex = j
-              //     // }
-              //
-              //     // console.log(j)
-              //     break
-              //   }
-              // }
+              const newEnemyLeftXCoord =
+                newEnemies[nextIndex].position.x +
+                (boundaryWidth - enemy.image.width / 4) / 2
+              const newEnemyTopYCoord =
+                newEnemies[nextIndex].position.y +
+                (boundaryHeight - enemy.image.height) / 2
 
               if (
-                newEnemies[nextIndex].position.x > enemy.position.x
-                // enemies[nextIndex].position.x > enemyPrevXCoord
-                // enemies[nextIndex].position.y <= enemyPrevYCoord
-                // enemies[nextIndex].position.x > enemyLeftCoord
+                newEnemyLeftXCoord > enemy.position.x &&
+                newEnemyTopYCoord === enemy.position.y
               ) {
-                console.log('right')
-
                 enemy.image = enemy.sprites.right
-                // enemyPrevXCoord = enemy.position.x
-                // enemyPrevYCoord = enemy.position.y
                 enemy.position.x += enemy.velocity
-              } else if (
-                newEnemies[nextIndex].position.y > enemy.position.y
-                // enemies[nextIndex].position.y > enemyPrevYCoord
-                // enemies[nextIndex].position.x <= enemyPrevXCoord
-                // enemies[nextIndex].position.y > enemyPrevYCoord
-                // enemies[nextIndex].position.y > enemyUpCoord
-              ) {
-                console.log('down')
-
+              } else if (newEnemyTopYCoord > enemy.position.y) {
                 enemy.image = enemy.sprites.down
-                // enemyPrevXCoord = enemy.position.x
-                // enemyPrevYCoord = enemy.position.y
                 enemy.position.y += enemy.velocity
-              } else if (
-                newEnemies[nextIndex].position.x +
-                  (boundaryWidth - enemy.image.width / 4) / 2 <
-                enemy.position.x
-                // enemies[nextIndex].position.x < enemyPrevXCoord
-                // enemies[nextIndex].position.y >= enemyPrevYCoord
-                // enemies[nextIndex].position.y > enemyPrevYCoord
-                // enemies[nextIndex].position.x < enemyLeftCoord
-              ) {
-                console.log('left')
-
+              } else if (newEnemyLeftXCoord < enemy.position.x) {
                 enemy.image = enemy.sprites.left
-                // enemyPrevXCoord = enemy.position.x
-                // enemyPrevYCoord = enemy.position.y
                 enemy.position.x -= enemy.velocity
-              } else if (
-                newEnemies[nextIndex].position.y +
-                  (boundaryHeight - enemy.image.height) / 2 <
-                enemy.position.y
-                // enemies[nextIndex].position.y < enemyPrevYCoord
-                // enemies[nextIndex].position.x >= enemyPrevYCoord
-                // enemies[nextIndex].position.y > enemyPrevYCoord
-                // enemies[nextIndex].position.y < enemyUpCoord
-              ) {
-                console.log('up')
-
+              } else if (newEnemyTopYCoord < enemy.position.y) {
                 enemy.image = enemy.sprites.up
-                // enemyPrevXCoord = enemy.position.x
-                // enemyPrevYCoord = enemy.position.y
                 enemy.position.y -= enemy.velocity
               }
 
