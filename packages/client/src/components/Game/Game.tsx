@@ -9,7 +9,7 @@ import {
 import './Game.css'
 import { clearGame, loadTexture, rectangularCollision } from './utils'
 import { collisions, hero, food, enemy } from './data'
-import { Boundary, Food, Sprite } from './classes'
+import { Boundary, Food, Sprite, type Coords } from './classes'
 
 const collisionsMap: number[][] = []
 const heroMap: number[][] = []
@@ -166,12 +166,14 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [level, setLevel] = useState<Sprite | null>(null)
   const [foreground, setForeground] = useState<Sprite | null>(null)
   const [hero, setHero] = useState<Sprite | null>(null)
+  const [heroInitCoords, setHeroInitCoords] = useState<Coords | null>(null)
   const [foodArray, setFoodArray] = useState<Array<Food>>([])
   const [enemy, setEnemy] = useState<Sprite | null>(null)
 
   const [moving, setMoving] = useState<boolean>(true)
   const [scores, setScores] = useState<number>(0)
   const [time, setTime] = useState<number>(2 * 60)
+  const [life, setLife] = useState<number>(3)
   const [isWin, setIsWin] = useState<boolean>(false)
 
   // Функция, возвращающая оставшееся время игры
@@ -474,6 +476,20 @@ export const Game: FC<GameProps> = (props: GameProps) => {
           }
 
           enemy.draw(ctx)
+
+          if (hero && enemy && heroInitCoords && hero.sprites) {
+            if (rectangularCollision(hero, enemy)) {
+              console.log('hero-enemy colliding')
+              setMoving(false)
+              setLife(prevLife => prevLife - 1)
+              hero.position.x = heroInitCoords.x
+              hero.position.y = heroInitCoords.y
+              hero.image = hero.sprites.down
+              hero.draw(ctx)
+            } else {
+              setMoving(true)
+            }
+          }
         }
       }
 
@@ -499,6 +515,9 @@ export const Game: FC<GameProps> = (props: GameProps) => {
     foreground,
     boundaries,
     scores,
+    life,
+    setLife,
+    heroInitCoords,
   ])
 
   // Эффект для начальной инициализации игры
@@ -564,6 +583,10 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
       const heroSprite = heroArray[0]
       setHero(heroSprite)
+      setHeroInitCoords({
+        x: heroArray[0].position.x,
+        y: heroArray[0].position.y,
+      })
 
       const foodArr: Food[] = []
 
@@ -673,12 +696,12 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
   // Эффект для определения победы в игре
   useEffect(() => {
-    if (time > 0 && foodArray.length === 0 && scores > 0) {
+    if (time > 0 && foodArray.length === 0 && scores > 0 && life > 0) {
       setIsWin(true)
     } else {
       setIsWin(false)
     }
-  }, [time, setIsWin, foodArray, scores])
+  }, [time, setIsWin, foodArray, scores, life])
 
   return (
     <>
@@ -691,6 +714,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       <p>FPS: {FPS}</p>
       <p>Time: {getGameTime(time)}</p>
       <p>Scores: {scores}</p>
+      <p>Life: {life}</p>
       <p>Is win: {isWin ? 'Yes' : 'No'}</p>
     </>
   )
