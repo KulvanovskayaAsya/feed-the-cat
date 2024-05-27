@@ -9,7 +9,7 @@ import {
 import './Game.css'
 import { clearGame, loadTexture, rectangularCollision } from './utils'
 import { collisions, hero, food, enemy } from './data'
-import { type Coords, Boundary, Food, Sprite } from './classes'
+import { type Coords, Boundary, Food, Sprite, Background } from './classes'
 import levelImage from '../../assets/level.png'
 import foregroundImage from '../../assets/foregroundObjects.png'
 import heroUpImage from '../../assets/heroUp.png'
@@ -177,8 +177,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [pressedKey, setPressedKey] = useState('')
   const [lastKey, setLastKey] = useState('')
 
-  const [level, setLevel] = useState<Sprite | null>(null)
-  const [foreground, setForeground] = useState<Sprite | null>(null)
+  const [level, setLevel] = useState<Background | null>(null)
+  const [foreground, setForeground] = useState<Background | null>(null)
   const [hero, setHero] = useState<Sprite | null>(null)
   const [heroInitCoords, setHeroInitCoords] = useState<Coords | null>(null)
   const [foodArray, setFoodArray] = useState<Array<Food>>([])
@@ -250,7 +250,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         clearGame(canvas, ctx)
 
         if (level) {
-          level.draw(ctx, FPS)
+          level.draw(ctx)
         }
 
         foodArray.forEach((foodPiece: Food) => {
@@ -448,7 +448,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         }
 
         if (foreground) {
-          foreground.draw(ctx, FPS)
+          foreground.draw(ctx)
         }
 
         boundaries.forEach((boundary: Boundary) => {
@@ -572,19 +572,17 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       const enemyRightImg = await loadTexture(enemyRightImage)
       const lifeImg = await loadTexture(lifeImage)
 
-      const levelSprite = new Sprite({
+      const levelBackground = new Background({
         position: { x: 0, y: 0 },
-        velocity: 0,
         image: levelImg,
       })
-      setLevel(levelSprite)
+      setLevel(levelBackground)
 
-      const foregroundSprite = new Sprite({
+      const foreground = new Background({
         position: { x: 0, y: 0 },
-        velocity: 0,
         image: foregroundImg,
       })
-      setForeground(foregroundSprite)
+      setForeground(foreground)
 
       const heroArray: Sprite[] = []
 
