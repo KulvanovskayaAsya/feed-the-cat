@@ -1,0 +1,28 @@
+.header {
+  margin-top: 100px;
+  margin-bottom: 10px;
+}
+
+.footer {
+  width: 800px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.h1 {
+  font-size: 100px;
+}
+
+.h2 {
+  margin-bottom: 10px;
+  font-size: 36px;
+  text-align: center;
+}
+
+.image {
+  margin-bottom: 15px;
+}
+
+.footer-wrapper {
+  width: 50%;
+}

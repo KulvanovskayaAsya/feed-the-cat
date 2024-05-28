@@ -614,18 +614,11 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   }, [time, setIsWin, foodArray, scores, life])
 
   return (
-    <>
-      <canvas
-        className="canvas"
-        id="canvas"
-        width={width}
-        height={height}
-        ref={canvasRef}></canvas>
-      <p>FPS: {FPS}</p>
-      <p>Time: {getGameTime(time)}</p>
-      <p>Scores: {scores}</p>
-      <p>Life: {life}</p>
-      <p>Is win: {isWin ? 'Yes' : 'No'}</p>
-    </>
+    <canvas
+      className="canvas"
+      id="canvas"
+      width={width}
+      height={height}
+      ref={canvasRef}></canvas>
   )
 }

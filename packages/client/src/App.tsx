@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { Game } from './components/Game'
 import './App.css'
+import { GamePage } from './pages'
 
 function App() {
   useEffect(() => {
@@ -13,7 +13,7 @@ function App() {
 
     fetchServerData().then()
   }, [])
-  return <Game />
+  return <GamePage />
 }
 
 export default App
