@@ -8,7 +8,14 @@ import {
   useState,
 } from 'react'
 import './Game.css'
-import { clearGame, loadTexture, rectangularCollision } from './utils'
+import {
+  clearGame,
+  drawGameTime,
+  drawLife,
+  getGameTime,
+  loadTexture,
+  rectangularCollision,
+} from './utils'
 import {
   heroMap,
   foodMap,
@@ -62,37 +69,6 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [time, setTime] = useState<number>(2 * 60)
   const [life, setLife] = useState<number>(3)
   const [isWin, setIsWin] = useState<boolean>(false)
-
-  // Функция, возвращающая оставшееся время игры
-  const getGameTime = (time: number): string => {
-    const gameTime = new Date(time * 1000)
-
-    return gameTime.toLocaleTimeString([], {
-      minute: '2-digit',
-      second: '2-digit',
-    })
-  }
-
-  // Функция, отображающая оставшееся время игры
-  function drawGameTime(
-    ctx: CanvasRenderingContext2D,
-    time: string,
-    x: number,
-    y: number
-  ): void {
-    ctx.font = '36px VT323'
-    ctx.fillStyle = 'white'
-    ctx.textAlign = 'left'
-
-    ctx.fillText(time, x, y)
-  }
-
-  // Функция, отображающая жизни игрока
-  function drawLife(ctx: CanvasRenderingContext2D, life: number): void {
-    for (let i = 0; i < life; i++) {
-      lifeArray[i].draw(ctx, FPS)
-    }
-  }
 
   // Функция для начальной инициализации игры
   const run = useCallback(
@@ -465,7 +441,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       }
 
       drawGameTime(ctx, getGameTime(time), 27, 50)
-      drawLife(ctx, life)
+      drawLife(ctx, life, lifeArray, FPS)
     }
   }, [
     hero,
@@ -479,6 +455,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
     scores,
     life,
     setLife,
+    lifeArray,
+    FPS,
     heroInitCoords,
     time,
   ])
