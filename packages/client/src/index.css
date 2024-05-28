@@ -1,3 +1,4 @@
+@import './styles/reset.css';
 @import './styles/fonts.css';
 
 html,
@@ -6,4 +7,8 @@ body {
   font-size: 24px;
   color: #141414;
   height: 100%;
+}
+
+#root {
+  min-height: 100vh;
 }
