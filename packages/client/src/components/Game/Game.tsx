@@ -282,191 +282,108 @@ export const Game: FC<GameProps> = (props: GameProps) => {
         foodPiece.draw(ctx)
       })
 
+      const keyPressHandler = (pressedKey: string): void => {
+        const canvas: HTMLCanvasElement | null = canvasRef.current
+
+        if (canvas && hero && hero.sprites) {
+          let heroImage: HTMLImageElement | undefined = undefined
+          let heroVelocityX = 0
+          let heroVelocityY = 0
+          let isHeroCanvasBoundaryCollision = false
+          let indentFromBoundaryX = 0
+          let indentFromBoundaryY = 0
+
+          if (pressedKey === 'ArrowUp') {
+            heroImage = hero.sprites.up
+            heroVelocityX = 0
+            heroVelocityY = hero.velocity
+            isHeroCanvasBoundaryCollision = hero.position.y < 9
+            indentFromBoundaryX = 0
+            indentFromBoundaryY = 3
+          } else if (pressedKey === 'ArrowDown') {
+            heroImage = hero.sprites.down
+            heroVelocityX = 0
+            heroVelocityY = -hero.velocity
+            isHeroCanvasBoundaryCollision =
+              hero.position.y + hero.height > canvas.height - 9
+            indentFromBoundaryX = 0
+            indentFromBoundaryY = -3
+          } else if (pressedKey === 'ArrowLeft') {
+            heroImage = hero.sprites.left
+            heroVelocityX = hero.velocity
+            heroVelocityY = 0
+            isHeroCanvasBoundaryCollision = hero.position.x < 9
+            indentFromBoundaryX = 3
+            indentFromBoundaryY = 0
+          } else if (pressedKey === 'ArrowRight') {
+            heroImage = hero.sprites.right
+            heroVelocityX = -hero.velocity
+            heroVelocityY = 0
+            isHeroCanvasBoundaryCollision =
+              hero.position.x + hero.width > canvas.width - 9
+            indentFromBoundaryX = -3
+            indentFromBoundaryY = 0
+          }
+
+          hero.moving = true
+          if (hero.sprites && heroImage) {
+            hero.image = heroImage
+          }
+
+          for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+
+            if (
+              rectangularCollision(
+                hero,
+                new Boundary({
+                  position: {
+                    x: boundary.position.x + indentFromBoundaryX,
+                    y: boundary.position.y + indentFromBoundaryY,
+                  },
+                })
+              ) ||
+              isHeroCanvasBoundaryCollision
+            ) {
+              setMoving(false)
+              break
+            } else {
+              setMoving(true)
+            }
+          }
+
+          for (const foodPiece of foodArray) {
+            if (rectangularCollision(hero, foodPiece)) {
+              setScores((prevScores: number) => prevScores + foodPiece.score)
+
+              setFoodArray((prevFoodArray: Food[]) =>
+                prevFoodArray.filter(prevFoodPiece => {
+                  return prevFoodPiece !== foodPiece
+                })
+              )
+
+              break
+            }
+          }
+
+          if (moving) {
+            hero.position.x -= heroVelocityX
+            hero.position.y -= heroVelocityY
+          }
+        }
+      }
+
       if (hero) {
         hero.moving = false
 
-        const heroVelocity = hero.velocity
-
         if (pressedKey === 'ArrowUp' && lastKey === 'ArrowUp') {
-          hero.moving = true
-          if (hero.sprites) {
-            hero.image = hero.sprites.up
-          }
-
-          for (let i = 0; i < boundaries.length; i++) {
-            const boundary = boundaries[i]
-
-            if (
-              rectangularCollision(
-                hero,
-                new Boundary({
-                  position: {
-                    x: boundary.position.x,
-                    y: boundary.position.y + 3,
-                  },
-                })
-              ) ||
-              hero.position.y < 9
-            ) {
-              setMoving(false)
-              break
-            } else {
-              setMoving(true)
-            }
-          }
-
-          for (const foodPiece of foodArray) {
-            if (rectangularCollision(hero, foodPiece)) {
-              setScores((prevScores: number) => prevScores + foodPiece.score)
-
-              setFoodArray((prevFoodArray: Food[]) =>
-                prevFoodArray.filter(prevFoodPiece => {
-                  return prevFoodPiece !== foodPiece
-                })
-              )
-
-              break
-            }
-          }
-
-          if (moving) {
-            hero.position.y -= heroVelocity
-          }
+          keyPressHandler('ArrowUp')
         } else if (pressedKey === 'ArrowDown' && lastKey === 'ArrowDown') {
-          hero.moving = true
-          if (hero.sprites) {
-            hero.image = hero.sprites.down
-          }
-
-          for (let i = 0; i < boundaries.length; i++) {
-            const boundary = boundaries[i]
-
-            if (
-              rectangularCollision(
-                hero,
-                new Boundary({
-                  position: {
-                    x: boundary.position.x,
-                    y: boundary.position.y - 3,
-                  },
-                })
-              ) ||
-              hero.position.y + hero.height > canvas.height - 9
-            ) {
-              setMoving(false)
-              break
-            } else {
-              setMoving(true)
-            }
-          }
-
-          for (const foodPiece of foodArray) {
-            if (rectangularCollision(hero, foodPiece)) {
-              setScores((prevScores: number) => prevScores + foodPiece.score)
-
-              setFoodArray((prevFoodArray: Food[]) =>
-                prevFoodArray.filter(prevFoodPiece => {
-                  return prevFoodPiece !== foodPiece
-                })
-              )
-
-              break
-            }
-          }
-
-          if (moving) {
-            hero.position.y += heroVelocity
-          }
+          keyPressHandler('ArrowDown')
         } else if (pressedKey === 'ArrowLeft' && lastKey === 'ArrowLeft') {
-          hero.moving = true
-          if (hero.sprites) {
-            hero.image = hero.sprites.left
-          }
-
-          for (let i = 0; i < boundaries.length; i++) {
-            const boundary = boundaries[i]
-
-            if (
-              rectangularCollision(
-                hero,
-                new Boundary({
-                  position: {
-                    x: boundary.position.x + 3,
-                    y: boundary.position.y,
-                  },
-                })
-              ) ||
-              hero.position.x < 9
-            ) {
-              setMoving(false)
-              break
-            } else {
-              setMoving(true)
-            }
-          }
-
-          for (const foodPiece of foodArray) {
-            if (rectangularCollision(hero, foodPiece)) {
-              setScores((prevScores: number) => prevScores + foodPiece.score)
-
-              setFoodArray((prevFoodArray: Food[]) =>
-                prevFoodArray.filter(prevFoodPiece => {
-                  return prevFoodPiece !== foodPiece
-                })
-              )
-
-              break
-            }
-          }
-
-          if (moving) {
-            hero.position.x -= heroVelocity
-          }
+          keyPressHandler('ArrowLeft')
         } else if (pressedKey === 'ArrowRight' && lastKey === 'ArrowRight') {
-          hero.moving = true
-          if (hero.sprites) {
-            hero.image = hero.sprites.right
-          }
-
-          for (let i = 0; i < boundaries.length; i++) {
-            const boundary = boundaries[i]
-
-            if (
-              rectangularCollision(
-                hero,
-                new Boundary({
-                  position: {
-                    x: boundary.position.x - 3,
-                    y: boundary.position.y,
-                  },
-                })
-              ) ||
-              hero.position.x + hero.width > canvas.width - 9
-            ) {
-              setMoving(false)
-              break
-            } else {
-              setMoving(true)
-            }
-          }
-
-          for (const foodPiece of foodArray) {
-            if (rectangularCollision(hero, foodPiece)) {
-              setScores((prevScores: number) => prevScores + foodPiece.score)
-
-              setFoodArray((prevFoodArray: Food[]) =>
-                prevFoodArray.filter(prevFoodPiece => {
-                  return prevFoodPiece !== foodPiece
-                })
-              )
-
-              break
-            }
-          }
-
-          if (moving) {
-            hero.position.x += heroVelocity
-          }
+          keyPressHandler('ArrowRight')
         }
 
         hero.draw(ctx, FPS)
