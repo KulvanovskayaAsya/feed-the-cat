@@ -69,7 +69,7 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [scores, setScores] = useState<number>(0)
   const [time, setTime] = useState<number>(2 * 60)
   const [life, setLife] = useState<number>(3)
-  const [isWin, setIsWin] = useState<boolean>(false)
+  const [isWin, setIsWin] = useState<boolean | null>(null)
 
   const { setGameData } = useGameContext()
 
@@ -618,10 +618,18 @@ export const Game: FC<GameProps> = (props: GameProps) => {
 
   // Эффект для обновления игрового контекста при победе в игре
   useEffect(() => {
-    if (isWin) {
+    if (isWin === true) {
       setGameData((prevGameData: GameData) => {
         return { ...prevGameData, scores, life, time: getGameTime(time) }
       })
+
+      // TODO добавить редирект на страницу завершения игры с сообщением о победе
+    } else if (isWin === false) {
+      setGameData((prevGameData: GameData) => {
+        return { ...prevGameData, scores, life, time: getGameTime(time) }
+      })
+
+      // TODO добавить редирект на страницу завершения игры с сообщением о поражении
     }
   }, [isWin])
 
