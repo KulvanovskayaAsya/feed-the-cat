@@ -40,6 +40,7 @@ import enemyDownImage from '../../assets/enemyDown.png'
 import enemyLeftImage from '../../assets/enemyLeft.png'
 import enemyRightImage from '../../assets/enemyRight.png'
 import lifeImage from '../../assets/life.png'
+import { GameData, useGameContext } from '../../context'
 
 export interface GameProps {
   width?: number
@@ -69,6 +70,8 @@ export const Game: FC<GameProps> = (props: GameProps) => {
   const [time, setTime] = useState<number>(2 * 60)
   const [life, setLife] = useState<number>(3)
   const [isWin, setIsWin] = useState<boolean>(false)
+
+  const { setGameData } = useGameContext()
 
   // Функция для начальной инициализации игры
   const run = useCallback(
@@ -612,6 +615,15 @@ export const Game: FC<GameProps> = (props: GameProps) => {
       setIsWin(false)
     }
   }, [time, setIsWin, foodArray, scores, life])
+
+  // Эффект для обновления игрового контекста при победе в игре
+  useEffect(() => {
+    if (isWin) {
+      setGameData((prevGameData: GameData) => {
+        return { ...prevGameData, scores, life, time: getGameTime(time) }
+      })
+    }
+  }, [isWin])
 
   return (
     <canvas
