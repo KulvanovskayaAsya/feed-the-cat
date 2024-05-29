@@ -1,11 +1,11 @@
-@import './styles/reset.css';
-@import './styles/fonts.css';
+@import 'styles/reset.css';
+@import 'styles/fonts.css';
 
 html,
 body {
-  font-family: VT323, monospace;
-  font-size: 24px;
-  color: #141414;
+  font-family: $font-family;
+  font-size: $font-body;
+  color: $color-accent;
   height: 100%;
 }
 
