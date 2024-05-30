@@ -7,14 +7,26 @@ function App() {
   const [gameData, setGameData] = useState<GameData>(initialGameData)
 
   useEffect(() => {
-    const fetchServerData = async () => {
+    const abortController: AbortController = new AbortController()
+
+    const fetchServerData = async (): Promise<void> => {
       const url = `http://localhost:${__SERVER_PORT__}`
-      const response = await fetch(url)
+      const response = await fetch(url, { signal: abortController.signal })
       const data = await response.json()
       console.log(data)
     }
 
-    fetchServerData().then()
+    fetchServerData()
+      .then()
+      .catch(error => {
+        if (!abortController.signal.aborted) {
+          console.log(error)
+        }
+      })
+
+    return () => {
+      abortController.abort()
+    }
   }, [])
   return (
     <GameContext.Provider value={{ gameData, setGameData }}>
