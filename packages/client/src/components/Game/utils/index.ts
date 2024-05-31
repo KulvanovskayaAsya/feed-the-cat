@@ -1,0 +1,6 @@
+export { loadTexture } from './loadTexture'
+export { clearGame } from './clearGame'
+export { rectangularCollision } from './rectangularCollision'
+export { getGameTime } from './getGameTime'
+export { drawGameTime } from './drawGameTime'
+export { drawLife } from './drawLife'

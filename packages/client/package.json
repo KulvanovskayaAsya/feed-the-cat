@@ -25,14 +25,30 @@
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
     "@vitejs/plugin-react": "^2.0.1",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8.23.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^28",
     "jest-environment-jsdom": "^29.0.1",
     "lefthook": "^1.3.9",
+    "postcss": "^8.4.38",
+    "postcss-advanced-variables": "^4.0.0",
+    "postcss-assets": "^6.0.0",
+    "postcss-cli": "^9.0.0",
+    "postcss-map-get": "^0.3.0",
+    "postcss-nested": "^6.0.1",
+    "postcss-scss": "^4.0.9",
+    "postcss-sort-media-queries": "^5.2.0",
     "prettier": "^2.7.1",
     "ts-jest": "^28.0.8",
     "typescript": "^4.8.2",
     "vite": "^3.0.7"
   },
-  "license": "MIT"
+  "resolutions": {
+    "caniuse-lite": "*"
+  },
+  "license": "MIT",
+  "browserslist": [
+    "> 2%"
+  ]
 }
