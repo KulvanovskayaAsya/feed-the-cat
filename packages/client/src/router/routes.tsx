@@ -30,6 +30,10 @@ const routes = [
         element: <Pages.ForumPage />,
       },
       {
+        path: '/forum/topic/:topicId',
+        element: <Pages.ForumTopicPage />,
+      },
+      {
         path: '/forum/topic/create',
         element: <Pages.ForumTopicCreationPage />,
       },
