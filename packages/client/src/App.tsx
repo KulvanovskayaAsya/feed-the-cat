@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import './App.css'
 import { GameContext, type GameData, initialGameData } from './context'
-import { GamePage } from './pages'
+import AppRoutes from './router/routes'
 
 function App() {
   const [gameData, setGameData] = useState<GameData>(initialGameData)
@@ -30,7 +31,9 @@ function App() {
   }, [])
   return (
     <GameContext.Provider value={{ gameData, setGameData }}>
-      <GamePage />
+      <Router>
+        <AppRoutes />
+      </Router>
     </GameContext.Provider>
   )
 }

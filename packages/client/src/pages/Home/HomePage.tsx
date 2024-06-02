@@ -1,0 +1,39 @@
+import { FC } from 'react'
+import { Link } from 'react-router-dom'
+
+export const HomePage: FC = () => {
+  return (
+    <>
+      <h1>Home Page</h1>
+
+      <nav style={{ background: 'white' }}>
+        <ul>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/registration">Registration</Link>
+          </li>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
+            <Link to="/game">Game</Link>
+          </li>
+          <li>
+            <Link to="/leaderboard">Leaderboard</Link>
+          </li>
+          <li>
+            <Link to="/forum">Forum</Link>
+          </li>
+          <li>
+            <Link to="/forum/topic/1">Forum Topic</Link>
+          </li>
+          <li>
+            <Link to="/forum/topic/create">Forum Topic Create</Link>
+          </li>
+        </ul>
+      </nav>
+    </>
+  )
+}
