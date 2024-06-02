@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import './BaseLayout.css'
+import cls from './BaseLayout.module.css'
 
 export interface PageProps {
   children?: ReactNode
@@ -9,8 +9,8 @@ export interface PageProps {
 
 export const BaseLayout: FC<PageProps> = (props: PageProps) => {
   return (
-    <main className="base-layout">
+    <div className={cls.baseLayout}>
       <Outlet />
-    </main>
+    </div>
   )
 }
