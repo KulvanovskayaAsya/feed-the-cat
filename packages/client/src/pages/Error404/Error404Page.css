@@ -1,0 +1,26 @@
+.error404-page {
+  &-header {
+    margin: 0 auto 118px;
+  }
+
+  &-img {
+    padding-bottom: 15px;
+  }
+
+  &-card {
+    margin-bottom: 138px;
+  }
+
+  &-h2 {
+    margin: 30px auto;
+    text-align: center;
+    font-size: $font-header;
+    line-height: $font-header-line-height;
+  }
+
+  &-text {
+    font-size: $font-h2;
+    line-height: $font-h2-line-height;
+    margin: 0 auto;
+  }
+}

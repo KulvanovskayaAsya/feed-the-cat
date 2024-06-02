@@ -1,1 +1,5 @@
 export { Game } from './Game'
+export { PixelButton } from './PixelButton'
+export { PixelCard } from './PixelCard'
+export { PixelBorder } from './PixelBorder'
+export { PixelHeader } from './PixelHeader'
