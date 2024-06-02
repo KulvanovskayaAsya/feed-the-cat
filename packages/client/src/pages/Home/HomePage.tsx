@@ -29,6 +29,9 @@ export const HomePage: FC = () => {
           <li>
             <Link to="/forum/topic/1">Forum Topic</Link>
           </li>
+          <li>
+            <Link to="/forum/topic/create">Forum Topic Create</Link>
+          </li>
         </ul>
       </nav>
     </>
