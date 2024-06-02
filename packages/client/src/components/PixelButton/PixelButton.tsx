@@ -7,13 +7,16 @@ import { classNames } from '@/utils'
 export interface PixelButtonProps {
   className?: string
   children?: ReactNode
+  onClick?: () => void
 }
 
 export const PixelButton: FC<PixelButtonProps> = (props: PixelButtonProps) => {
-  const { className, children } = props
+  const { className, children, onClick } = props
 
   return (
-    <Button className={classNames(cls.button, {}, [className ?? ''])}>
+    <Button
+      className={classNames(cls.button, {}, [className ?? ''])}
+      onClick={onClick}>
       <PixelBorder />
 
       <div className={cls.background}></div>
