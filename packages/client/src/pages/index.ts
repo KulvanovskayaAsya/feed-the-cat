@@ -1,4 +1,3 @@
-export { Page } from './Page'
 export { HomePage } from './Home'
 export { GamePage } from './Game'
 export { LoginPage } from './Login'

@@ -1,12 +1,11 @@
 import { FC } from 'react'
 import './GamePage.css'
-import { Page } from '../Page'
 import { Game } from '../../components'
 import smallCat from '../../assets/smallCat.png'
 
 export const GamePage: FC = () => {
   return (
-    <Page>
+    <>
       <header className="header">
         <h1 className="h1">
           FEED THE <img className="image" src={smallCat} alt="cat" /> CAT
@@ -27,6 +26,6 @@ export const GamePage: FC = () => {
           </ul>
         </div>
       </footer>
-    </Page>
+    </>
   )
 }
