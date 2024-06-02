@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
 import { Card } from 'antd'
-import './PixelCard.css'
+import cls from './PixelCard.module.css'
 import { PixelBorder } from '../PixelBorder'
 import { classNames } from '../../utils'
 
@@ -13,10 +13,10 @@ export const PixelCard: FC<PixelCardProps> = (props: PixelCardProps) => {
   const { className, children } = props
 
   return (
-    <Card className={classNames('pixel-card', {}, [className ?? ''])}>
+    <Card className={classNames(cls.card, {}, [className ?? ''])}>
       <PixelBorder />
 
-      <div className="pixel-card-background"></div>
+      <div className={cls.background}></div>
 
       {children}
     </Card>

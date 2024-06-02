@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react'
-import './PixelHeader.css'
+import cls from './PixelHeader.module.css'
 import { classNames } from '../../utils'
 
 export interface PixelHeaderProps {
@@ -11,7 +11,7 @@ export const PixelHeader: FC<PixelHeaderProps> = (props: PixelHeaderProps) => {
   const { className, children } = props
 
   return (
-    <h1 className={classNames('pixel-header', {}, [className ?? ''])}>
+    <h1 className={classNames(cls.header, {}, [className ?? ''])}>
       {children}
     </h1>
   )

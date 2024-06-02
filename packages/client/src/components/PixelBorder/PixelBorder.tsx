@@ -1,13 +1,13 @@
 import type { FC } from 'react'
-import './PixelBorder.css'
+import cls from './PixelBorder.module.css'
 
 export const PixelBorder: FC = () => {
   return (
     <>
-      <div className="pixel-border-top"></div>
-      <div className="pixel-border-right"></div>
-      <div className="pixel-border-bottom"></div>
-      <div className="pixel-border-left"></div>
+      <div className={cls.borderTop}></div>
+      <div className={cls.borderRight}></div>
+      <div className={cls.borderBottom}></div>
+      <div className={cls.borderLeft}></div>
     </>
   )
 }

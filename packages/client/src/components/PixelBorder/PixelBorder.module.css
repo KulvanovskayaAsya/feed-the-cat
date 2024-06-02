@@ -1,0 +1,39 @@
+.border-top {
+  position: absolute;
+  width: 100%;
+  height: $border-size;
+  top: -$border-size;
+  left: 0;
+  right: 0;
+  background-color: $color-accent;
+}
+
+.border-right {
+  position: absolute;
+  width: $border-size;
+  height: 100%;
+  top: 0;
+  right: -$border-size;
+  bottom: 0;
+  background-color: $color-accent;
+}
+
+.border-bottom {
+  position: absolute;
+  width: 100%;
+  height: $border-size;
+  bottom: -$border-size;
+  left: 0;
+  right: 0;
+  background-color: $color-accent;
+}
+
+.border-left {
+  position: absolute;
+  width: 10px;
+  height: 100%;
+  top: 0;
+  left: -$border-size;
+  bottom: 0;
+  background-color: $color-accent;
+}

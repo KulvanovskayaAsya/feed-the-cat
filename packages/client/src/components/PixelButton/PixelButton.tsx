@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
 import { Button } from 'antd'
-import './PixelButton.css'
+import cls from './PixelButton.module.css'
 import { PixelBorder } from '../PixelBorder'
 import { classNames } from '../../utils'
 
@@ -13,13 +13,10 @@ export const PixelButton: FC<PixelButtonProps> = (props: PixelButtonProps) => {
   const { className, children } = props
 
   return (
-    <Button className="pixel-button">
+    <Button className={classNames(cls.button, {}, [className ?? ''])}>
       <PixelBorder />
 
-      <div
-        className={classNames('pixel-button-background', {}, [
-          className ?? '',
-        ])}></div>
+      <div className={cls.background}></div>
 
       {children}
     </Button>
