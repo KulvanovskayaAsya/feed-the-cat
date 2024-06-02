@@ -10,6 +10,7 @@ const routes = [
   { path: '/leaderboard', element: <Pages.LeaderboardPage /> },
   { path: '/forum', element: <Pages.ForumPage /> },
   { path: '/forum/topic/:topicId', element: <Pages.ForumTopicPage /> },
+  { path: '*', element: <Pages.Error404Page /> },
 ]
 
 const AppRoutes: React.FC = () => useRoutes(routes)
