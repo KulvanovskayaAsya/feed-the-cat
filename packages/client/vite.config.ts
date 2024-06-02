@@ -29,5 +29,8 @@ export default (args: ViteConfigInput) => {
       },
     },
     plugins: [react()],
+    resolve: {
+      alias: [{ find: '@', replacement: '/src' }],
+    },
   })
 }

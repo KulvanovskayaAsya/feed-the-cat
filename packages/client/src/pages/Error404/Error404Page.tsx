@@ -1,9 +1,9 @@
 import type { FC } from 'react'
 import { Flex } from 'antd'
 import cls from './Error404Page.module.css'
-import { Page } from '../Page'
-import { PixelButton, PixelCard, PixelHeader } from '../../components'
-import smallCat from '../../assets/smallCat.png'
+import { Page } from '@/pages'
+import { PixelButton, PixelCard, PixelHeader } from '@/components'
+import smallCat from '@/assets/smallCat.png'
 
 export const Error404Page: FC = () => {
   return (

@@ -1,8 +1,8 @@
 import type { FC, ReactNode } from 'react'
 import { Button } from 'antd'
 import cls from './PixelButton.module.css'
-import { PixelBorder } from '../PixelBorder'
-import { classNames } from '../../utils'
+import { PixelBorder } from '@/components'
+import { classNames } from '@/utils'
 
 export interface PixelButtonProps {
   className?: string

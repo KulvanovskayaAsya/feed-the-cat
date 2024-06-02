@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
 import cls from './PixelHeader.module.css'
-import { classNames } from '../../utils'
+import { classNames } from '@/utils'
 
 export interface PixelHeaderProps {
   className?: string

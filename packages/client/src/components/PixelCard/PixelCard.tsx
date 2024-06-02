@@ -1,8 +1,8 @@
 import type { FC, ReactNode } from 'react'
 import { Card } from 'antd'
 import cls from './PixelCard.module.css'
-import { PixelBorder } from '../PixelBorder'
-import { classNames } from '../../utils'
+import { PixelBorder } from '@/components'
+import { classNames } from '@/utils'
 
 export interface PixelCardProps {
   className?: string
