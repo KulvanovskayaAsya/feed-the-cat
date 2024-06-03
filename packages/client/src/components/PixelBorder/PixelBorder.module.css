@@ -2,9 +2,7 @@
   position: absolute;
   width: 100%;
   height: $border-size;
-  top: -$border-size;
-  left: 0;
-  right: 0;
+  inset: -$border-size 0 0 0;
   background-color: $color-accent;
 }
 
@@ -12,9 +10,7 @@
   position: absolute;
   width: $border-size;
   height: 100%;
-  top: 0;
-  right: -$border-size;
-  bottom: 0;
+  inset: 0 -$border-size 0 100%;
   background-color: $color-accent;
 }
 
@@ -22,9 +18,7 @@
   position: absolute;
   width: 100%;
   height: $border-size;
-  bottom: -$border-size;
-  left: 0;
-  right: 0;
+  inset: 100% 0 -$border-size 0;
   background-color: $color-accent;
 }
 
@@ -32,8 +26,6 @@
   position: absolute;
   width: 10px;
   height: 100%;
-  top: 0;
-  left: -$border-size;
-  bottom: 0;
+  inset: 0 100% 0 -$border-size;
   background-color: $color-accent;
 }
