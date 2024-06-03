@@ -6,8 +6,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url('../../assets/bigCat.png'),
-    url('../../assets/fridge.png');
+  background-image: url('@/assets/bigCat.png'), url('@/assets/fridge.png');
   background-position: bottom 24px left -70px, bottom -13px right -70px;
   background-repeat: no-repeat;
 }
