@@ -1,0 +1,10 @@
+.avatar {
+  position: relative;
+  padding: 4px;
+}
+
+.avatar > img {
+  aspect-ratio: 1;
+  width: 80px;
+  object-fit: contain;
+}
