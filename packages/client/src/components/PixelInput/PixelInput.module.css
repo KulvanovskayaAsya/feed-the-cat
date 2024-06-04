@@ -4,6 +4,7 @@
 
 .input {
   border: none;
+  border-radius: 0;
   font-family: $font-family;
   font-size: $font-body;
 }
