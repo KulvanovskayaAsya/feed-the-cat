@@ -63,7 +63,7 @@ export const ForumTopicPage: FC = () => {
         <Flex vertical gap={32}>
           {messages.map(message => {
             return (
-              <PixelCard>
+              <PixelCard key={message.id}>
                 <Flex gap={32} className={styles['message-row']}>
                   <PixelAvatar
                     src={message.avatar}
