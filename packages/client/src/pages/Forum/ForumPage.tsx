@@ -30,7 +30,7 @@ export const ForumPage: FC = () => {
       </header>
       <main>
         <Flex vertical gap={16}>
-          <Flex justify="space-between" className={styles['header-row']}>
+          <Flex justify="space-between" className={styles.headerRow}>
             <div>Name</div>
             <div>Messages</div>
           </Flex>
@@ -39,9 +39,9 @@ export const ForumPage: FC = () => {
               <div
                 key={String(topic.id)}
                 onClick={() => handleSelect(topic.id)}
-                className={styles['topic-row-wrapper']}>
+                className={styles.topicRowWrapper}>
                 <PixelCard>
-                  <Flex justify="space-between" className={styles['topic-row']}>
+                  <Flex justify="space-between" className={styles.topicRow}>
                     <div>{topic.name}</div>
                     <div>{topic.messageCount}</div>
                   </Flex>

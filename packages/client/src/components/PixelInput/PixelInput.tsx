@@ -11,10 +11,10 @@ type PixelInputProps = {
 export const PixelInput = (props: PixelInputProps & InputProps) => {
   const { className, borderProps, ...rest } = props
   return (
-    <div className={styles['input-wrapper']}>
+    <div className={styles.inputWrapper}>
       <PixelBorder {...borderProps} />
       <Input
-        className={classNames(styles['input'], {}, [className])}
+        className={classNames(styles.input, {}, [className])}
         {...rest}></Input>
     </div>
   )

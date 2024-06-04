@@ -21,9 +21,7 @@ export const ForumTopicCreationPage: FC = () => {
       gap={16}
       className={styles.page}>
       <header>
-        <PixelHeader className={styles['topic-name']}>
-          CREATE NEW TOPIC
-        </PixelHeader>
+        <PixelHeader className={styles.topicName}>CREATE NEW TOPIC</PixelHeader>
       </header>
       <main>
         <PixelInput
