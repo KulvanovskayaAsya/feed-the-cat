@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import './App.css'
 import { GameContext, type GameData, initialGameData } from './context'
 import AppRoutes from './router/routes'
+import { ConfigProvider } from 'antd'
 
 function App() {
   const [gameData, setGameData] = useState<GameData>(initialGameData)
@@ -32,7 +33,21 @@ function App() {
   return (
     <GameContext.Provider value={{ gameData, setGameData }}>
       <Router>
-        <AppRoutes />
+        <ConfigProvider
+          theme={{
+            token: {
+              fontSize: 24,
+              marginLG: 40,
+              fontFamily: 'VT323',
+              colorPrimary: '#fff',
+              borderRadius: 0,
+              colorBgContainer: '#fff',
+              colorError: '#FF5B5B',
+              colorLink: '#141414',
+            },
+          }}>
+          <AppRoutes />
+        </ConfigProvider>
       </Router>
     </GameContext.Provider>
   )

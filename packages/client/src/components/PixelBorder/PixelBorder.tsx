@@ -15,28 +15,32 @@ export const PixelBorder: FC<PixelBorderProps> = props => {
           height: props.size,
           backgroundColor: props.color,
           inset: `-${props.size}px 0 0 0`,
-        }}></div>
+        }}
+      />
       <div
         className={cls.borderRight}
         style={{
           width: props.size,
           backgroundColor: props.color,
           inset: `0 -${props.size}px 0 100%`,
-        }}></div>
+        }}
+      />
       <div
         className={cls.borderBottom}
         style={{
           height: props.size,
           backgroundColor: props.color,
           inset: `100% 0 -${props.size}px 0`,
-        }}></div>
+        }}
+      />
       <div
         className={cls.borderLeft}
         style={{
           width: props.size,
           backgroundColor: props.color,
           inset: `0 100% 0 -${props.size}px`,
-        }}></div>
+        }}
+      />
     </>
   )
 }

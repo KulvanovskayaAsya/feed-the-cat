@@ -11,6 +11,7 @@
   border-radius: 0;
   position: relative;
   transition: all 0.3s;
+  text-transform: uppercase;
 
   &:hover {
     scale: 1.03;
