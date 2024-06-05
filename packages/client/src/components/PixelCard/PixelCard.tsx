@@ -16,7 +16,7 @@ export const PixelCard: FC<PixelCardProps> = (props: PixelCardProps) => {
     <Card className={classNames(cls.card, {}, [className ?? ''])}>
       <PixelBorder />
 
-      <div className={cls.background}></div>
+      <div className={cls.background} />
 
       {children}
     </Card>

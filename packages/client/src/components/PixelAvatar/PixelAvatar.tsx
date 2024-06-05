@@ -12,7 +12,7 @@ type PixelAvatarProps = {
 export const PixelAvatar = (props: PixelAvatarProps) => {
   return (
     <div className={styles.avatar}>
-      <img src={props.src || smallCat} alt="User avatar"></img>
+      <img src={props.src || smallCat} alt="User avatar" />
       <PixelBorder {...props.borderProps} />
     </div>
   )

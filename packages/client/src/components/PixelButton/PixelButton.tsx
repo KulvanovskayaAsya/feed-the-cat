@@ -20,7 +20,7 @@ export const PixelButton: FC<PixelButtonProps> = (props: PixelButtonProps) => {
       {...rest}>
       <PixelBorder />
 
-      <div className={cls.background}></div>
+      <div className={cls.background} />
 
       {children}
     </Button>

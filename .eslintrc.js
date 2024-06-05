@@ -13,8 +13,12 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 11,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'react'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
+    'react/self-closing-comp': ["warn", {
+      "component": true,
+      "html": true
+    }],
   },
 }

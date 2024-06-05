@@ -95,6 +95,7 @@ export const Game = (props: GameProps): JSX.Element => {
       id="canvas"
       width={width}
       height={height}
-      ref={canvasRef}></canvas>
+      ref={canvasRef}
+    />
   )
 }

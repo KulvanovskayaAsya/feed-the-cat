@@ -55,16 +55,14 @@ export const ForumTopicPage: FC = () => {
         <PixelHeader>
           FEED THE <img src={smallCat} alt="cat" /> CAT
         </PixelHeader>
-        <PixelHeader className={styles['topic-name']}>
-          {topicData.name}
-        </PixelHeader>
+        <PixelHeader className={styles.topicName}>{topicData.name}</PixelHeader>
       </header>
       <main>
         <Flex vertical gap={32}>
           {messages.map(message => {
             return (
-              <PixelCard>
-                <Flex gap={32} className={styles['message-row']}>
+              <PixelCard key={message.id}>
+                <Flex gap={32} className={styles.messageRow}>
                   <PixelAvatar
                     src={message.avatar}
                     borderProps={{
@@ -87,14 +85,14 @@ export const ForumTopicPage: FC = () => {
       </footer>
 
       <Modal
-        title={<div className={styles['modal-title']}>New message</div>}
+        title={<div className={styles.modalTitle}>New message</div>}
         open={isModalOpen}
         onOk={toggleModal}
         onCancel={toggleModal}
         footer={
-          <div className={styles['modal-footer']}>
+          <div className={styles.modalFooter}>
             <PixelButton
-              className={styles['send-button']}
+              className={styles.sendButton}
               onClick={handleAddMessage}>
               Send
             </PixelButton>
