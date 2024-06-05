@@ -1,0 +1,27 @@
+.page {
+  flex: 1;
+  padding: 8px 0;
+}
+
+.topic-name {
+  text-align: center;
+  margin: 32px 0;
+}
+
+.message-row {
+  font-size: 32px;
+}
+
+.send-button {
+  min-width: 200px;
+  padding: 0 16px;
+}
+
+.modal-title {
+  font-size: 32px;
+  font-family: $font-family;
+}
+
+.modal-footer {
+  text-align: center;
+}

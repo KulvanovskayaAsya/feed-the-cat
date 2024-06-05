@@ -1,0 +1,1 @@
+export { PixelAvatar } from './PixelAvatar'

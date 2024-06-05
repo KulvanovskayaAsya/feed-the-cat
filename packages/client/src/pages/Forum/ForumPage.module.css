@@ -1,0 +1,33 @@
+.page {
+  flex: 1;
+  padding: 8px 0;
+}
+
+.header-row {
+  padding: 0 24px;
+  font-size: 32px;
+  gap: 8px;
+}
+
+.header-row > *:first-child {
+  flex: 1;
+  margin-left: calc($border-size + 32px);
+}
+
+.topic-row-wrapper {
+  cursor: pointer;
+}
+
+.topic-row {
+  font-size: 32px;
+}
+
+.topic-row > *:first-child {
+  flex: 1;
+  margin-left: calc($border-size + 32px);
+}
+
+.topic-row > *:last-child {
+  flex-basis: 100px;
+  text-align: center;
+}
