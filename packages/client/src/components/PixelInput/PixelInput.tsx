@@ -13,9 +13,7 @@ export const PixelInput = (props: PixelInputProps & InputProps) => {
   return (
     <div className={styles.inputWrapper}>
       <PixelBorder {...borderProps} />
-      <Input
-        className={classNames(styles.input, {}, [className])}
-        {...rest}></Input>
+      <Input className={classNames(styles.input, {}, [className])} {...rest} />
     </div>
   )
 }
