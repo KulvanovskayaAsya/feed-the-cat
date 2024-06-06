@@ -1,11 +1,13 @@
+import { FC, useMemo, useState } from 'react'
 import { Input, InputProps } from 'antd'
-import { PixelBorder } from '../PixelBorder'
+import { PixelBorder } from '@/components'
+import theme from '@/styles/theme'
 import styles from './PixelInput.module.css'
-import { FC, useEffect, useState } from 'react'
+import { Mods, classNames } from '@/utils'
 
-export interface InputWithLabelProps extends InputProps {
+export interface PixelInput extends InputProps {
   label: string
-  colors: {
+  colors?: {
     error: string
     default: string
     focus: string
@@ -13,43 +15,36 @@ export interface InputWithLabelProps extends InputProps {
   error?: boolean
 }
 
-export const PixelInput: FC<InputWithLabelProps> = ({
+export const PixelInput: FC<PixelInput> = ({
   label,
   value,
-  colors,
+  colors = theme.color,
   onFocus,
   onBlur,
   error,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false)
-  const [сolor, setСolor] = useState(colors.default)
 
-  useEffect(() => {
-    if (error) {
-      setСolor(colors.error)
+  const color = useMemo(() => {
+    if (props['aria-invalid'] || error) {
+      return colors.error
     } else if (isFocused) {
-      setСolor(colors.focus)
+      return colors.focus
     } else {
-      setСolor(colors.default)
+      return colors.default
     }
-  }, [error, isFocused, colors])
+  }, [props['aria-invalid'], error, isFocused, colors])
+
+  const mods: Mods = {
+    [styles.focused]: isFocused || Boolean(value),
+    [styles.error]: error,
+  }
 
   return (
-    <div
-      className={`${styles.container} ${
-        isFocused || value ? styles.focused : ''
-      } ${error ? styles.error : ''}`}>
-      <PixelBorder color={сolor} />
-      <label
-        className={styles.label}
-        style={{
-          color: error
-            ? colors.error
-            : isFocused
-            ? colors.focus
-            : colors.default,
-        }}>
+    <div className={classNames(styles.container, mods, [])}>
+      <PixelBorder color={color} />
+      <label className={classNames(styles.label, {}, [])} style={{ color }}>
         {label}
       </label>
       <Input

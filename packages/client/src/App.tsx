@@ -4,6 +4,7 @@ import './App.css'
 import { GameContext, type GameData, initialGameData } from './context'
 import AppRoutes from './router/routes'
 import { ConfigProvider } from 'antd'
+import theme from '@/styles/theme'
 
 function App() {
   const [gameData, setGameData] = useState<GameData>(initialGameData)
@@ -37,13 +38,12 @@ function App() {
           theme={{
             token: {
               fontSize: 24,
-              marginLG: 40,
               fontFamily: 'VT323',
               colorPrimary: '#fff',
               borderRadius: 0,
               colorBgContainer: '#fff',
-              colorError: '#FF5B5B',
-              colorLink: '#141414',
+              colorError: theme.color.error,
+              colorLink: theme.color.link,
             },
           }}>
           <AppRoutes />

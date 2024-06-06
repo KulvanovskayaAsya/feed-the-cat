@@ -20,14 +20,6 @@ const validateLogin = (login: string): string | null => {
   return null
 }
 
-const validateEmail = (email: string): string | null => {
-  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-  if (!regex.test(email)) {
-    return 'Invalid email format.'
-  }
-  return null
-}
-
 const validatePassword = (password: string): string | null => {
   const regex = /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,40}$/
   if (!regex.test(password)) {
@@ -63,7 +55,6 @@ const validators: ValidatorMap = {
   first_name: validateName,
   second_name: validateName,
   login: validateLogin,
-  email: validateEmail,
   password: validatePassword,
   phone: validatePhone,
   message: validateNotEmpty,

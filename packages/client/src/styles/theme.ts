@@ -3,6 +3,7 @@ const theme = {
     default: '#9A909E',
     error: '#FF5B5B',
     focus: '#141414',
+    link: '#141414',
   },
 }
 

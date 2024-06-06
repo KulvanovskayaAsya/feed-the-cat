@@ -1,30 +1,31 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Form, FormProps } from 'antd'
+import { Rule } from 'antd/es/form'
 import { PixelButton, PixelInput } from '@/components'
-import theme from '@/styles/theme'
 import { validate } from '@/utils/validation'
 
 type FormField = {
   name: string
   label: string
   type?: string
-  rules?: any[]
+  rules?: Rule[]
 }
 
 type PixelFormProps = {
   fields: FormField[]
   buttonText: string
-  onFinish?: (values: any) => void
-  onFinishFailed?: (errorInfo: any) => void
+  onFinish?: FormProps<string>['onFinish']
+  onFinishFailed?: FormProps<string>['onFinishFailed']
 }
 
-const defaultOnFinish: FormProps<any>['onFinish'] = values => {
+const defaultOnFinish: FormProps<string>['onFinish'] = values => {
   console.log('Success:', values)
 }
 
-const defaultOnFinishFailed: FormProps<any>['onFinishFailed'] = errorInfo => {
-  console.log('Failed:', errorInfo)
-}
+const defaultOnFinishFailed: FormProps<string>['onFinishFailed'] =
+  errorInfo => {
+    console.log('Failed:', errorInfo)
+  }
 
 const validateField = (fieldName: string, value: string) => {
   const errorMessage = validate(fieldName, value)
@@ -42,6 +43,23 @@ export const PixelForm: FC<PixelFormProps> = ({
 }) => {
   const [form] = Form.useForm()
 
+  const getRules = (field: FormField): Rule[] => {
+    const rules: Rule[] = [
+      { required: true, message: `${field.label} is required` },
+      { validator: (_, value) => validateField(field.name, value) },
+    ]
+
+    if (field.type === 'email') {
+      rules.push({ type: 'email', message: 'Invalid email format.' })
+    }
+
+    if (field.rules) {
+      rules.push(...field.rules)
+    }
+
+    return rules
+  }
+
   return (
     <Form
       form={form}
@@ -54,17 +72,9 @@ export const PixelForm: FC<PixelFormProps> = ({
         <Form.Item
           key={field.name}
           name={field.name}
-          rules={[
-            { required: true, message: `${field.label} is required` },
-            { validator: (_, value) => validateField(field.name, value) },
-            ...(field.rules || []),
-          ]}
+          rules={getRules(field)}
           validateTrigger="onBlur">
-          <PixelInput
-            type={field.type || 'text'}
-            label={field.label}
-            colors={theme.color}
-          />
+          <PixelInput type={field.type || 'text'} label={field.label} />
         </Form.Item>
       ))}
       <Form.Item>
