@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './Game.css'
 import { getGameTime } from './utils'
-import { type GameData, useGameContext } from '../../context'
+import { type GameData, useGameContext } from '@/context'
 import {
   useIsWin,
   usePressedAndLastKey,
@@ -31,6 +31,8 @@ export const Game = (props: GameProps): JSX.Element => {
   const [scores, setScores] = useState<number>(0)
   // Жизни игрока (изначально 3 жизни)
   const [life, setLife] = useState<number>(3)
+  // Текущий уровень (изначально 1-й уровень)
+  const [currentLevel, setCurrentLevel] = useState<number>(3)
 
   // Хук для начальной загрузки игры
   const {
@@ -43,7 +45,7 @@ export const Game = (props: GameProps): JSX.Element => {
     setFoodArray,
     enemy,
     lifeArray,
-  } = useRunGame(canvasRef, life)
+  } = useRunGame(canvasRef, life, currentLevel)
 
   // Флаг победил игрок - true, или програл - false (изначально null)
   const isWin = useIsWin(time, foodArray, scores, life)
