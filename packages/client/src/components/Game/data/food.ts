@@ -1,26 +1,14 @@
 import { mapWidth } from './consts'
 
-// 1036 - chicken, 1037 - hotdog, 1038 - pizza
-const food = [
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  1036, 1036, 0, 0, 0, 0, 1037, 1036, 0, 0, 0, 1038, 1037, 1037, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 1038, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  1038, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1038, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1036, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1036, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 1037, 1038, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 1037, 1038, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1036, 1038, 1038, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 1037, 1037, 1037, 1037, 1037, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-]
+export async function getFoodMap(level: number): Promise<number[][]> {
+  type foodType = { food: number[] }
+  const levelFood: foodType = await import(`./levels/${level}/food.ts`)
 
-const foodMap: number[][] = []
+  const foodMap: number[][] = []
 
-for (let i = 0; i < food.length; i += mapWidth) {
-  foodMap.push(food.slice(i, mapWidth + i))
+  for (let i = 0; i < levelFood.food.length; i += mapWidth) {
+    foodMap.push(levelFood.food.slice(i, mapWidth + i))
+  }
+
+  return foodMap
 }
-
-export { foodMap }

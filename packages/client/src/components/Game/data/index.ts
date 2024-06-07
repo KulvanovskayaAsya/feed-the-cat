@@ -1,6 +1,6 @@
 export { collisionsMap } from './collisions'
 export { heroMap } from './hero'
-export { foodMap } from './food'
+export { getFoodMap } from './food'
 export { enemyMap } from './enemy'
 export {
   boundaryWidth,
@@ -13,6 +13,9 @@ export {
   HOTDOG,
   PIZZA,
   ENEMY,
+  LEVELS,
+  HEROES,
+  FOOD,
 } from './consts'
 export { boundaries } from './boundaries'
 export { enemies } from './enemies'
