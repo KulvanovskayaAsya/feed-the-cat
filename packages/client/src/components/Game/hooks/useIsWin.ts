@@ -14,7 +14,7 @@ export function useIsWin(
   useEffect(() => {
     if (time > 0 && foodArray.length === 0 && scores > 0 && life > 0) {
       setIsWin(true)
-    } else {
+    } else if (life <= 0 || time <= 0) {
       setIsWin(false)
     }
   }, [time, setIsWin, foodArray, scores, life])
