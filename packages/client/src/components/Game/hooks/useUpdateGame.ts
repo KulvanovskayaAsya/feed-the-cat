@@ -14,7 +14,7 @@ import {
   rectangularCollision,
 } from '../utils'
 import { Background, Boundary, type Coords, Food, Sprite } from '../classes'
-import { boundaries, boundaryHeight, boundaryWidth, enemies } from '../data'
+import { boundaryHeight, boundaryWidth, enemies, getBoundaries } from '../data'
 
 // Хук для обновления игры с частотой около 60 кадров в секунду
 export function useUpdateGame(
@@ -34,14 +34,16 @@ export function useUpdateGame(
   scores: number,
   setScores: Dispatch<SetStateAction<number>>,
   life: number,
-  setLife: Dispatch<SetStateAction<number>>
+  setLife: Dispatch<SetStateAction<number>>,
+  currentLevel: number
 ) {
   const [FPS, setFPS] = useState<number>(1)
   const [moving, setMoving] = useState<boolean>(true)
 
   // Функция для обновления игры с частотой около 60 кадров в секунду
-  const update = useCallback(() => {
+  const update = useCallback(async (): Promise<void> => {
     const canvas: HTMLCanvasElement | null = canvasRef.current
+    const boundaries = await getBoundaries(currentLevel)
 
     if (canvas && ctx) {
       clearGame(canvas, ctx)
@@ -247,7 +249,7 @@ export function useUpdateGame(
     setMoving,
     foodArray,
     foreground,
-    boundaries,
+    getBoundaries,
     scores,
     life,
     setLife,
@@ -255,6 +257,7 @@ export function useUpdateGame(
     FPS,
     heroInitCoords,
     time,
+    currentLevel,
   ])
 
   // Эффект для обновления игры с частотой около 60 кадров в секунду
@@ -270,7 +273,7 @@ export function useUpdateGame(
         return
       }
 
-      update()
+      update().then()
 
       const dt = (timestamp - lastFrame) / 1000
       lastFrame = timestamp
@@ -292,11 +295,12 @@ export function useUpdateGame(
     setMoving,
     foodArray,
     foreground,
-    boundaries,
+    getBoundaries,
     scores,
     life,
     setLife,
     heroInitCoords,
     time,
+    currentLevel,
   ])
 }

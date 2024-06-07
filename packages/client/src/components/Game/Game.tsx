@@ -32,7 +32,7 @@ export const Game = (props: GameProps): JSX.Element => {
   // Жизни игрока (изначально 3 жизни)
   const [life, setLife] = useState<number>(3)
   // Текущий уровень (изначально 1-й уровень)
-  const [currentLevel, setCurrentLevel] = useState<number>(3)
+  const [currentLevel, setCurrentLevel] = useState<number>(2)
 
   // Хук для начальной загрузки игры
   const {
@@ -68,7 +68,8 @@ export const Game = (props: GameProps): JSX.Element => {
     scores,
     setScores,
     life,
-    setLife
+    setLife,
+    currentLevel
   )
 
   // Функция для установки игровых данных в игровой контекст

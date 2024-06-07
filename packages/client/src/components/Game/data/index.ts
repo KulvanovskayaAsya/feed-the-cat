@@ -1,4 +1,4 @@
-export { collisionsMap } from './collisions'
+export { getCollisionsMap } from './collisions'
 export { heroMap } from './hero'
 export { getFoodMap } from './food'
 export { enemyMap } from './enemy'
@@ -17,5 +17,5 @@ export {
   HEROES,
   FOOD,
 } from './consts'
-export { boundaries } from './boundaries'
+export { getBoundaries } from './boundaries'
 export { enemies } from './enemies'
