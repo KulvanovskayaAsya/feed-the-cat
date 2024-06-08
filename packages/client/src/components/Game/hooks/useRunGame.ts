@@ -3,7 +3,7 @@ import { clearGame, loadTexture } from '../utils'
 import {
   getHeroMap,
   getFoodMap,
-  enemyMap,
+  getEnemyMap,
   boundaryWidth,
   boundaryHeight,
   HERO,
@@ -75,15 +75,13 @@ export function useRunGame(
         foodImgArray.push(foodImg)
       }
 
-      const foodMap: number[][] = await getFoodMap(currentLevel)
-      const heroMap: number[][] = await getHeroMap(currentLevel)
-
       const enemyUpImg = await loadTexture(enemyUpImage)
       const enemyDownImg = await loadTexture(enemyDownImage)
       const enemyLeftImg = await loadTexture(enemyLeftImage)
       const enemyRightImg = await loadTexture(enemyRightImage)
       const lifeImg = await loadTexture(lifeImage)
 
+      const heroMap: number[][] = await getHeroMap(currentLevel)
       const heroArray: Sprite[] = []
 
       heroMap.forEach((row: number[], i: number) => {
@@ -121,6 +119,7 @@ export function useRunGame(
         y: heroArray[0].position.y,
       })
 
+      const foodMap: number[][] = await getFoodMap(currentLevel)
       const foodArr: Food[] = []
 
       foodMap.forEach((row: number[], i: number) => {
@@ -170,6 +169,7 @@ export function useRunGame(
 
       setFoodArray(foodArr)
 
+      const enemyMap: number[][] = await getEnemyMap(currentLevel)
       const enemyArray: Sprite[] = []
 
       enemyMap.forEach((row: number[], i: number) => {

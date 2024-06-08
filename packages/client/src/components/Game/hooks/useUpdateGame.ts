@@ -14,7 +14,12 @@ import {
   rectangularCollision,
 } from '../utils'
 import { Background, Boundary, type Coords, Food, Sprite } from '../classes'
-import { boundaryHeight, boundaryWidth, enemies, getBoundaries } from '../data'
+import {
+  boundaryHeight,
+  boundaryWidth,
+  getEnemies,
+  getBoundaries,
+} from '../data'
 
 // Хук для обновления игры с частотой около 60 кадров в секунду
 export function useUpdateGame(
@@ -44,6 +49,7 @@ export function useUpdateGame(
   const update = useCallback(async (): Promise<void> => {
     const canvas: HTMLCanvasElement | null = canvasRef.current
     const boundaries = await getBoundaries(currentLevel)
+    const enemies = await getEnemies(currentLevel)
 
     if (canvas && ctx) {
       clearGame(canvas, ctx)
@@ -296,6 +302,7 @@ export function useUpdateGame(
     foodArray,
     foreground,
     getBoundaries,
+    getEnemies,
     scores,
     life,
     setLife,

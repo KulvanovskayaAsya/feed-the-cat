@@ -1,7 +1,7 @@
 export { getCollisionsMap } from './collisions'
 export { getHeroMap } from './hero'
 export { getFoodMap } from './food'
-export { enemyMap } from './enemy'
+export { getEnemyMap } from './enemy'
 export {
   boundaryWidth,
   boundaryHeight,
@@ -18,4 +18,4 @@ export {
   FOOD,
 } from './consts'
 export { getBoundaries } from './boundaries'
-export { enemies } from './enemies'
+export { getEnemies } from './enemies'
