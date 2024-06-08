@@ -14,10 +14,6 @@ import {
   FOOD,
 } from '../data'
 import { type Coords, Food, Sprite, Background } from '../classes'
-import heroUpImage from '@/assets/heroes/1/heroUp.png'
-import heroDownImage from '@/assets/heroes/1/heroDown.png'
-import heroLeftImage from '@/assets/heroes/1/heroLeft.png'
-import heroRightImage from '@/assets/heroes/1/heroRight.png'
 import enemyUpImage from '@/assets/enemyUp.png'
 import enemyDownImage from '@/assets/enemyDown.png'
 import enemyLeftImage from '@/assets/enemyLeft.png'
@@ -28,7 +24,8 @@ import lifeImage from '@/assets/life.png'
 export function useRunGame(
   canvasRef: MutableRefObject<HTMLCanvasElement | null>,
   life: number,
-  currentLevel: number
+  currentLevel: number,
+  heroVariant: number
 ) {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
 
@@ -63,10 +60,18 @@ export function useRunGame(
       })
       setForeground(foreground)
 
-      const heroUpImg = await loadTexture(heroUpImage)
-      const heroDownImg = await loadTexture(heroDownImage)
-      const heroLeftImg = await loadTexture(heroLeftImage)
-      const heroRightImg = await loadTexture(heroRightImage)
+      const heroUpImg = await loadTexture(
+        `./src/assets/heroes/${heroVariant}/heroUp.png`
+      )
+      const heroDownImg = await loadTexture(
+        `./src/assets/heroes/${heroVariant}/heroDown.png`
+      )
+      const heroLeftImg = await loadTexture(
+        `./src/assets/heroes/${heroVariant}/heroLeft.png`
+      )
+      const heroRightImg = await loadTexture(
+        `./src/assets/heroes/${heroVariant}/heroRight.png`
+      )
 
       for (let i = 1; i <= FOOD; i++) {
         const foodImg = await loadTexture(

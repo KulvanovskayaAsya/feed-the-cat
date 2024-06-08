@@ -13,11 +13,12 @@ import {
 export interface GameProps {
   width?: number
   height?: number
+  heroVariant?: number
 }
 
 export const Game = (props: GameProps): JSX.Element => {
-  // Размеры холста: ширина (800 пикселей) и высота (600 пикселей)
-  const { width = 800, height = 600 } = props
+  // Размеры холста: ширина (800 пикселей) и высота (600 пикселей), внешний вид героя (1 вариант)
+  const { width = 800, height = 600, heroVariant = 2 } = props
 
   // Ссылка на холст
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -45,7 +46,7 @@ export const Game = (props: GameProps): JSX.Element => {
     setFoodArray,
     enemy,
     lifeArray,
-  } = useRunGame(canvasRef, life, currentLevel)
+  } = useRunGame(canvasRef, life, currentLevel, heroVariant)
 
   // Флаг победил игрок - true, или програл - false (изначально null)
   const isWin = useIsWin(time, foodArray, scores, life)
