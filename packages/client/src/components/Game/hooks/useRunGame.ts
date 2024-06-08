@@ -1,7 +1,7 @@
 import { type MutableRefObject, useCallback, useEffect, useState } from 'react'
 import { clearGame, loadTexture } from '../utils'
 import {
-  heroMap,
+  getHeroMap,
   getFoodMap,
   enemyMap,
   boundaryWidth,
@@ -76,6 +76,7 @@ export function useRunGame(
       }
 
       const foodMap: number[][] = await getFoodMap(currentLevel)
+      const heroMap: number[][] = await getHeroMap(currentLevel)
 
       const enemyUpImg = await loadTexture(enemyUpImage)
       const enemyDownImg = await loadTexture(enemyDownImage)

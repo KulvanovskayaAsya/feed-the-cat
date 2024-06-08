@@ -1,5 +1,5 @@
 export { getCollisionsMap } from './collisions'
-export { heroMap } from './hero'
+export { getHeroMap } from './hero'
 export { getFoodMap } from './food'
 export { enemyMap } from './enemy'
 export {
