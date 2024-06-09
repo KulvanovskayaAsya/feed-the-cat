@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Food } from '../classes'
-import { LEVELS } from '@/components/Game/data'
+import { LEVEL_TIME, LEVELS } from '@/components/Game/data'
 
 // Хук для определения победы в игре
 export function useIsWin(
@@ -16,7 +16,7 @@ export function useIsWin(
   useEffect(() => {
     if (
       time > 0 &&
-      time < 2 * 60 &&
+      time < LEVEL_TIME &&
       foodArray.length === 0 &&
       scores > 0 &&
       life > 0 &&

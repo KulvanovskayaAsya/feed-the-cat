@@ -41,7 +41,12 @@ export const GamePage: FC = () => {
 
   // Эффект для завершения игры
   useEffect(() => {
-    if (gameData.life === 0 || gameData.time === '00:00' || gameData.isWin) {
+    if (
+      gameData.life === 0 ||
+      gameData.time === '00:00' ||
+      gameData.isWin ||
+      !gameData.isWin
+    ) {
       setIsGameFinish(true)
       setIsGameStart(false)
     }
