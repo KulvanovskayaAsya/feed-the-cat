@@ -86,10 +86,10 @@ export const GamePage: FC = () => {
 
             <Card style={{ background: 'white' }}>
               <h3 style={{ fontSize: '36px' }}>Game results</h3>
-              <p>Points scored: {gameData.scores}</p>
+              <p>Scores: {gameData.scores}</p>
               <p>Level: {gameData.level}</p>
-              <p>Remaining game time: {gameData.time}</p>
-              <p>Lives remaining: {gameData.life}</p>
+              <p>Time: {gameData.time}</p>
+              <p>Lives: {gameData.life}</p>
             </Card>
 
             <Button
