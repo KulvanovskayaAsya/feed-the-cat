@@ -2,6 +2,7 @@ import { FC } from 'react'
 import cls from './GamePage.module.css'
 import { Game, PixelHeader } from '@/components'
 import smallCat from '@/assets/smallCat.png'
+import { withAuth } from '@/utils/HOCs/withAuth'
 
 export const GamePage: FC = () => {
   return (
@@ -31,3 +32,5 @@ export const GamePage: FC = () => {
     </>
   )
 }
+
+export const GamePageWithAuth = withAuth(GamePage)

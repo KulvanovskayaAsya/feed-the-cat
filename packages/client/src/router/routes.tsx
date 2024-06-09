@@ -13,29 +13,29 @@ const routes = [
       },
       {
         path: '/login',
-        element: <Pages.LoginPage />,
+        element: <Pages.LoginPageWithAuth />,
       },
       {
         path: '/registration',
-        element: <Pages.RegistrationPage />,
+        element: <Pages.RegistrationPageWithAuth />,
       },
-      { path: '/game', element: <Pages.GamePage /> },
-      { path: '/profile', element: <Pages.ProfilePage /> },
+      { path: '/game', element: <Pages.GamePageWithAuth /> },
+      { path: '/profile', element: <Pages.ProfilePageWithAuth /> },
       {
         path: '/leaderboard',
-        element: <Pages.LeaderboardPage />,
+        element: <Pages.LeaderboardPageWithAuth />,
       },
       {
         path: '/forum',
-        element: <Pages.ForumPage />,
+        element: <Pages.ForumPageWithAuth />,
       },
       {
         path: '/forum/topic/:topicId',
-        element: <Pages.ForumTopicPage />,
+        element: <Pages.ForumTopicPageWithAuth />,
       },
       {
         path: '/forum/topic/create',
-        element: <Pages.ForumTopicCreationPage />,
+        element: <Pages.ForumTopicCreationPageWithAuth />,
       },
       {
         path: '*',

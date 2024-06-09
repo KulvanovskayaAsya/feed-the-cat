@@ -1,1 +1,1 @@
-export { ForumTopicPage } from './ForumTopicPage'
+export { ForumTopicPage, ForumTopicPageWithAuth } from './ForumTopicPage'
