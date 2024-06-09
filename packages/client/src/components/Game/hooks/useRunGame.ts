@@ -234,6 +234,8 @@ export function useRunGame(
       setFoodArray,
       setEnemy,
       setLifeArray,
+      currentLevel,
+      heroVariant,
     ]
   )
 

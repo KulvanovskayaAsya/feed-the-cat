@@ -1,15 +1,19 @@
 import { createContext, Dispatch, SetStateAction, useContext } from 'react'
 
 export interface GameData {
-  scores: number
-  life: number
-  time: string
+  scores: number // набранные очки
+  level: number // последний уровень
+  life: number // оставшиеся жизни
+  time: string // оставшееся время на уровне
+  isWin: boolean // игрок победил в игре: true - да, false - пока нет
 }
 
 export const initialGameData: GameData = {
   scores: 0,
-  life: 0,
-  time: '00:00',
+  level: 1,
+  life: 3,
+  time: '02:00',
+  isWin: false,
 }
 
 export interface GameContextType {
