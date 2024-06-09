@@ -10,6 +10,8 @@ import {
   clearGame,
   drawGameTime,
   drawLife,
+  drawScores,
+  drawLevel,
   getGameTime,
   rectangularCollision,
 } from '../utils'
@@ -245,6 +247,8 @@ export function useUpdateGame(
       }
 
       drawGameTime(ctx, getGameTime(time), 27, 50)
+      drawScores(ctx, scores, 210, 50)
+      drawLevel(ctx, currentLevel, 470, 50)
       drawLife(ctx, life, lifeArray, FPS)
     }
   }, [

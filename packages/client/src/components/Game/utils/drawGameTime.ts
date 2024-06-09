@@ -1,13 +1,13 @@
 // Функция, отображающая оставшееся время игры
+import { getContextTextSettings } from './getContextTextSettings'
+
 export const drawGameTime = (
   ctx: CanvasRenderingContext2D,
   time: string,
   x: number,
   y: number
 ): void => {
-  ctx.font = '36px VT323'
-  ctx.fillStyle = 'white'
-  ctx.textAlign = 'left'
-
+  getContextTextSettings(ctx)
+  ctx.strokeText(time, x, y)
   ctx.fillText(time, x, y)
 }
