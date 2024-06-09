@@ -16,6 +16,7 @@ export {
   LEVELS,
   HEROES,
   FOOD,
+  LEVEL_TIME,
 } from './consts'
 export { getBoundaries } from './boundaries'
 export { getEnemies } from './enemies'

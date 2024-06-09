@@ -13,3 +13,5 @@ export const ENEMY = 1039
 export const LEVELS = 3
 export const HEROES = 2
 export const FOOD = 4
+
+export const LEVEL_TIME = 120
