@@ -35,17 +35,17 @@ export class AuthAPI extends BaseAPI {
     return res
   }
 
-  async signin(body: SignInRequest) {
+  async signin(body: SignInRequest): Promise<string> {
     const { data } = await this.post('/auth/signin', body)
     return data
   }
 
-  async logout() {
+  async logout(): Promise<string> {
     const res = await this.post('/auth/logout', {})
     return res
   }
 
-  async getUser() {
+  async getUser(): Promise<User> {
     const { data } = await this.get('/auth/user')
     return data
   }
