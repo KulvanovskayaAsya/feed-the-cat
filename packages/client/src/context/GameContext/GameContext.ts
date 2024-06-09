@@ -4,7 +4,7 @@ export interface GameData {
   scores: number // набранные очки
   level: number // последний уровень
   life: number // оставшиеся жизни
-  time: string // оставшееся время на уровне
+  time: string // время игры на всех уровнях
   isWin: boolean // игрок победил в игре: true - да, false - пока нет
 }
 

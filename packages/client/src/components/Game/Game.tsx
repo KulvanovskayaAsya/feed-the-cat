@@ -8,8 +8,9 @@ import {
   useRunGame,
   useTime,
   useUpdateGame,
+  useUpdateLevel,
 } from './hooks'
-import { LEVELS } from '@/components/Game/data'
+import { LEVEL_TIME, LEVELS } from '@/components/Game/data'
 
 export interface GameProps {
   width?: number
@@ -27,7 +28,7 @@ export const Game = (props: GameProps): JSX.Element => {
   // Нажатая и последняя нажатая клавишы
   const { pressedKey, lastKey } = usePressedAndLastKey()
   // Игровое время в секундах (изначально 120 секунд или 2 минуты)
-  const { time, setTime } = useTime(2 * 60)
+  const { time, setTime } = useTime(LEVEL_TIME)
 
   // Набранные очки (изначально 0 очков)
   const [scores, setScores] = useState<number>(0)
@@ -48,6 +49,17 @@ export const Game = (props: GameProps): JSX.Element => {
     enemy,
     lifeArray,
   } = useRunGame(canvasRef, life, currentLevel, heroVariant)
+
+  // Общее время игры
+  const gameTime = useUpdateLevel(
+    time,
+    setTime,
+    foodArray,
+    scores,
+    life,
+    currentLevel,
+    setCurrentLevel
+  )
 
   // Флаг победил игрок в игре - true, или програл - false (изначально null)
   const isWinGame = useIsWin(time, foodArray, scores, life, currentLevel)
@@ -77,31 +89,6 @@ export const Game = (props: GameProps): JSX.Element => {
   // Функция для установки игровых данных в игровой контекст
   const { setGameData } = useGameContext()
 
-  // Эффект для запуска следующего уровня после прохождения текущего уровня
-  useEffect(() => {
-    // const timeoutID = setTimeout(() => {
-    //   if (currentLevel < LEVELS) {
-    //     setCurrentLevel(prevLevel => prevLevel + 1)
-    //     setTime(2 * 60)
-    //   }
-    // }, 3000)
-    //
-    // return () => {
-    //   clearTimeout(timeoutID)
-    // }
-
-    if (
-      time > 0 &&
-      foodArray.length === 0 &&
-      scores > 0 &&
-      life > 0 &&
-      currentLevel < LEVELS
-    ) {
-      setCurrentLevel(prevLevel => prevLevel + 1)
-      setTime(2 * 60)
-    }
-  }, [foodArray])
-
   // Эффект для обновления игрового контекста при победе или поражении в игре
   useEffect(() => {
     if (isWinGame === true && currentLevel === LEVELS) {
@@ -111,7 +98,7 @@ export const Game = (props: GameProps): JSX.Element => {
           scores,
           level: currentLevel,
           life,
-          time: getGameTime(time),
+          time: getGameTime(gameTime + LEVEL_TIME - time),
           isWin: true,
         }
       })
@@ -122,7 +109,7 @@ export const Game = (props: GameProps): JSX.Element => {
           scores,
           level: currentLevel,
           life,
-          time: getGameTime(time),
+          time: getGameTime(gameTime + LEVEL_TIME - time),
           isWin: false,
         }
       })
