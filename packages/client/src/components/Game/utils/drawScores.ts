@@ -1,5 +1,5 @@
 // Функция, отображающая набранные очки
-import { getContextTextSettings } from '@/components/Game/utils/getContextTextSettings'
+import { getContextTextSettings } from './getContextTextSettings'
 
 export const drawScores = (
   ctx: CanvasRenderingContext2D,

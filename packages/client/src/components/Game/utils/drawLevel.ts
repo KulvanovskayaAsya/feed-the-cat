@@ -1,5 +1,5 @@
 // Функция, отображающая текущий уровень
-import { getContextTextSettings } from '@/components/Game/utils/getContextTextSettings'
+import { getContextTextSettings } from './getContextTextSettings'
 
 export const drawLevel = (
   ctx: CanvasRenderingContext2D,
