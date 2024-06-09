@@ -36,6 +36,7 @@ export function useUpdateGame(
   pressedKey: string,
   lastKey: string,
   foodArray: Food[],
+  extraFoodArray: Food[],
   heroInitCoords: Coords | null,
   time: number,
   scores: number,
@@ -138,11 +139,20 @@ export function useUpdateGame(
             if (rectangularCollision(hero, foodPiece)) {
               setScores((prevScores: number) => prevScores + foodPiece.score)
 
-              setFoodArray((prevFoodArray: Food[]) =>
-                prevFoodArray.filter(prevFoodPiece => {
+              setFoodArray((prevFoodArray: Food[]) => {
+                const newFoodArray = prevFoodArray.filter(prevFoodPiece => {
                   return prevFoodPiece !== foodPiece
                 })
-              )
+
+                if (
+                  newFoodArray.length === 0 &&
+                  foodPiece.score !== 400 * currentLevel
+                ) {
+                  return extraFoodArray
+                }
+
+                return newFoodArray
+              })
 
               break
             }

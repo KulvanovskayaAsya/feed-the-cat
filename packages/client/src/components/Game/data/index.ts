@@ -13,6 +13,7 @@ export {
   MEDIUM_FOOD,
   BIG_FOOD,
   ENEMY,
+  EXTRA_FOOD,
   LEVELS,
   HEROES,
   FOOD,

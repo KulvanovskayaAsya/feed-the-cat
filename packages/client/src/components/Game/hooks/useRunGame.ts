@@ -12,6 +12,7 @@ import {
   BIG_FOOD,
   ENEMY,
   FOOD,
+  EXTRA_FOOD,
 } from '../data'
 import { type Coords, Food, Sprite, Background } from '../classes'
 import enemyUpImage from '@/assets/enemyUp.png'
@@ -34,6 +35,7 @@ export function useRunGame(
   const [hero, setHero] = useState<Sprite | null>(null)
   const [heroInitCoords, setHeroInitCoords] = useState<Coords | null>(null)
   const [foodArray, setFoodArray] = useState<Array<Food>>([])
+  const [extraFoodArray, setExtraFoodArray] = useState<Array<Food>>([])
   const [enemy, setEnemy] = useState<Sprite | null>(null)
   const [lifeArray, setLifeArray] = useState<Array<Sprite>>([])
 
@@ -126,6 +128,7 @@ export function useRunGame(
 
       const foodMap: number[][] = await getFoodMap(currentLevel)
       const foodArr: Food[] = []
+      const extraFoodArr: Food[] = []
 
       foodMap.forEach((row: number[], i: number) => {
         row.forEach((symbol: number, j: number) => {
@@ -168,11 +171,25 @@ export function useRunGame(
             })
 
             foodArr.push(bigFood)
+          } else if (symbol === EXTRA_FOOD) {
+            const image = foodImgArray[3]
+
+            const extraFood = new Food({
+              position: {
+                x: j * boundaryWidth + (boundaryWidth - image.width) / 2,
+                y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
+              },
+              image,
+              score: 400 * currentLevel,
+            })
+
+            extraFoodArr.push(extraFood)
           }
         })
       })
 
       setFoodArray(foodArr)
+      setExtraFoodArray(extraFoodArr)
 
       const enemyMap: number[][] = await getEnemyMap(currentLevel)
       const enemyArray: Sprite[] = []
@@ -258,6 +275,7 @@ export function useRunGame(
     heroInitCoords,
     foodArray,
     setFoodArray,
+    extraFoodArray,
     enemy,
     lifeArray,
   }

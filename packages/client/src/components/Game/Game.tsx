@@ -46,6 +46,7 @@ export const Game = (props: GameProps): JSX.Element => {
     heroInitCoords,
     foodArray,
     setFoodArray,
+    extraFoodArray,
     enemy,
     lifeArray,
   } = useRunGame(canvasRef, life, currentLevel, heroVariant)
@@ -77,6 +78,7 @@ export const Game = (props: GameProps): JSX.Element => {
     pressedKey,
     lastKey,
     foodArray,
+    extraFoodArray,
     heroInitCoords,
     time,
     scores,
