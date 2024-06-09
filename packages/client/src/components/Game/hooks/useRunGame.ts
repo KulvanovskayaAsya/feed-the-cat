@@ -7,9 +7,9 @@ import {
   boundaryWidth,
   boundaryHeight,
   HERO,
-  CHICKEN,
-  HOTDOG,
-  PIZZA,
+  SMALL_FOOD,
+  MEDIUM_FOOD,
+  BIG_FOOD,
   ENEMY,
   FOOD,
 } from '../data'
@@ -129,10 +129,10 @@ export function useRunGame(
 
       foodMap.forEach((row: number[], i: number) => {
         row.forEach((symbol: number, j: number) => {
-          if (symbol === CHICKEN) {
+          if (symbol === SMALL_FOOD) {
             const image = foodImgArray[0]
 
-            const chicken = new Food({
+            const smallFood = new Food({
               position: {
                 x: j * boundaryWidth + (boundaryWidth - image.width) / 2,
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
@@ -141,11 +141,11 @@ export function useRunGame(
               score: 100 * currentLevel,
             })
 
-            foodArr.push(chicken)
-          } else if (symbol === HOTDOG) {
+            foodArr.push(smallFood)
+          } else if (symbol === MEDIUM_FOOD) {
             const image = foodImgArray[1]
 
-            const hotdog = new Food({
+            const mediumFood = new Food({
               position: {
                 x: j * boundaryWidth + (boundaryWidth - image.width) / 2,
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
@@ -154,11 +154,11 @@ export function useRunGame(
               score: 200 * currentLevel,
             })
 
-            foodArr.push(hotdog)
-          } else if (symbol === PIZZA) {
+            foodArr.push(mediumFood)
+          } else if (symbol === BIG_FOOD) {
             const image = foodImgArray[2]
 
-            const pizza = new Food({
+            const bigFood = new Food({
               position: {
                 x: j * boundaryWidth + (boundaryWidth - image.width) / 2,
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
@@ -167,7 +167,7 @@ export function useRunGame(
               score: 300 * currentLevel,
             })
 
-            foodArr.push(pizza)
+            foodArr.push(bigFood)
           }
         })
       })
