@@ -5,7 +5,7 @@ export interface GameData {
   level: number // последний уровень
   life: number // оставшиеся жизни
   time: string // время игры на всех уровнях
-  isWin: boolean // игрок победил в игре: true - да, false - пока нет
+  isWin: boolean | null // игрок победил в игре: true - победил, false - проиграл, null - неизвестно
 }
 
 export const initialGameData: GameData = {
@@ -13,7 +13,7 @@ export const initialGameData: GameData = {
   level: 1,
   life: 3,
   time: '02:00',
-  isWin: false,
+  isWin: null,
 }
 
 export interface GameContextType {
