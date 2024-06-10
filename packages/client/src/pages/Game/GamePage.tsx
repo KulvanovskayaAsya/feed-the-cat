@@ -59,7 +59,7 @@ export const GamePage: FC = () => {
         {!isGameStart && !isGameFinish && (
           <>
             <Select
-              defaultValue="1"
+              defaultValue={String(heroVariant)}
               style={{ width: 120 }}
               onChange={(value: string) => setHeroVariant(Number(value))}
               options={getOptions()}
