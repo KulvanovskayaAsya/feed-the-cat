@@ -21,6 +21,7 @@ import {
   boundaryWidth,
   getEnemies,
   getBoundaries,
+  MOVE_KEYS,
 } from '../data'
 
 // Хук для обновления игры с частотой около 60 кадров в секунду
@@ -76,14 +77,14 @@ export function useUpdateGame(
           let indentFromBoundaryX = 0
           let indentFromBoundaryY = 0
 
-          if (pressedKey === 'ArrowUp') {
+          if (pressedKey === MOVE_KEYS.UP) {
             heroImage = hero.sprites.up
             heroVelocityX = 0
             heroVelocityY = hero.velocity
             isHeroCanvasBoundaryCollision = hero.position.y < 9
             indentFromBoundaryX = 0
             indentFromBoundaryY = 3
-          } else if (pressedKey === 'ArrowDown') {
+          } else if (pressedKey === MOVE_KEYS.DOWN) {
             heroImage = hero.sprites.down
             heroVelocityX = 0
             heroVelocityY = -hero.velocity
@@ -91,14 +92,14 @@ export function useUpdateGame(
               hero.position.y + hero.height > canvas.height - 9
             indentFromBoundaryX = 0
             indentFromBoundaryY = -3
-          } else if (pressedKey === 'ArrowLeft') {
+          } else if (pressedKey === MOVE_KEYS.LEFT) {
             heroImage = hero.sprites.left
             heroVelocityX = hero.velocity
             heroVelocityY = 0
             isHeroCanvasBoundaryCollision = hero.position.x < 9
             indentFromBoundaryX = 3
             indentFromBoundaryY = 0
-          } else if (pressedKey === 'ArrowRight') {
+          } else if (pressedKey === MOVE_KEYS.RIGHT) {
             heroImage = hero.sprites.right
             heroVelocityX = -hero.velocity
             heroVelocityY = 0
@@ -168,14 +169,23 @@ export function useUpdateGame(
       if (hero) {
         hero.moving = false
 
-        if (pressedKey === 'ArrowUp' && lastKey === 'ArrowUp') {
-          keyPressHandler('ArrowUp')
-        } else if (pressedKey === 'ArrowDown' && lastKey === 'ArrowDown') {
-          keyPressHandler('ArrowDown')
-        } else if (pressedKey === 'ArrowLeft' && lastKey === 'ArrowLeft') {
-          keyPressHandler('ArrowLeft')
-        } else if (pressedKey === 'ArrowRight' && lastKey === 'ArrowRight') {
-          keyPressHandler('ArrowRight')
+        if (pressedKey === MOVE_KEYS.UP && lastKey === MOVE_KEYS.UP) {
+          keyPressHandler(MOVE_KEYS.UP)
+        } else if (
+          pressedKey === MOVE_KEYS.DOWN &&
+          lastKey === MOVE_KEYS.DOWN
+        ) {
+          keyPressHandler(MOVE_KEYS.DOWN)
+        } else if (
+          pressedKey === MOVE_KEYS.LEFT &&
+          lastKey === MOVE_KEYS.LEFT
+        ) {
+          keyPressHandler(MOVE_KEYS.LEFT)
+        } else if (
+          pressedKey === MOVE_KEYS.RIGHT &&
+          lastKey === MOVE_KEYS.RIGHT
+        ) {
+          keyPressHandler(MOVE_KEYS.RIGHT)
         }
 
         hero.draw(ctx, FPS)

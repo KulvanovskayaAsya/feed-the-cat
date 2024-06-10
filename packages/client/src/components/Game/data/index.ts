@@ -18,6 +18,7 @@ export {
   HEROES,
   FOOD,
   LEVEL_TIME,
+  MOVE_KEYS,
 } from './consts'
 export { getBoundaries } from './boundaries'
 export { getEnemies } from './enemies'

@@ -16,3 +16,10 @@ export const HEROES = 5
 export const FOOD = 4
 
 export const LEVEL_TIME = 120
+
+export const MOVE_KEYS = {
+  UP: 'ArrowUp',
+  DOWN: 'ArrowDown',
+  LEFT: 'ArrowLeft',
+  RIGHT: 'ArrowRight',
+}
