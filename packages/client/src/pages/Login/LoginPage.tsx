@@ -1,4 +1,4 @@
-import { FC, useMemo, useState, useEffect } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PixelForm } from '@/components/PixelForm'
 import { authController } from '@/controllers/auth'
