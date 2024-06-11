@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authController } from '../../controllers/auth'
 import { useAuthContext } from '@/context'
@@ -8,6 +8,7 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   const navigate = useNavigate()
   const { authData, setAuthData } = useAuthContext()
   const [isLoadingUser, setIsLoadingUser] = useState(false)
+  const [isReadyRedirect, setIsReadyRedirect] = useState(false)
 
   const isLoginPage = ['/login', '/registration'].includes(location.pathname)
 
@@ -17,23 +18,21 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
       await authController.getUser()
       setAuthData({ isAuth: true })
       setIsLoadingUser(false)
-
-      if (isLoginPage) {
-        navigate('/profile')
-      }
+      setIsReadyRedirect(true)
     } catch (e) {
       setAuthData({ isAuth: false })
       setIsLoadingUser(false)
-
-      if (!isLoginPage) {
-        navigate('/login')
-      }
+      setIsReadyRedirect(true)
     }
   }
 
   const redirect = () => {
+    if (!isReadyRedirect) {
+      return
+    }
+
     if (!authData.isAuth && !isLoginPage) {
-      navigate('/login')
+      navigate('/')
     }
 
     if (authData.isAuth && isLoginPage) {
@@ -44,10 +43,12 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   useEffect(() => {
     if (!authData.isAuth && !isLoadingUser) {
       getUser()
+    } else {
+      setIsReadyRedirect(true)
     }
-  }, [authData.isAuth])
+  }, [])
 
-  useCallback(redirect, [location.pathname, authData.isAuth])
+  useEffect(redirect, [isReadyRedirect])
 
   if (isLoadingUser) {
     return <Spin spinning={isLoadingUser} fullscreen size={'large'} />
