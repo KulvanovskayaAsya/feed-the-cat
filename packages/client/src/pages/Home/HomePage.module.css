@@ -1,0 +1,28 @@
+.homeWrapper {
+  max-width: 800px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 140px;
+  justify-content: center;
+}
+
+.homeHeader,
+.homeNav > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.homeNav {
+  min-width: 500px;
+  align-self: center;
+}
+
+.homeH1 {
+  text-align: center;
+}
+
+.homeSubtitle {
+  background-color: $color-background;
+}

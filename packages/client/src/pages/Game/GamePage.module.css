@@ -11,6 +11,7 @@
 
 .h1 {
   font-size: $font-header;
+  background-color: $color-background;
 }
 
 .h2 {
@@ -23,8 +24,9 @@
   margin-bottom: 15px;
 }
 
-.footer-wrapper {
+.rules-wrapper {
   width: 50%;
+  background-color: $color-background;
 }
 
 .select {
@@ -37,4 +39,34 @@
 
 .card {
   background-color: $color-light;
+  font-family: $font-family;
+}
+
+.fullWidth {
+  width: 800px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-top: 50px;
+  margin: 0 auto;
+  margin-top: 30px;
+  max-width: 600px;
+}
+
+.space {
+  display: flex;
+  max-width: 800px;
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+
+  &Score {
+    align-self: flex-start;
+    max-width: 800px;
+    background-color: $color-background;
+  }
 }
