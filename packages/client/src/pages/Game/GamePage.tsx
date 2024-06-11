@@ -59,8 +59,8 @@ export const GamePage: FC = () => {
         {!isGameStart && !isGameFinish && (
           <>
             <Select
+              className={cls.select}
               defaultValue={String(heroVariant)}
-              style={{ width: 120 }}
               onChange={(value: string) => setHeroVariant(Number(value))}
               options={getOptions()}
             />
@@ -74,18 +74,14 @@ export const GamePage: FC = () => {
         {isGameFinish && (
           <>
             {gameData.isWin && (
-              <h2 style={{ fontSize: '100px' }}>
-                Congratulations on your victory!
-              </h2>
+              <h2 className={cls.h2}>Congratulations on your victory!</h2>
             )}
             {!gameData.isWin && (
-              <p style={{ fontSize: '100px' }}>
-                Lose the game, don't be upset!
-              </p>
+              <p className={cls.message}>Lose the game, don't be upset!</p>
             )}
 
-            <Card style={{ background: 'white' }}>
-              <h3 style={{ fontSize: '36px' }}>Game results</h3>
+            <Card className={cls.card}>
+              <h2 className={cls.h2}>Game results</h2>
               <p>Scores: {gameData.scores}</p>
               <p>Level: {gameData.level}</p>
               <p>Time: {gameData.time}</p>
