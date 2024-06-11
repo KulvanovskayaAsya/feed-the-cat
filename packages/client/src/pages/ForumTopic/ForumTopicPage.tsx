@@ -99,6 +99,7 @@ export const ForumTopicPage: FC = () => {
           </div>
         }>
         <PixelInput
+          label="Message"
           value={newMessage}
           onChange={e => setNewMessage(e.target.value)}
         />
