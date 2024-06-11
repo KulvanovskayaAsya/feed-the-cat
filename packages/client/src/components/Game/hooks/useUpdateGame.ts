@@ -4,6 +4,7 @@ import {
   SetStateAction,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react'
 import {
@@ -48,12 +49,24 @@ export function useUpdateGame(
 ) {
   const [FPS, setFPS] = useState<number>(1)
   const [moving, setMoving] = useState<boolean>(true)
+  const boundariesRef = useRef<Boundary[]>([])
+  const enemiesRef = useRef<Boundary[]>([])
 
   // Функция для обновления игры с частотой около 60 кадров в секунду
   const update = useCallback(async (): Promise<void> => {
     const canvas: HTMLCanvasElement | null = canvasRef.current
-    const boundaries = await getBoundaries(currentLevel)
-    const enemies = await getEnemies(currentLevel)
+
+    if (boundariesRef.current.length === 0) {
+      boundariesRef.current = await getBoundaries(currentLevel)
+    }
+
+    const boundaries = boundariesRef.current
+
+    if (enemiesRef.current.length === 0) {
+      enemiesRef.current = await getEnemies(currentLevel)
+    }
+
+    const enemies = enemiesRef.current
 
     if (canvas && ctx) {
       clearGame(canvas, ctx)
