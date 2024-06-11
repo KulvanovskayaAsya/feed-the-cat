@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { PixelButton, PixelCard, PixelHeader } from '@/components'
 import smallCat from '@/assets/smallCat.png'
 import styles from './ForumPage.module.css'
-import { withAuth } from '@/utils/HOCs/withAuth'
 
 const fakeTopics = Array.from({ length: 5 }, (_, i) => ({
   id: i,
@@ -58,5 +57,3 @@ export const ForumPage: FC = () => {
     </Flex>
   )
 }
-
-export const ForumPageWithAuth = withAuth(ForumPage)

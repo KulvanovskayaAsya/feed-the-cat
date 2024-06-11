@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import { HTTPS } from './urls'
 
 export type Indexed<T = unknown> = {
@@ -6,28 +6,29 @@ export type Indexed<T = unknown> = {
 }
 
 export class BaseAPI {
-  a = axios.create()
-  extract = (v: unknown) => v
+  private a: AxiosInstance
+  private extract = <T>(v: T) => v
+
+  constructor() {
+    this.a = axios.create({
+      baseURL: HTTPS,
+      withCredentials: true,
+    })
+  }
 
   async get(url: string): Promise<any> {
-    return this.a
-      .get(`${HTTPS}${url}`, { withCredentials: true })
-      .then(this.extract)
+    return this.a.get(url).then(this.extract)
   }
 
   async post(url: string, data: Indexed): Promise<any> {
-    return this.a
-      .post(`${HTTPS}${url}`, data, { withCredentials: true })
-      .then(this.extract)
+    return this.a.post(url, data).then(this.extract)
   }
 
   async put(url: string, data: Indexed): Promise<any> {
-    return this.a
-      .put(`${HTTPS}${url}`, data, { withCredentials: true })
-      .then(this.extract)
+    return this.a.put(url, data).then(this.extract)
   }
 
   async delete(url: string, data: Indexed): Promise<any> {
-    return this.a.delete(`${HTTPS}${url}`, data).then(this.extract)
+    return this.a.delete(url, data).then(this.extract)
   }
 }

@@ -1,6 +1,7 @@
 import { useRoutes } from 'react-router-dom'
 import * as Pages from '../pages'
 import { BaseLayout } from '../layouts/BaseLayout'
+import { WithAuth } from '@/utils/HOCs'
 
 const routes = [
   {
@@ -13,29 +14,29 @@ const routes = [
       },
       {
         path: '/login',
-        element: <Pages.LoginPageWithAuth />,
+        element: <WithAuth Element={Pages.LoginPage} />,
       },
       {
         path: '/registration',
-        element: <Pages.RegistrationPageWithAuth />,
+        element: <WithAuth Element={Pages.RegistrationPage} />,
       },
-      { path: '/game', element: <Pages.GamePageWithAuth /> },
-      { path: '/profile', element: <Pages.ProfilePageWithAuth /> },
+      { path: '/game', element: <WithAuth Element={Pages.GamePage} /> },
+      { path: '/profile', element: <WithAuth Element={Pages.ProfilePage} /> },
       {
         path: '/leaderboard',
-        element: <Pages.LeaderboardPageWithAuth />,
+        element: <WithAuth Element={Pages.LeaderboardPage} />,
       },
       {
         path: '/forum',
-        element: <Pages.ForumPageWithAuth />,
+        element: <WithAuth Element={Pages.ForumPage} />,
       },
       {
         path: '/forum/topic/:topicId',
-        element: <Pages.ForumTopicPageWithAuth />,
+        element: <WithAuth Element={Pages.ForumTopicPage} />,
       },
       {
         path: '/forum/topic/create',
-        element: <Pages.ForumTopicCreationPageWithAuth />,
+        element: <WithAuth Element={Pages.ForumTopicCreationPage} />,
       },
       {
         path: '*',

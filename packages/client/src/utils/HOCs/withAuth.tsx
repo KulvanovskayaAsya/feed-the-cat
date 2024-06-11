@@ -1,38 +1,57 @@
-import React, { FC, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { FC, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { authController } from '../../controllers/auth'
+import { useAuthContext } from '@/context'
+import { Spin } from 'antd'
 
-export const withAuth = function (WrappedComponent: React.ComponentType): FC {
-  const WithAuthComponent: FC = () => {
-    const navigate = useNavigate()
-    const location = useLocation()
+export function WithAuth({ Element }: { Element: FC }): JSX.Element {
+  const navigate = useNavigate()
+  const { authData, setAuthData } = useAuthContext()
+  const [isLoadingUser, setIsLoadingUser] = useState(false)
 
-    let isAuth = false
-    const isLoginPage = ['/login', '/registration'].includes(location.pathname)
+  const isLoginPage = ['/login', '/registration'].includes(location.pathname)
 
-    useEffect(() => {
-      async function fetchUser() {
-        try {
-          await authController.getUser()
-          isAuth = true
-        } catch (e) {
-          isAuth = false
-        }
+  const getUser = async () => {
+    setIsLoadingUser(true)
+    try {
+      await authController.getUser()
+      setAuthData({ isAuth: true })
+      setIsLoadingUser(false)
 
-        if (!isAuth && !isLoginPage) {
-          navigate('/login')
-        }
-
-        if (isAuth && isLoginPage) {
-          navigate('/profile')
-        }
+      if (isLoginPage) {
+        navigate('/profile')
       }
+    } catch (e) {
+      setAuthData({ isAuth: false })
+      setIsLoadingUser(false)
 
-      fetchUser()
-    }, [])
-
-    return <WrappedComponent />
+      if (!isLoginPage) {
+        navigate('/login')
+      }
+    }
   }
 
-  return WithAuthComponent
+  const redirect = () => {
+    if (!authData.isAuth && !isLoginPage) {
+      navigate('/login')
+    }
+
+    if (authData.isAuth && isLoginPage) {
+      navigate('/profile')
+    }
+  }
+
+  useEffect(() => {
+    if (!authData.isAuth && !isLoadingUser) {
+      getUser()
+    }
+  }, [authData.isAuth])
+
+  useCallback(redirect, [location.pathname, authData.isAuth])
+
+  if (isLoadingUser) {
+    return <Spin spinning={isLoadingUser} fullscreen size={'large'} />
+  } else {
+    return <Element />
+  }
 }

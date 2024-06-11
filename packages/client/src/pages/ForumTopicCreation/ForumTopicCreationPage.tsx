@@ -3,7 +3,6 @@ import { FC, useState } from 'react'
 import { PixelButton, PixelHeader, PixelInput } from '@/components'
 import styles from './ForumTopicCreation.module.css'
 import { useNavigate } from 'react-router-dom'
-import { withAuth } from '@/utils/HOCs/withAuth'
 
 export const ForumTopicCreationPage: FC = () => {
   const navigate = useNavigate()
@@ -37,5 +36,3 @@ export const ForumTopicCreationPage: FC = () => {
     </Flex>
   )
 }
-
-export const ForumTopicCreationPageWithAuth = withAuth(ForumTopicCreationPage)

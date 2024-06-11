@@ -11,7 +11,6 @@ import {
 import smallCat from '@/assets/smallCat.png'
 import styles from './ForumTopicPage.module.css'
 import tokens from '../../../tokens.json'
-import { withAuth } from '@/utils/HOCs/withAuth'
 
 const topicData = {
   name: 'Topic Name',
@@ -109,5 +108,3 @@ export const ForumTopicPage: FC = () => {
     </Flex>
   )
 }
-
-export const ForumTopicPageWithAuth = withAuth(ForumTopicPage)

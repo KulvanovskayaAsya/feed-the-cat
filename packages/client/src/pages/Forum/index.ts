@@ -1,1 +1,1 @@
-export { ForumPage, ForumPageWithAuth } from './ForumPage'
+export { ForumPage } from './ForumPage'

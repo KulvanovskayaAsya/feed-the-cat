@@ -14,15 +14,15 @@ type FormField = {
 type PixelFormProps = {
   fields: FormField[]
   buttonText: string
-  onFinish?: FormProps<string>['onFinish']
-  onFinishFailed?: FormProps<string>['onFinishFailed']
+  onFinish?: FormProps<unknown>['onFinish']
+  onFinishFailed?: FormProps<unknown>['onFinishFailed']
 }
 
-const defaultOnFinish: FormProps<string>['onFinish'] = values => {
+const defaultOnFinish: FormProps<unknown>['onFinish'] = values => {
   console.log('Success:', values)
 }
 
-const defaultOnFinishFailed: FormProps<string>['onFinishFailed'] =
+const defaultOnFinishFailed: FormProps<unknown>['onFinishFailed'] =
   errorInfo => {
     console.log('Failed:', errorInfo)
   }
