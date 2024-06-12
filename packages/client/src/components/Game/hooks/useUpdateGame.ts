@@ -52,20 +52,20 @@ export function useUpdateGame(
   const boundariesRef = useRef<Boundary[]>([])
   const enemiesRef = useRef<Boundary[]>([])
 
-  // Функция для обновления игры с частотой около 60 кадров в секунду
-  const update = useCallback(async (): Promise<void> => {
-    const canvas: HTMLCanvasElement | null = canvasRef.current
-
-    if (boundariesRef.current.length === 0) {
+  // Хук для обновления массивов границ и врагов при изменении уровня
+  useEffect(() => {
+    const updateBoundariesAndEnemies = async () => {
       boundariesRef.current = await getBoundaries(currentLevel)
-    }
-
-    const boundaries = boundariesRef.current
-
-    if (enemiesRef.current.length === 0) {
       enemiesRef.current = await getEnemies(currentLevel)
     }
 
+    updateBoundariesAndEnemies().then()
+  }, [currentLevel])
+
+  // Функция для обновления игры с частотой около 60 кадров в секунду
+  const update = useCallback(async (): Promise<void> => {
+    const canvas: HTMLCanvasElement | null = canvasRef.current
+    const boundaries = boundariesRef.current
     const enemies = enemiesRef.current
 
     if (canvas && ctx) {
