@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
+import { PATHS } from '@/constants'
 
 export const HomePage: FC = () => {
   return (
@@ -9,28 +10,28 @@ export const HomePage: FC = () => {
       <nav style={{ background: 'white' }}>
         <ul>
           <li>
-            <Link to="/login">Login</Link>
+            <Link to={PATHS.LOGIN}>Login</Link>
           </li>
           <li>
-            <Link to="/registration">Registration</Link>
+            <Link to={PATHS.REGISTRATION}>Registration</Link>
           </li>
           <li>
-            <Link to="/profile">Profile</Link>
+            <Link to={PATHS.PROFILE}>Profile</Link>
           </li>
           <li>
-            <Link to="/game">Game</Link>
+            <Link to={PATHS.GAME}>Game</Link>
           </li>
           <li>
-            <Link to="/leaderboard">Leaderboard</Link>
+            <Link to={PATHS.LEADERBOARD}>Leaderboard</Link>
           </li>
           <li>
-            <Link to="/forum">Forum</Link>
+            <Link to={PATHS.FORUM}>Forum</Link>
           </li>
           <li>
-            <Link to="/forum/topic/1">Forum Topic</Link>
+            <Link to={PATHS.TOPIC('1')}>Forum Topic</Link>
           </li>
           <li>
-            <Link to="/forum/topic/create">Forum Topic Create</Link>
+            <Link to={PATHS.TOPIC_CREATE}>Forum Topic Create</Link>
           </li>
         </ul>
       </nav>
