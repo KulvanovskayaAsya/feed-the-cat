@@ -1,1 +1,1 @@
-export const HTTPS = 'https://ya-praktikum.tech/api/v2'
+export const YANDEX_API = 'https://ya-praktikum.tech/api/v2'

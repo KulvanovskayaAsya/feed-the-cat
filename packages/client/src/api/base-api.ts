@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import { HTTPS } from './urls'
+import { YANDEX_API } from './urls'
 
 export type Indexed<T = unknown> = {
   [key in string]: T
@@ -11,7 +11,7 @@ export class BaseAPI {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: HTTPS,
+      baseURL: YANDEX_API,
       withCredentials: true,
     })
   }
