@@ -2,10 +2,11 @@ import { useRoutes } from 'react-router-dom'
 import * as Pages from '../pages'
 import { BaseLayout } from '../layouts/BaseLayout'
 import { WithAuth } from '@/utils/HOCs'
+import { PATHS } from '@/constants'
 
 const routes = [
   {
-    path: '/',
+    path: PATHS.HOME,
     element: <BaseLayout />,
     children: [
       {
@@ -13,33 +14,36 @@ const routes = [
         element: <Pages.HomePage />,
       },
       {
-        path: '/login',
+        path: PATHS.LOGIN,
         element: <WithAuth Element={Pages.LoginPage} />,
       },
       {
-        path: '/registration',
+        path: PATHS.REGISTRATION,
         element: <WithAuth Element={Pages.RegistrationPage} />,
       },
-      { path: '/game', element: <WithAuth Element={Pages.GamePage} /> },
-      { path: '/profile', element: <WithAuth Element={Pages.ProfilePage} /> },
+      { path: PATHS.GAME, element: <WithAuth Element={Pages.GamePage} /> },
       {
-        path: '/leaderboard',
+        path: PATHS.PROFILE,
+        element: <WithAuth Element={Pages.ProfilePage} />,
+      },
+      {
+        path: PATHS.LEADERBOARD,
         element: <WithAuth Element={Pages.LeaderboardPage} />,
       },
       {
-        path: '/forum',
+        path: PATHS.FORUM,
         element: <WithAuth Element={Pages.ForumPage} />,
       },
       {
-        path: '/forum/topic/:topicId',
+        path: PATHS.TOPIC(false),
         element: <WithAuth Element={Pages.ForumTopicPage} />,
       },
       {
-        path: '/forum/topic/create',
+        path: PATHS.TOPIC_CREATE,
         element: <WithAuth Element={Pages.ForumTopicCreationPage} />,
       },
       {
-        path: '*',
+        path: PATHS.REST,
         element: <Pages.Error404Page />,
       },
     ],

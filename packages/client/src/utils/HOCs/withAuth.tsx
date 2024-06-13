@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { authController } from '../../controllers/auth'
 import { useAuthContext } from '@/context'
 import { Spin } from 'antd'
+import { PATHS } from '@/constants'
 
 export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   const navigate = useNavigate()
@@ -10,7 +11,9 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   const [isLoadingUser, setIsLoadingUser] = useState(false)
   const [isReadyRedirect, setIsReadyRedirect] = useState(false)
 
-  const isLoginPage = ['/login', '/registration'].includes(location.pathname)
+  const isLoginPage = [PATHS.LOGIN, PATHS.REGISTRATION].includes(
+    location.pathname
+  )
 
   const getUser = async () => {
     setIsLoadingUser(true)
@@ -32,27 +35,28 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
     }
 
     if (!authData.isAuth && !isLoginPage) {
-      navigate('/')
+      navigate(PATHS.HOME)
     }
 
     if (authData.isAuth && isLoginPage) {
-      navigate('/profile')
+      navigate(PATHS.PROFILE)
     }
   }
 
   useEffect(() => {
     if (!authData.isAuth && !isLoadingUser) {
       getUser()
-    } else {
-      setIsReadyRedirect(true)
+      return
     }
+
+    setIsReadyRedirect(true)
   }, [])
 
   useEffect(redirect, [isReadyRedirect])
 
   if (isLoadingUser) {
     return <Spin spinning={isLoadingUser} fullscreen size={'large'} />
-  } else {
-    return <Element />
   }
+
+  return <Element />
 }

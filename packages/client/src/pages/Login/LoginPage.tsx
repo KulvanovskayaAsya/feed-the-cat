@@ -7,7 +7,8 @@ import { Spin, notification } from 'antd'
 import { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext, AuthData } from '../../context'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import { PATHS } from '@/constants'
 
 const loginFields = [
   {
@@ -27,16 +28,15 @@ export const LoginPage: FC = () => {
   const [api, contextHolder] = notification.useNotification()
   const { setAuthData } = useAuthContext()
 
-  const [data, setData] = useState({
+  const [data, setData] = useState<SignInRequest>({
     password: '',
     login: '',
-  } as SignInRequest)
+  })
 
   const isChanged = useMemo(
     () =>
-      function (body: SignInRequest): boolean {
-        return !isEqual(body, data)
-      },
+      (body: SignInRequest): boolean =>
+        !isEqual(body, data),
     [data.login, data.password]
   )
 
@@ -48,14 +48,14 @@ export const LoginPage: FC = () => {
     setData(body)
 
     setIsLoading(true)
-    const res = await authController.signinUser(body as SignInRequest)
+    const response = await authController.signinUser(body as SignInRequest)
     setIsLoading(false)
-    if (res instanceof AxiosError && res.response?.data.reason) {
+    if (response instanceof AxiosError && response.response?.data.reason) {
       api.error({
-        message: res.response?.data.reason,
+        message: response.response.data.reason,
       })
 
-      if (res.response?.data.reason === 'User already in system') {
+      if (response.response?.data.reason === 'User already in system') {
         setAuthData((prevAuthData: AuthData) => {
           return { ...prevAuthData, isAuth: true }
         })
@@ -72,7 +72,7 @@ export const LoginPage: FC = () => {
       return { ...prevAuthData, isAuth: true }
     })
 
-    navigation('/profile')
+    navigation(PATHS.PROFILE)
   }
 
   return (
@@ -84,7 +84,7 @@ export const LoginPage: FC = () => {
         onFinish={values => onFinish(values as SignInRequest)}
       />
 
-      <Link to="/registration">No account yet?</Link>
+      <Link to={PATHS.REGISTRATION}>No account yet?</Link>
 
       <Spin spinning={isLoading} fullscreen size={'large'} />
     </div>

@@ -7,7 +7,8 @@ import { Spin, notification } from 'antd'
 import { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext, AuthData } from '../../context'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import { PATHS } from '@/constants'
 
 const registrationFields = [
   {
@@ -44,14 +45,14 @@ export const RegistrationPage: FC = () => {
   const [api, contextHolder] = notification.useNotification()
   const { setAuthData } = useAuthContext()
 
-  const [data, setData] = useState({
+  const [data, setData] = useState<SignUpRequest>({
     password: '',
     login: '',
     first_name: '',
     second_name: '',
     email: '',
     phone: '',
-  } as SignUpRequest)
+  })
 
   const isChanged = useMemo(
     () =>
@@ -93,7 +94,7 @@ export const RegistrationPage: FC = () => {
       return { ...prevAuthData, isAuth: true }
     })
 
-    navigation('/profile')
+    navigation(PATHS.PROFILE)
   }
   return (
     <div>
@@ -104,7 +105,7 @@ export const RegistrationPage: FC = () => {
         onFinish={values => onFinish(values as SignUpRequest)}
       />
 
-      <Link to="/login">Already have an account?</Link>
+      <Link to={PATHS.LOGIN}>Already have an account?</Link>
 
       <Spin spinning={isLoading} fullscreen size={'large'} />
     </div>
