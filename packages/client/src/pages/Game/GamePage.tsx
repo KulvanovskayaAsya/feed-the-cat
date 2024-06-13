@@ -23,11 +23,11 @@ const getOptions: () => OptionsType[] = () => {
 
 export const GamePage: FC = () => {
   // Выбор внешнего вида героя (1-ый вариант)
-  const [heroVariant, setHeroVariant] = useState<number>(1)
+  const [heroVariant, setHeroVariant] = useState(1)
   // Начало игры (false)
-  const [isGameStart, setIsGameStart] = useState<boolean>(false)
+  const [isGameStart, setIsGameStart] = useState(false)
   // Завершение игры (false)
-  const [isGameFinish, setIsGameFinish] = useState<boolean>(false)
+  const [isGameFinish, setIsGameFinish] = useState(false)
 
   // Игровой контекст и функция для установки игровых данных в игровой контекст
   const { gameData, setGameData } = useGameContext()
