@@ -36,7 +36,8 @@ export const PixelSelect = (props: PixelSelectProps & SelectProps) => {
         )}
         labelRender={({ label }) => (
           <span className={styles.selectLabel}>{label}</span>
-        )}></Select>
+        )}
+      />
     </div>
   )
 }

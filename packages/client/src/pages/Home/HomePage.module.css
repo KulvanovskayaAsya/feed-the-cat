@@ -1,28 +1,30 @@
-.homeWrapper {
-  max-width: 800px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 140px;
-  justify-content: center;
-}
+.home {
+  &-wrapper {
+    max-width: 800px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 140px;
+    justify-content: center;
+  }
 
-.homeHeader,
-.homeNav > ul {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+  &-header,
+  &-nav > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-.homeNav {
-  min-width: 500px;
-  align-self: center;
-}
+  &-nav {
+    min-width: 500px;
+    align-self: center;
+  }
 
-.homeH1 {
-  text-align: center;
-}
+  &-h1 {
+    text-align: center;
+  }
 
-.homeSubtitle {
-  background-color: $color-background;
+  &-subtitle {
+    background-color: $color-background;
+  }
 }

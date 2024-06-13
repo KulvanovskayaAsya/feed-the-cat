@@ -11,13 +11,15 @@
 
 .h1 {
   font-size: $font-header;
-  background-color: $color-background;
+  text-align: center;
 }
 
 .h2 {
   margin-bottom: 10px;
   font-size: $font-h2;
   text-align: center;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .image {
@@ -26,7 +28,6 @@
 
 .rules-wrapper {
   width: 50%;
-  background-color: $color-background;
 }
 
 .select {
@@ -42,7 +43,7 @@
   font-family: $font-family;
 }
 
-.fullWidth {
+.full-width {
   width: 800px;
 }
 
@@ -69,4 +70,8 @@
     max-width: 800px;
     background-color: $color-background;
   }
+}
+
+.with-background-color {
+  background-color: $color-background;
 }

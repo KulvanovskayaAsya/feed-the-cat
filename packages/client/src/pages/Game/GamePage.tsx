@@ -12,6 +12,8 @@ import { initialGameData, useGameContext } from '@/context'
 import { Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { HEROES } from '@/components/Game/data'
+import { classNames } from '@/utils'
+
 // Тип опции для компонента Select
 type OptionsType = { value: string; label: string }
 
@@ -30,7 +32,12 @@ interface RulesProps {
 }
 const RulesComponent: FC<RulesProps> = ({ isFullWidth }: RulesProps) => {
   return (
-    <div className={`${cls.rulesWrapper} ${isFullWidth ? cls.fullWidth : ''}`}>
+    <div
+      className={classNames(
+        cls.rulesWrapper,
+        { [cls.fullWidth]: isFullWidth },
+        [cls.withBackgroundColor]
+      )}>
       <h2 className={cls.h2}>Rules of the game</h2>
       <ul>
         <li>1 Control the cat using the arrow buttons on your keyboard.</li>
@@ -71,7 +78,7 @@ export const GamePage: FC = () => {
   return (
     <>
       <header className={cls.header}>
-        <PixelHeader>
+        <PixelHeader className={cls.withBackgroundColor}>
           FEED THE <img className={cls.image} src={smallCat} alt="cat" /> CAT
         </PixelHeader>
       </header>
@@ -100,15 +107,21 @@ export const GamePage: FC = () => {
 
         {isGameFinish && (
           <>
-            {gameData.isWin && (
-              <h1 className={cls.h1}>CONGRATULATIONS ON YOUR VICTORY!</h1>
-            )}
             {!gameData.isWin && (
-              <h1 className={cls.h1}>LOSE THE GAME, DON'T BE UPSET!</h1>
+              <h1 className={classNames(cls.h1, {}, [cls.withBackgroundColor])}>
+                CONGRATULATIONS ON YOUR VICTORY!
+              </h1>
+            )}
+            {gameData.isWin && (
+              <h1 className={classNames(cls.h1, {}, [cls.withBackgroundColor])}>
+                LOSE THE GAME, DON'T BE UPSET!
+              </h1>
             )}
 
             <div className={cls.space}>
-              <h2 className={cls.h2}>Game results</h2>
+              <h2 className={classNames(cls.h2, {}, [cls.withBackgroundColor])}>
+                Game results
+              </h2>
 
               <Space
                 direction="vertical"
