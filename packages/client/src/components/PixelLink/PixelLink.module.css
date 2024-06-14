@@ -1,0 +1,29 @@
+.link-wrapper {
+  position: relative;
+  background-color: $color-light;
+  font-family: $font-family;
+  height: calc($button-height - 2 * $border-size);
+  margin: 10px;
+  text-align: center;
+  transition: all 0.3s;
+
+  &:hover {
+    scale: 1.03;
+    box-shadow: 15px 15px 15px 0 $color-gray;
+    color: $color-accent !important;
+  }
+}
+
+.link {
+  width: 100%;
+  display: block;
+  border: none;
+  border-radius: 0;
+  font-family: $font-family;
+  font-size: $font-button;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $color-accent;
+  line-height: calc($button-height - 2 * $border-size);
+}

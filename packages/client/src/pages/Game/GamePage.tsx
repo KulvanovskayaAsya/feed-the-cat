@@ -1,11 +1,18 @@
 import { FC, useEffect, useState } from 'react'
 import cls from './GamePage.module.css'
-import { Game, PixelHeader } from '@/components'
+import {
+  Game,
+  PixelHeader,
+  PixelSelect,
+  PixelButton,
+  PixelLink,
+} from '@/components'
 import smallCat from '@/assets/smallCat.png'
 import { initialGameData, useGameContext } from '@/context'
-import { Button, Card, Select } from 'antd'
+import { Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { HEROES } from '@/components/Game/data'
+import { classNames } from '@/utils'
 
 // Тип опции для компонента Select
 type OptionsType = { value: string; label: string }
@@ -19,6 +26,27 @@ const getOptions: () => OptionsType[] = () => {
   }
 
   return optionsArray
+}
+interface RulesProps {
+  isFullWidth?: boolean
+}
+const RulesComponent: FC<RulesProps> = ({ isFullWidth }: RulesProps) => {
+  return (
+    <div
+      className={classNames(
+        cls.rulesWrapper,
+        { [cls.fullWidth]: isFullWidth },
+        [cls.withBackgroundColor]
+      )}>
+      <h2 className={cls.h2}>Rules of the game</h2>
+      <ul>
+        <li>1 Control the cat using the arrow buttons on your keyboard.</li>
+        <li>2 Find all the goodies during the game.</li>
+        <li>3 Avoid meeting enemies.</li>
+        <li>4 Good game!</li>
+      </ul>
+    </div>
+  )
 }
 
 export const GamePage: FC = () => {
@@ -50,7 +78,7 @@ export const GamePage: FC = () => {
   return (
     <>
       <header className={cls.header}>
-        <PixelHeader>
+        <PixelHeader className={cls.withBackgroundColor}>
           FEED THE <img className={cls.image} src={smallCat} alt="cat" /> CAT
         </PixelHeader>
       </header>
@@ -58,14 +86,20 @@ export const GamePage: FC = () => {
       <main>
         {!isGameStart && !isGameFinish && (
           <>
-            <Select
-              className={cls.select}
-              defaultValue={String(heroVariant)}
-              onChange={(value: string) => setHeroVariant(Number(value))}
-              options={getOptions()}
-            />
+            <RulesComponent isFullWidth />
 
-            <Button onClick={() => setIsGameStart(true)}>Start game</Button>
+            <div className={cls.buttons}>
+              <PixelSelect
+                defaultValue={String(heroVariant)}
+                onChange={(value: string) => setHeroVariant(Number(value))}
+                options={getOptions()}
+              />
+
+              <PixelButton onClick={() => setIsGameStart(true)}>
+                START GAME
+              </PixelButton>
+              <PixelLink to="/">MAIN MENU</PixelLink>
+            </div>
           </>
         )}
 
@@ -74,47 +108,51 @@ export const GamePage: FC = () => {
         {isGameFinish && (
           <>
             {gameData.isWin && (
-              <h2 className={cls.h2}>Congratulations on your victory!</h2>
+              <h1 className={classNames(cls.h1, {}, [cls.withBackgroundColor])}>
+                CONGRATULATIONS ON YOUR VICTORY!
+              </h1>
             )}
             {!gameData.isWin && (
-              <p className={cls.message}>Lose the game, don't be upset!</p>
+              <h1 className={classNames(cls.h1, {}, [cls.withBackgroundColor])}>
+                LOSE THE GAME, DON'T BE UPSET!
+              </h1>
             )}
 
-            <Card className={cls.card}>
-              <h2 className={cls.h2}>Game results</h2>
-              <p>Scores: {gameData.scores}</p>
-              <p>Level: {gameData.level}</p>
-              <p>Time: {gameData.time}</p>
-              <p>Lives: {gameData.life}</p>
-            </Card>
+            <div className={cls.space}>
+              <h2 className={classNames(cls.h2, {}, [cls.withBackgroundColor])}>
+                Game results
+              </h2>
 
-            <Button
-              onClick={() => {
-                setIsGameStart(false)
-                setIsGameFinish(false)
-              }}>
-              Play again
-            </Button>
+              <Space
+                direction="vertical"
+                size="small"
+                align={'start'}
+                className={cls.spaceScore}>
+                <p>Scores: {gameData.scores}</p>
+                <p>Level: {gameData.level}</p>
+                <p>Time: {gameData.time}</p>
+                <p>Lives: {gameData.life}</p>
+              </Space>
 
-            <Button onClick={() => navigate('/')}>Main menu</Button>
+              <div className={cls.buttons}>
+                <PixelButton
+                  onClick={() => {
+                    setIsGameStart(false)
+                    setIsGameFinish(false)
+                  }}>
+                  PLAY AGAIN
+                </PixelButton>
+
+                <PixelLink to="/">MAIN MENU</PixelLink>
+              </div>
+            </div>
           </>
         )}
       </main>
 
       {isGameStart && (
         <footer className={cls.footer}>
-          <div className={cls.footerWrapper}>
-            <h2 className={cls.h2}>Rules of the game</h2>
-
-            <ul>
-              <li>
-                1 Control the cat using the arrow buttons on your keyboard.
-              </li>
-              <li>2 Find all the goodies during the game.</li>
-              <li>3 Avoid meeting enemies.</li>
-              <li>4 Good game!</li>
-            </ul>
-          </div>
+          <RulesComponent />
         </footer>
       )}
     </>
