@@ -107,12 +107,12 @@ export const GamePage: FC = () => {
 
         {isGameFinish && (
           <>
-            {!gameData.isWin && (
+            {gameData.isWin && (
               <h1 className={classNames(cls.h1, {}, [cls.withBackgroundColor])}>
                 CONGRATULATIONS ON YOUR VICTORY!
               </h1>
             )}
-            {gameData.isWin && (
+            {!gameData.isWin && (
               <h1 className={classNames(cls.h1, {}, [cls.withBackgroundColor])}>
                 LOSE THE GAME, DON'T BE UPSET!
               </h1>

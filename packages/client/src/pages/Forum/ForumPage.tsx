@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { PixelButton, PixelCard, PixelHeader } from '@/components'
 import smallCat from '@/assets/smallCat.png'
 import styles from './ForumPage.module.css'
+import { PATHS } from '@/constants'
 
 const fakeTopics = Array.from({ length: 5 }, (_, i) => ({
   id: i,
@@ -13,8 +14,8 @@ const fakeTopics = Array.from({ length: 5 }, (_, i) => ({
 
 export const ForumPage: FC = () => {
   const navigate = useNavigate()
-  const handleCreate = () => navigate('/forum/topic/create')
-  const handleSelect = (id: number) => navigate('/forum/topic/' + id)
+  const handleCreate = () => navigate(PATHS.TOPIC_CREATE)
+  const handleSelect = (id: number) => navigate(PATHS.TOPIC(String(id)))
 
   return (
     <Flex

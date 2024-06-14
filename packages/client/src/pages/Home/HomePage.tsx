@@ -1,10 +1,9 @@
 import { FC } from 'react'
-import { Link } from 'react-router-dom'
 import styles from './HomePage.module.css'
-import { Space } from 'antd'
 import { PixelHeader } from '@/components'
 import smallCat from '@/assets/smallCat.png'
 import { PixelLink } from '@/components'
+import { PATHS } from '@/constants'
 
 export const HomePage: FC = () => {
   return (
@@ -27,16 +26,16 @@ export const HomePage: FC = () => {
         <nav className={styles.homeNav}>
           <ul>
             <li>
-              <PixelLink to="/game">Game</PixelLink>
+              <PixelLink to={PATHS.GAME}>Game</PixelLink>
             </li>
             <li>
-              <PixelLink to="/profile">Profile</PixelLink>
+              <PixelLink to={PATHS.PROFILE}>Profile</PixelLink>
             </li>
             <li>
-              <PixelLink to="/forum">Forum</PixelLink>
+              <PixelLink to={PATHS.FORUM}>Forum</PixelLink>
             </li>
             <li>
-              <PixelLink to="/leaderboard">Leaderboard</PixelLink>
+              <PixelLink to={PATHS.LEADERBOARD}>Leaderboard</PixelLink>
             </li>
           </ul>
         </nav>

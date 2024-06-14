@@ -1,11 +1,18 @@
 @import 'styles/reset.css';
 @import 'styles/fonts.css';
 
+:root {
+  --color-background: #f0d8c8;
+  --color-default: #9a909e;
+  --color-error: #ff5b5b;
+  --color-focus: #141414;
+
+  --font-family: 'VT323', monospace;
+}
 html,
 body {
-  font-family: $font-family;
-  font-size: $font-body;
-  color: $color-accent;
+  background-color: var(--color-background);
+  font-family: var(--font-family);
   height: 100%;
 }
 

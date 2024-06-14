@@ -4,10 +4,11 @@ import cls from './Error404Page.module.css'
 import { PixelButton, PixelCard, PixelHeader } from '@/components'
 import smallCat from '@/assets/smallCat.png'
 import { useNavigate } from 'react-router-dom'
+import { PATHS } from '@/constants'
 
 export const Error404Page: FC = () => {
   const navigate = useNavigate()
-  const handleClick = () => navigate('/')
+  const handleClick = () => navigate(PATHS.HOME)
 
   return (
     <Flex align="center" justify="center" vertical>

@@ -1,0 +1,17 @@
+.page {
+  flex: 1;
+  padding: 8px 0;
+}
+
+.row {
+  font-size: 32px;
+  align-items: baseline;
+}
+
+.row > *:last-child {
+  margin-left: auto;
+}
+
+.current-user-row {
+  background-color: #eb94eb;
+}
