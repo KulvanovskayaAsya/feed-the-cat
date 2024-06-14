@@ -48,39 +48,12 @@ self.addEventListener('activate', event => {
 
 // Событие 'fetch' для запросов на сервер
 self.addEventListener('fetch', event => {
-  //   // Check if this is a navigation request
-  //   if (event.request.mode === 'navigate') {
-  //     // Open the cache
-  //     event.respondWith(
-  //       caches.open(CACHE_NAME).then(cache => {
-  //         // Go to the network first
-  //         return fetch(event.request.url)
-  //           .then(fetchedResponse => {
-  //             cache.put(event.request, fetchedResponse.clone()).then()
-  //
-  //             return fetchedResponse
-  //           })
-  //           .catch(() => {
-  //             // If the network is unavailable, get
-  //             return cache.match(event.request.url)
-  //           })
-  //       })
-  //     )
-  //   }
-  // })
-
   event.respondWith(
-    // Пытаемся найти ответ на такой запрос в кеше
-    caches.match(event.request).then(response => {
-      // Если ответ найден, выдаём его
-      if (response) {
-        return response
-      }
-
-      const fetchRequest = event.request.clone()
-      // В противном случае делаем запрос на сервер
+    // Получаем доступ к кешу по CACHE_NAME
+    caches.open(CACHE_NAME).then(cache => {
       return (
-        fetch(fetchRequest)
+        // Сначала делаем запрос на сервер
+        fetch(event.request.clone())
           // Можно задавать дополнительные параметры запроса, если ответ вернулся некорректный.
           .then(response => {
             // Если что-то пошло не так, выдаём в основной поток результат, но не кладём его в кеш
@@ -93,13 +66,20 @@ self.addEventListener('fetch', event => {
             }
 
             const responseToCache = response.clone()
-            // Получаем доступ к кешу по CACHE_NAME
-            caches.open(CACHE_NAME).then(cache => {
-              // Записываем в кеш ответ, используя в качестве ключа запрос
-              cache.put(event.request, responseToCache).then()
-            })
+            // Записываем в кеш ответ, используя в качестве ключа запрос
+            cache.put(event.request, responseToCache).then()
             // Отдаём в основной поток ответ
             return response
+          })
+          // Если сеть недоступна, то ищем ответ в кэше
+          .catch(() => {
+            // Пытаемся найти ответ на такой запрос в кеше
+            return cache.match(event.request).then(response => {
+              // Если ответ найден, выдаём его
+              if (response) {
+                return response
+              }
+            })
           })
       )
     })
