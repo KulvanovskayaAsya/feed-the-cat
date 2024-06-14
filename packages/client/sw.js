@@ -11,7 +11,7 @@ const URLS = [
   '/game',
   '/leaderboard',
   '/forum',
-  '/forum/topic/1',
+  '/forum/topic',
   '/forum/topic/create',
 ]
 
@@ -28,21 +28,6 @@ self.addEventListener('install', event => {
         console.log(err)
         throw err
       })
-  )
-})
-
-// Поведение SW на стадии жизненного цикла 'activate'
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames
-          .filter(name => {
-            /* Нужно вернуть true, если хотите удалить этот файл из кеша совсем */
-          })
-          .map(name => caches.delete(name))
-      )
-    })
   )
 })
 
