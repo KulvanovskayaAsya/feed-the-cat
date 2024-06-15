@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './Game.css'
 import { getGameTime } from './utils'
 import { type GameData, useGameContext } from '@/context'
@@ -24,7 +24,7 @@ export const Game = (props: GameProps): JSX.Element => {
   const { width = 800, height = 600, heroVariant = 2 } = props
 
   // Ссылка на холст
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   // Нажатая и последняя нажатая клавишы
   const { pressedKey, lastKey } = usePressedAndLastKey()
@@ -119,7 +119,7 @@ export const Game = (props: GameProps): JSX.Element => {
     }
   }, [isWinGame])
 
-  useFullscreen(canvasRef as MutableRefObject<HTMLCanvasElement>)
+  useFullscreen(canvasRef)
 
   return (
     <canvas

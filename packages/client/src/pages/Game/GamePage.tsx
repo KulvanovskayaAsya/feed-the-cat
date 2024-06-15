@@ -42,7 +42,7 @@ const RulesComponent: FC<RulesProps> = ({ isFullWidth }: RulesProps) => {
       <ul>
         <li>
           1 Control the cat using the arrow buttons on your keyboard. To
-          activate fullscreen mode press "Enter"
+          activate or deactivate fullscreen mode press "Enter"
         </li>
         <li>2 Find all the goodies during the game.</li>
         <li>3 Avoid meeting enemies.</li>

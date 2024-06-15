@@ -1,7 +1,7 @@
 import { MutableRefObject, useEffect } from 'react'
 
 export const useFullscreen = (
-  ref: MutableRefObject<Element>,
+  ref: MutableRefObject<Element | null>,
   fullscreenKey = 'Enter'
 ) => {
   const toggleFullScreen = () => {
