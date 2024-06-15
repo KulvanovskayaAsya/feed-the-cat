@@ -9,32 +9,6 @@
   margin-bottom: 20px;
 }
 
-.h1 {
-  font-size: $font-header;
-}
-
-.h2 {
-  margin-bottom: 10px;
-  font-size: $font-h2;
-  text-align: center;
-}
-
-.image {
-  margin-bottom: 15px;
-}
-
 .footer-wrapper {
   width: 50%;
-}
-
-.select {
-  width: 120px;
-}
-
-.message {
-  font-size: $font-header;
-}
-
-.card {
-  background-color: $color-light;
 }

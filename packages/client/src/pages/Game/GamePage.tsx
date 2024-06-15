@@ -1,51 +1,33 @@
-import { FC, useEffect, useState } from 'react'
-import cls from './GamePage.module.css'
-import { Game, PixelHeader } from '@/components'
-import smallCat from '@/assets/smallCat.png'
-import { initialGameData, useGameContext } from '@/context'
-import { Button, Card, Select } from 'antd'
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { HEROES } from '@/components/Game/data'
 
-// Тип опции для компонента Select
-type OptionsType = { value: string; label: string }
+import { GameStart } from '@/components/Game/GameStart'
+import { GameEnd } from '@/components/Game/GameEnd'
+import { Typography } from 'antd'
+import { Game, PixelHeader, PixelModal } from '@/components'
+import { useGameLogic } from '@/components/Game/hooks/useGameState'
 
-// Функция для генерирования массива опций для компонента Select, определяющих внешний вид героя
-const getOptions: () => OptionsType[] = () => {
-  const optionsArray: OptionsType[] = []
+import smallCat from '@/assets/smallCat.png'
+import cls from './GamePage.module.css'
 
-  for (let i = 1; i <= HEROES; i++) {
-    optionsArray.push({ value: String(i), label: `${i} variant` })
-  }
-
-  return optionsArray
-}
+const { Title } = Typography
 
 export const GamePage: FC = () => {
-  // Выбор внешнего вида героя (1-ый вариант)
-  const [heroVariant, setHeroVariant] = useState(1)
-  // Начало игры (false)
-  const [isGameStart, setIsGameStart] = useState(false)
-  // Завершение игры (false)
-  const [isGameFinish, setIsGameFinish] = useState(false)
+  const {
+    isGameStart,
+    isGameFinish,
+    heroVariant,
+    gameData,
+    startGame,
+    playAgain,
+    handleCarouselChange,
+  } = useGameLogic()
 
-  // Игровой контекст и функция для установки игровых данных в игровой контекст
-  const { gameData, setGameData } = useGameContext()
-  // Программная навигация
   const navigate = useNavigate()
 
-  // Начальная инициализация страницы с игрой
-  useEffect(() => {
-    setGameData(initialGameData)
-  }, [window.location.pathname])
-
-  // Эффект для завершения игры
-  useEffect(() => {
-    if (gameData.isWin === true || gameData.isWin === false) {
-      setIsGameFinish(true)
-      setIsGameStart(false)
-    }
-  }, [gameData])
+  const mainMenu = () => {
+    navigate('/')
+  }
 
   return (
     <>
@@ -57,54 +39,33 @@ export const GamePage: FC = () => {
 
       <main>
         {!isGameStart && !isGameFinish && (
-          <>
-            <Select
-              className={cls.select}
-              defaultValue={String(heroVariant)}
-              onChange={(value: string) => setHeroVariant(Number(value))}
-              options={getOptions()}
+          <PixelModal open={true}>
+            <GameStart
+              onStartGame={startGame}
+              onCarouselChange={handleCarouselChange}
             />
-
-            <Button onClick={() => setIsGameStart(true)}>Start game</Button>
-          </>
+          </PixelModal>
         )}
 
         {isGameStart && <Game heroVariant={heroVariant} />}
 
         {isGameFinish && (
-          <>
-            {gameData.isWin && (
-              <h2 className={cls.h2}>Congratulations on your victory!</h2>
-            )}
-            {!gameData.isWin && (
-              <p className={cls.message}>Lose the game, don't be upset!</p>
-            )}
-
-            <Card className={cls.card}>
-              <h2 className={cls.h2}>Game results</h2>
-              <p>Scores: {gameData.scores}</p>
-              <p>Level: {gameData.level}</p>
-              <p>Time: {gameData.time}</p>
-              <p>Lives: {gameData.life}</p>
-            </Card>
-
-            <Button
-              onClick={() => {
-                setIsGameStart(false)
-                setIsGameFinish(false)
-              }}>
-              Play again
-            </Button>
-
-            <Button onClick={() => navigate('/')}>Main menu</Button>
-          </>
+          <PixelModal open={true}>
+            <GameEnd
+              gameData={gameData}
+              onPlayAgain={playAgain}
+              onMainMenu={mainMenu}
+            />
+          </PixelModal>
         )}
       </main>
 
       {isGameStart && (
         <footer className={cls.footer}>
           <div className={cls.footerWrapper}>
-            <h2 className={cls.h2}>Rules of the game</h2>
+            <Title level={2} className={cls.h2}>
+              Rules of the game
+            </Title>
 
             <ul>
               <li>
