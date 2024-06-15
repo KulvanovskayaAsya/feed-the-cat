@@ -8,6 +8,6 @@ export const drawLife = (
   FPS: number
 ): void => {
   for (let i = 0; i < life; i++) {
-    lifeArray[i].draw(ctx, FPS)
+    lifeArray[i]?.draw(ctx, FPS)
   }
 }

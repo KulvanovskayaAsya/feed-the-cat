@@ -1,25 +1,14 @@
 import { mapWidth } from './consts'
 
-const enemy = [
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 1039, 1039, 1039, 1039, 1039, 1039, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 1039, 0, 0, 0, 0, 1039, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1039,
-  0, 0, 0, 0, 1039, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1039, 0, 0, 0, 0,
-  1039, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1039, 0, 0, 0, 0, 1039, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1039, 0, 0, 0, 0, 1039, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 1039, 1039, 1039, 1039, 1039, 1039, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-]
+export async function getEnemyMap(level: number): Promise<number[][]> {
+  type enemyType = { enemy: number[] }
+  const levelEnemy: enemyType = await import(`./levels/${level}/enemy.ts`)
 
-const enemyMap: number[][] = []
+  const enemyMap: number[][] = []
 
-for (let i = 0; i < enemy.length; i += mapWidth) {
-  enemyMap.push(enemy.slice(i, mapWidth + i))
+  for (let i = 0; i < levelEnemy.enemy.length; i += mapWidth) {
+    enemyMap.push(levelEnemy.enemy.slice(i, mapWidth + i))
+  }
+
+  return enemyMap
 }
-
-export { enemyMap }

@@ -1,37 +1,32 @@
 import { type MutableRefObject, useCallback, useEffect, useState } from 'react'
 import { clearGame, loadTexture } from '../utils'
 import {
-  heroMap,
-  foodMap,
-  enemyMap,
+  getHeroMap,
+  getFoodMap,
+  getEnemyMap,
   boundaryWidth,
   boundaryHeight,
   HERO,
-  CHICKEN,
-  HOTDOG,
-  PIZZA,
+  SMALL_FOOD,
+  MEDIUM_FOOD,
+  BIG_FOOD,
   ENEMY,
+  FOOD,
+  EXTRA_FOOD,
 } from '../data'
 import { type Coords, Food, Sprite, Background } from '../classes'
-import levelImage from '../../../assets/level.png'
-import foregroundImage from '../../../assets/foregroundObjects.png'
-import heroUpImage from '../../../assets/heroUp.png'
-import heroDownImage from '../../../assets/heroDown.png'
-import heroLeftImage from '../../../assets/heroLeft.png'
-import heroRightImage from '../../../assets/heroRight.png'
-import chickenImage from '../../../assets/chicken.png'
-import hotdogImage from '../../../assets/hotdog.png'
-import pizzaImage from '../../../assets/pizza.png'
-import enemyUpImage from '../../../assets/enemyUp.png'
-import enemyDownImage from '../../../assets/enemyDown.png'
-import enemyLeftImage from '../../../assets/enemyLeft.png'
-import enemyRightImage from '../../../assets/enemyRight.png'
-import lifeImage from '../../../assets/life.png'
+import enemyUpImage from '@/assets/enemyUp.png'
+import enemyDownImage from '@/assets/enemyDown.png'
+import enemyLeftImage from '@/assets/enemyLeft.png'
+import enemyRightImage from '@/assets/enemyRight.png'
+import lifeImage from '@/assets/life.png'
 
 // Хук для начальной инициализации игры
 export function useRunGame(
   canvasRef: MutableRefObject<HTMLCanvasElement | null>,
-  life: number
+  life: number,
+  currentLevel: number,
+  heroVariant: number
 ) {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
 
@@ -40,39 +35,60 @@ export function useRunGame(
   const [hero, setHero] = useState<Sprite | null>(null)
   const [heroInitCoords, setHeroInitCoords] = useState<Coords | null>(null)
   const [foodArray, setFoodArray] = useState<Array<Food>>([])
+  const [extraFoodArray, setExtraFoodArray] = useState<Array<Food>>([])
   const [enemy, setEnemy] = useState<Sprite | null>(null)
   const [lifeArray, setLifeArray] = useState<Array<Sprite>>([])
 
   // Функция для начальной инициализации игры
   const run = useCallback(
     async (canvas: HTMLCanvasElement): Promise<void> => {
-      const levelImg = await loadTexture(levelImage)
-      const foregroundImg = await loadTexture(foregroundImage)
-      const heroUpImg = await loadTexture(heroUpImage)
-      const heroDownImg = await loadTexture(heroDownImage)
-      const heroLeftImg = await loadTexture(heroLeftImage)
-      const heroRightImg = await loadTexture(heroRightImage)
-      const chickenImg = await loadTexture(chickenImage)
-      const hotdogImg = await loadTexture(hotdogImage)
-      const pizzaImg = await loadTexture(pizzaImage)
-      const enemyUpImg = await loadTexture(enemyUpImage)
-      const enemyDownImg = await loadTexture(enemyDownImage)
-      const enemyLeftImg = await loadTexture(enemyLeftImage)
-      const enemyRightImg = await loadTexture(enemyRightImage)
-      const lifeImg = await loadTexture(lifeImage)
+      const foodImgArray: HTMLImageElement[] = []
 
+      const levelImg = await loadTexture(
+        `src/assets/levels/${currentLevel}/level.png`
+      )
       const levelBackground = new Background({
         position: { x: 0, y: 0 },
         image: levelImg,
       })
       setLevel(levelBackground)
 
+      const foregroundImg = await loadTexture(
+        `src/assets/levels/${currentLevel}/foregroundObjects.png`
+      )
       const foreground = new Background({
         position: { x: 0, y: 0 },
         image: foregroundImg,
       })
       setForeground(foreground)
 
+      const heroUpImg = await loadTexture(
+        `./src/assets/heroes/${heroVariant}/heroUp.png`
+      )
+      const heroDownImg = await loadTexture(
+        `./src/assets/heroes/${heroVariant}/heroDown.png`
+      )
+      const heroLeftImg = await loadTexture(
+        `./src/assets/heroes/${heroVariant}/heroLeft.png`
+      )
+      const heroRightImg = await loadTexture(
+        `./src/assets/heroes/${heroVariant}/heroRight.png`
+      )
+
+      for (let i = 1; i <= FOOD; i++) {
+        const foodImg = await loadTexture(
+          `src/assets/levels/${currentLevel}/food/${i}.png`
+        )
+        foodImgArray.push(foodImg)
+      }
+
+      const enemyUpImg = await loadTexture(enemyUpImage)
+      const enemyDownImg = await loadTexture(enemyDownImage)
+      const enemyLeftImg = await loadTexture(enemyLeftImage)
+      const enemyRightImg = await loadTexture(enemyRightImage)
+      const lifeImg = await loadTexture(lifeImage)
+
+      const heroMap: number[][] = await getHeroMap(currentLevel)
       const heroArray: Sprite[] = []
 
       heroMap.forEach((row: number[], i: number) => {
@@ -110,50 +126,72 @@ export function useRunGame(
         y: heroArray[0].position.y,
       })
 
+      const foodMap: number[][] = await getFoodMap(currentLevel)
       const foodArr: Food[] = []
+      const extraFoodArr: Food[] = []
 
       foodMap.forEach((row: number[], i: number) => {
         row.forEach((symbol: number, j: number) => {
-          if (symbol === CHICKEN) {
-            const chicken = new Food({
+          if (symbol === SMALL_FOOD) {
+            const image = foodImgArray[0]
+
+            const smallFood = new Food({
               position: {
-                x: j * boundaryWidth + (boundaryWidth - chickenImg.width) / 2,
-                y:
-                  i * boundaryHeight + (boundaryHeight - chickenImg.height) / 2,
+                x: j * boundaryWidth + (boundaryWidth - image.width) / 2,
+                y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
-              image: chickenImg,
-              score: 100,
+              image,
+              score: 100 * currentLevel,
             })
 
-            foodArr.push(chicken)
-          } else if (symbol === HOTDOG) {
-            const hotdog = new Food({
+            foodArr.push(smallFood)
+          } else if (symbol === MEDIUM_FOOD) {
+            const image = foodImgArray[1]
+
+            const mediumFood = new Food({
               position: {
-                x: j * boundaryWidth + (boundaryWidth - hotdogImg.width) / 2,
-                y: i * boundaryHeight + (boundaryHeight - hotdogImg.height) / 2,
+                x: j * boundaryWidth + (boundaryWidth - image.width) / 2,
+                y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
-              image: hotdogImg,
-              score: 200,
+              image,
+              score: 200 * currentLevel,
             })
 
-            foodArr.push(hotdog)
-          } else if (symbol === PIZZA) {
-            const pizza = new Food({
+            foodArr.push(mediumFood)
+          } else if (symbol === BIG_FOOD) {
+            const image = foodImgArray[2]
+
+            const bigFood = new Food({
               position: {
-                x: j * boundaryWidth + (boundaryWidth - pizzaImg.width) / 2,
-                y: i * boundaryHeight + (boundaryHeight - pizzaImg.height) / 2,
+                x: j * boundaryWidth + (boundaryWidth - image.width) / 2,
+                y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
-              image: pizzaImg,
-              score: 300,
+              image,
+              score: 300 * currentLevel,
             })
 
-            foodArr.push(pizza)
+            foodArr.push(bigFood)
+          } else if (symbol === EXTRA_FOOD) {
+            const image = foodImgArray[3]
+
+            const extraFood = new Food({
+              position: {
+                x: j * boundaryWidth + (boundaryWidth - image.width) / 2,
+                y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
+              },
+              image,
+              score: 400 * currentLevel,
+            })
+
+            extraFoodArr.push(extraFood)
           }
         })
       })
 
       setFoodArray(foodArr)
+      setExtraFoodArray(extraFoodArr)
 
+      const enemyMap: number[][] = await getEnemyMap(currentLevel)
       const enemyArray: Sprite[] = []
 
       enemyMap.forEach((row: number[], i: number) => {
@@ -213,6 +251,8 @@ export function useRunGame(
       setFoodArray,
       setEnemy,
       setLifeArray,
+      currentLevel,
+      heroVariant,
     ]
   )
 
@@ -225,7 +265,7 @@ export function useRunGame(
       clearGame(canvas, ctx)
       run(canvas).then()
     }
-  }, [canvasRef, ctx])
+  }, [canvasRef, ctx, currentLevel])
 
   return {
     ctx,
@@ -235,6 +275,7 @@ export function useRunGame(
     heroInitCoords,
     foodArray,
     setFoodArray,
+    extraFoodArray,
     enemy,
     lifeArray,
   }

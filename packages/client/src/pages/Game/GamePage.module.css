@@ -26,3 +26,15 @@
 .footer-wrapper {
   width: 50%;
 }
+
+.select {
+  width: 120px;
+}
+
+.message {
+  font-size: $font-header;
+}
+
+.card {
+  background-color: $color-light;
+}

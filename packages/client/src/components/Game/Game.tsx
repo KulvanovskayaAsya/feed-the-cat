@@ -1,23 +1,26 @@
 import { useEffect, useRef, useState } from 'react'
 import './Game.css'
 import { getGameTime } from './utils'
-import { type GameData, useGameContext } from '../../context'
+import { type GameData, useGameContext } from '@/context'
 import {
   useIsWin,
   usePressedAndLastKey,
   useRunGame,
   useTime,
   useUpdateGame,
+  useUpdateLevel,
 } from './hooks'
+import { LEVEL_TIME, LEVELS } from '@/components/Game/data'
 
 export interface GameProps {
   width?: number
   height?: number
+  heroVariant?: number
 }
 
 export const Game = (props: GameProps): JSX.Element => {
-  // Размеры холста: ширина (800 пикселей) и высота (600 пикселей)
-  const { width = 800, height = 600 } = props
+  // Размеры холста: ширина (800 пикселей) и высота (600 пикселей), внешний вид героя (1 вариант)
+  const { width = 800, height = 600, heroVariant = 2 } = props
 
   // Ссылка на холст
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -25,12 +28,14 @@ export const Game = (props: GameProps): JSX.Element => {
   // Нажатая и последняя нажатая клавишы
   const { pressedKey, lastKey } = usePressedAndLastKey()
   // Игровое время в секундах (изначально 120 секунд или 2 минуты)
-  const time = useTime(2 * 60)
+  const { time, setTime } = useTime(LEVEL_TIME)
 
   // Набранные очки (изначально 0 очков)
   const [scores, setScores] = useState<number>(0)
   // Жизни игрока (изначально 3 жизни)
   const [life, setLife] = useState<number>(3)
+  // Текущий уровень (изначально 1-й уровень)
+  const [currentLevel, setCurrentLevel] = useState<number>(1)
 
   // Хук для начальной загрузки игры
   const {
@@ -41,12 +46,24 @@ export const Game = (props: GameProps): JSX.Element => {
     heroInitCoords,
     foodArray,
     setFoodArray,
+    extraFoodArray,
     enemy,
     lifeArray,
-  } = useRunGame(canvasRef, life)
+  } = useRunGame(canvasRef, life, currentLevel, heroVariant)
 
-  // Флаг победил игрок - true, или програл - false (изначально null)
-  const isWin = useIsWin(time, foodArray, scores, life)
+  // Общее время игры
+  const gameTime = useUpdateLevel(
+    time,
+    setTime,
+    foodArray,
+    scores,
+    life,
+    currentLevel,
+    setCurrentLevel
+  )
+
+  // Флаг победил игрок в игре - true, или програл - false (изначально null)
+  const isWinGame = useIsWin(time, foodArray, scores, life, currentLevel)
 
   // Хук, запускающий обновление игры с частотой около 60 кадров в секунду
   useUpdateGame(
@@ -61,12 +78,14 @@ export const Game = (props: GameProps): JSX.Element => {
     pressedKey,
     lastKey,
     foodArray,
+    extraFoodArray,
     heroInitCoords,
     time,
     scores,
     setScores,
     life,
-    setLife
+    setLife,
+    currentLevel
   )
 
   // Функция для установки игровых данных в игровой контекст
@@ -74,20 +93,30 @@ export const Game = (props: GameProps): JSX.Element => {
 
   // Эффект для обновления игрового контекста при победе или поражении в игре
   useEffect(() => {
-    if (isWin === true) {
+    if (isWinGame === true && currentLevel === LEVELS) {
       setGameData((prevGameData: GameData) => {
-        return { ...prevGameData, scores, life, time: getGameTime(time) }
+        return {
+          ...prevGameData,
+          scores,
+          level: currentLevel,
+          life,
+          time: getGameTime(gameTime + LEVEL_TIME - time),
+          isWin: true,
+        }
       })
-
-      // TODO добавить редирект на страницу завершения игры с сообщением о победе
-    } else if (isWin === false) {
+    } else if (isWinGame === false) {
       setGameData((prevGameData: GameData) => {
-        return { ...prevGameData, scores, life, time: getGameTime(time) }
+        return {
+          ...prevGameData,
+          scores,
+          level: currentLevel,
+          life,
+          time: getGameTime(gameTime + LEVEL_TIME - time),
+          isWin: false,
+        }
       })
-
-      // TODO добавить редирект на страницу завершения игры с сообщением о поражении
     }
-  }, [isWin])
+  }, [isWinGame])
 
   return (
     <canvas

@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react'
+import { MOVE_KEYS } from '@/components/Game/data'
 
 // Хук для добавления слушателей событий нажатия и отпускания клавиш
 export function usePressedAndLastKey() {
@@ -18,27 +19,9 @@ export function usePressedAndLastKey() {
       setPressedKey: Dispatch<SetStateAction<string>>,
       setLastKey: Dispatch<SetStateAction<string>>
     ): void => {
-      switch (event.key) {
-        case 'ArrowUp': {
-          setPressedKey('ArrowUp')
-          setLastKey('ArrowUp')
-          break
-        }
-        case 'ArrowDown': {
-          setPressedKey('ArrowDown')
-          setLastKey('ArrowDown')
-          break
-        }
-        case 'ArrowLeft': {
-          setPressedKey('ArrowLeft')
-          setLastKey('ArrowLeft')
-          break
-        }
-        case 'ArrowRight': {
-          setPressedKey('ArrowRight')
-          setLastKey('ArrowRight')
-          break
-        }
+      if (Object.values(MOVE_KEYS).includes(event.key)) {
+        setPressedKey(event.key)
+        setLastKey(event.key)
       }
     },
     [setPressedKey, setLastKey]
@@ -50,23 +33,8 @@ export function usePressedAndLastKey() {
       event: KeyboardEvent,
       setPressedKey: Dispatch<SetStateAction<string>>
     ): void => {
-      switch (event.key) {
-        case 'ArrowUp': {
-          setPressedKey('')
-          break
-        }
-        case 'ArrowDown': {
-          setPressedKey('')
-          break
-        }
-        case 'ArrowLeft': {
-          setPressedKey('')
-          break
-        }
-        case 'ArrowRight': {
-          setPressedKey('')
-          break
-        }
+      if (Object.values(MOVE_KEYS).includes(event.key)) {
+        setPressedKey('')
       }
     },
     [setPressedKey]

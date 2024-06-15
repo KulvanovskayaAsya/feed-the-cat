@@ -13,5 +13,5 @@ export function useTime(initialTime: number) {
     }
   }, [setTime])
 
-  return time
+  return { time, setTime }
 }
