@@ -14,15 +14,11 @@ export const PixelArrow: FC<PixelArrowProps> = ({
   className,
   onClick,
 }) => {
-  const mods: Mods = {
-    [cls[direction]]: true,
-  }
-
   return (
     <img
       src={`/src/assets/arrow.jpeg`}
       alt={`${direction} arrow`}
-      className={classNames(cls.arrow, mods, [className])}
+      className={classNames(cls.arrow, {}, [className, cls[direction]])}
       onClick={onClick}
     />
   )
