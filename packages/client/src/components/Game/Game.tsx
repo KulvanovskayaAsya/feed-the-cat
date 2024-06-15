@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import './Game.css'
 import { getGameTime } from './utils'
 import { type GameData, useGameContext } from '@/context'
@@ -11,6 +11,7 @@ import {
   useUpdateLevel,
 } from './hooks'
 import { LEVEL_TIME, LEVELS } from '@/components/Game/data'
+import { useFullscreen } from '@/utils/hooks'
 
 export interface GameProps {
   width?: number
@@ -117,6 +118,8 @@ export const Game = (props: GameProps): JSX.Element => {
       })
     }
   }, [isWinGame])
+
+  useFullscreen(canvasRef as MutableRefObject<HTMLCanvasElement>)
 
   return (
     <canvas
