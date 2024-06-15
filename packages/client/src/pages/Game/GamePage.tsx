@@ -6,7 +6,7 @@ import { classNames } from '@/utils'
 import { GameStart } from '@/components/Game/GameStart'
 import { GameEnd } from '@/components/Game/GameEnd'
 import { Game, PixelHeader, PixelModal } from '@/components'
-import { useGameLogic } from '@/components/Game/hooks/useGameState'
+import { useGameLogic } from '@/components/Game/hooks/useGameLogic'
 
 import smallCat from '@/assets/smallCat.png'
 import cls from './GamePage.module.css'
