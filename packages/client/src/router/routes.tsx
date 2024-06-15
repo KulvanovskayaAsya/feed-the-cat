@@ -1,10 +1,12 @@
 import { useRoutes } from 'react-router-dom'
 import * as Pages from '../pages'
 import { BaseLayout } from '../layouts/BaseLayout'
+import { WithAuth } from '@/utils/HOCs'
+import { PATHS } from '@/constants'
 
 const routes = [
   {
-    path: '/',
+    path: PATHS.HOME,
     element: <BaseLayout />,
     children: [
       {
@@ -12,33 +14,36 @@ const routes = [
         element: <Pages.HomePage />,
       },
       {
-        path: '/login',
-        element: <Pages.LoginPage />,
+        path: PATHS.LOGIN,
+        element: <WithAuth Element={Pages.LoginPage} />,
       },
       {
-        path: '/registration',
-        element: <Pages.RegistrationPage />,
+        path: PATHS.REGISTRATION,
+        element: <WithAuth Element={Pages.RegistrationPage} />,
       },
-      { path: '/game', element: <Pages.GamePage /> },
-      { path: '/profile', element: <Pages.ProfilePage /> },
+      { path: PATHS.GAME, element: <WithAuth Element={Pages.GamePage} /> },
       {
-        path: '/leaderboard',
-        element: <Pages.LeaderboardPage />,
-      },
-      {
-        path: '/forum',
-        element: <Pages.ForumPage />,
+        path: PATHS.PROFILE,
+        element: <WithAuth Element={Pages.ProfilePage} />,
       },
       {
-        path: '/forum/topic/:topicId',
-        element: <Pages.ForumTopicPage />,
+        path: PATHS.LEADERBOARD,
+        element: <WithAuth Element={Pages.LeaderboardPage} />,
       },
       {
-        path: '/forum/topic/create',
-        element: <Pages.ForumTopicCreationPage />,
+        path: PATHS.FORUM,
+        element: <WithAuth Element={Pages.ForumPage} />,
       },
       {
-        path: '*',
+        path: PATHS.TOPIC(false),
+        element: <WithAuth Element={Pages.ForumTopicPage} />,
+      },
+      {
+        path: PATHS.TOPIC_CREATE,
+        element: <WithAuth Element={Pages.ForumTopicCreationPage} />,
+      },
+      {
+        path: PATHS.REST,
         element: <Pages.Error404Page />,
       },
     ],

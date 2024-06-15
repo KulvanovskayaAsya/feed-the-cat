@@ -1,0 +1,30 @@
+.home {
+  &-wrapper {
+    max-width: 800px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 140px;
+    justify-content: center;
+  }
+
+  &-header,
+  &-nav > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &-nav {
+    min-width: 500px;
+    align-self: center;
+  }
+
+  &-h1 {
+    text-align: center;
+  }
+
+  &-subtitle {
+    background-color: $color-background;
+  }
+}

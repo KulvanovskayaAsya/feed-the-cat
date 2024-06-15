@@ -1,6 +1,14 @@
-import { FC } from 'react'
+import { FC, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { PixelForm } from '@/components/PixelForm'
+import { authController } from '@/controllers/auth'
+import { SignUpRequest } from '@/api/auth-api'
+import { Spin, notification } from 'antd'
+import { AxiosError } from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { useAuthContext, AuthData } from '../../context'
+import isEqual from 'lodash/isEqual'
+import { PATHS } from '@/constants'
 
 const registrationFields = [
   {
@@ -32,11 +40,74 @@ const registrationFields = [
 ]
 
 export const RegistrationPage: FC = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const navigation = useNavigate()
+  const [api, contextHolder] = notification.useNotification()
+  const { setAuthData } = useAuthContext()
+
+  const [data, setData] = useState<SignUpRequest>({
+    password: '',
+    login: '',
+    first_name: '',
+    second_name: '',
+    email: '',
+    phone: '',
+  })
+
+  const isChanged = useMemo(
+    () =>
+      function (body: SignUpRequest): boolean {
+        return !isEqual(body, data)
+      },
+    [data.login, data.password]
+  )
+
+  const onFinish = async (body: SignUpRequest) => {
+    if (!isChanged(body)) {
+      return
+    }
+
+    setData(body)
+
+    setIsLoading(true)
+    const res = await authController.createUser(body as SignUpRequest)
+    setIsLoading(false)
+    if (res instanceof AxiosError && res.response?.data.reason) {
+      api.error({
+        message: res.response?.data.reason,
+      })
+
+      if (res.response?.data.reason === 'User already in system') {
+        setAuthData((prevAuthData: AuthData) => {
+          return { ...prevAuthData, isAuth: true }
+        })
+      } else {
+        setAuthData((prevAuthData: AuthData) => {
+          return { ...prevAuthData, isAuth: false }
+        })
+      }
+
+      return
+    }
+
+    setAuthData((prevAuthData: AuthData) => {
+      return { ...prevAuthData, isAuth: true }
+    })
+
+    navigation(PATHS.PROFILE)
+  }
   return (
     <div>
-      <PixelForm fields={registrationFields} buttonText="Register" />
+      {contextHolder}
+      <PixelForm
+        fields={registrationFields}
+        buttonText="Register"
+        onFinish={values => onFinish(values as SignUpRequest)}
+      />
 
-      <Link to="/login">Already have an account?</Link>
+      <Link to={PATHS.LOGIN}>Already have an account?</Link>
+
+      <Spin spinning={isLoading} fullscreen size={'large'} />
     </div>
   )
 }
