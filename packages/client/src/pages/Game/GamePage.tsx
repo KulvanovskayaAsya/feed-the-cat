@@ -1,3 +1,4 @@
+
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,6 +12,27 @@ import { useGameLogic } from '@/components/Game/hooks/useGameState'
 import smallCat from '@/assets/smallCat.png'
 import cls from './GamePage.module.css'
 
+interface RulesProps {
+  isFullWidth?: boolean
+}
+const RulesComponent: FC<RulesProps> = ({ isFullWidth }: RulesProps) => {
+  return (
+    <div
+      className={classNames(
+        cls.rulesWrapper,
+        { [cls.fullWidth]: isFullWidth },
+        [cls.withBackgroundColor]
+      )}>
+      <h2 className={cls.h2}>Rules of the game</h2>
+      <ul>
+        <li>1 Control the cat using the arrow buttons on your keyboard.</li>
+        <li>2 Find all the goodies during the game.</li>
+        <li>3 Avoid meeting enemies.</li>
+        <li>4 Good game!</li>
+      </ul>
+    </div>
+  )
+}
 interface RulesProps {
   isFullWidth?: boolean
 }
