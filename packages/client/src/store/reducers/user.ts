@@ -1,5 +1,3 @@
-// reducers/user.ts
-
 type LoadStatus = 'success' | 'pending' | 'failed' | 'error'
 type Nullable<T> = T | null
 
@@ -24,10 +22,6 @@ const actions = {
 const defaultState: UserState = {
   status: 'error',
   item: null,
-}
-
-interface BaseActionType<T> {
-  type: T
 }
 
 interface ItemActionType {

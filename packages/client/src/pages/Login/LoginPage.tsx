@@ -6,9 +6,10 @@ import { Spin, notification } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import isEqual from 'lodash/isEqual'
 import { PATHS } from '@/constants'
-import { useDispatch, useSelector } from 'react-redux'
 import { signin } from '@/store/slices/userSlice'
-import { RootState, AppDispatch } from '@/store'
+import { useAppDispatch } from '@/store'
+import { userSelectors } from '@/store/selectors'
+import { useSelector } from 'react-redux'
 
 const loginFields = [
   {
@@ -23,13 +24,13 @@ const loginFields = [
 ]
 
 export const LoginPage: FC = () => {
-  const [isLoading, setIsLoading] = useState(false)
   const navigation = useNavigate()
   const [api, contextHolder] = notification.useNotification()
-  const dispatch: AppDispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const isAuth = useSelector((state: RootState) => state.user.isAuth)
-  const error = useSelector((state: RootState) => state.user.error)
+  const isAuth = useSelector(userSelectors.isAuth)
+  const error = useSelector(userSelectors.error)
+  const isLoading = useSelector(userSelectors.isLoading)
 
   const [data, setData] = useState<SignInRequest>({
     password: '',

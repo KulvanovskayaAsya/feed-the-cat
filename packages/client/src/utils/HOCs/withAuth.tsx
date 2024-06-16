@@ -2,17 +2,19 @@ import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Spin } from 'antd'
 import { PATHS } from '@/constants'
-import { useDispatch, useSelector } from 'react-redux'
 import { get } from '@/store/slices/userSlice'
-import { RootState, AppDispatch } from '@/store'
+import { useAppDispatch } from '@/store'
+import { userSelectors } from '@/store/selectors'
+import { useSelector } from 'react-redux'
 
 export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   const navigate = useNavigate()
 
   const [isReadyRedirect, setIsReadyRedirect] = useState(false)
-  const dispatch: AppDispatch = useDispatch()
-  const isAuth = useSelector((state: RootState) => state.user.isAuth)
-  const isLoading = useSelector((state: RootState) => state.user.loading)
+  const dispatch = useAppDispatch()
+
+  const isAuth = useSelector(userSelectors.isAuth)
+  const isLoading = useSelector(userSelectors.isLoading)
 
   const isLoginPage = [PATHS.LOGIN, PATHS.REGISTRATION].includes(
     location.pathname
@@ -33,7 +35,7 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
     }
 
     if (!isAuth && !isLoginPage) {
-      navigate(PATHS.HOME)
+      navigate(PATHS.LOGIN)
     }
 
     if (isAuth && isLoginPage) {
@@ -42,15 +44,15 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   }
 
   useEffect(() => {
-    if (!isAuth && !isLoading) {
+    if (!isAuth && !isLoading && window.location.pathname !== PATHS.LOGIN) {
       getUser()
       return
     }
 
     setIsReadyRedirect(true)
-  }, [])
+  }, [window.location.pathname])
 
-  useEffect(redirect, [isReadyRedirect])
+  useEffect(redirect, [isReadyRedirect, window.location.pathname])
 
   if (isLoading) {
     return <Spin spinning={isLoading} fullscreen size={'large'} />

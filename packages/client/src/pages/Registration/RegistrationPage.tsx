@@ -6,9 +6,10 @@ import { Spin, notification } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import isEqual from 'lodash/isEqual'
 import { PATHS } from '@/constants'
-import { useDispatch, useSelector } from 'react-redux'
 import { create } from '@/store/slices/userSlice'
-import { RootState, AppDispatch } from '@/store'
+import { useAppDispatch } from '@/store'
+import { userSelectors } from '@/store/selectors'
+import { useSelector } from 'react-redux'
 
 const registrationFields = [
   {
@@ -42,11 +43,11 @@ const registrationFields = [
 export const RegistrationPage: FC = () => {
   const navigation = useNavigate()
   const [api, contextHolder] = notification.useNotification()
-  const dispatch: AppDispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const isAuth = useSelector((state: RootState) => state.user.isAuth)
-  const error = useSelector((state: RootState) => state.user.error)
-  const isLoading = useSelector((state: RootState) => state.user.loading)
+  const isAuth = useSelector(userSelectors.isAuth)
+  const error = useSelector(userSelectors.error)
+  const isLoading = useSelector(userSelectors.isLoading)
 
   const [data, setData] = useState<SignUpRequest>({
     password: '',
