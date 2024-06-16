@@ -11,6 +11,7 @@ import {
   useUpdateLevel,
 } from './hooks'
 import { LEVEL_TIME, LEVELS } from '@/components/Game/data'
+import { useFullscreen } from '@/utils/hooks'
 
 export interface GameProps {
   width?: number
@@ -23,7 +24,7 @@ export const Game = (props: GameProps): JSX.Element => {
   const { width = 800, height = 600, heroVariant = 2 } = props
 
   // Ссылка на холст
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   // Нажатая и последняя нажатая клавишы
   const { pressedKey, lastKey } = usePressedAndLastKey()
@@ -117,6 +118,8 @@ export const Game = (props: GameProps): JSX.Element => {
       })
     }
   }, [isWinGame])
+
+  useFullscreen(canvasRef)
 
   return (
     <canvas
