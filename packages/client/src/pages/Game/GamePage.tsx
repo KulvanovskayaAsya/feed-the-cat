@@ -1,32 +1,16 @@
-import { FC, useEffect, useState } from 'react'
-import cls from './GamePage.module.css'
-import {
-  Game,
-  PixelHeader,
-  PixelSelect,
-  PixelButton,
-  PixelLink,
-} from '@/components'
-import smallCat from '@/assets/smallCat.png'
-import { initialGameData, useGameContext } from '@/context'
-import { Space } from 'antd'
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { HEROES } from '@/components/Game/data'
+
 import { classNames } from '@/utils'
 
-// Тип опции для компонента Select
-type OptionsType = { value: string; label: string }
+import { GameStart } from '@/components/Game/GameStart'
+import { GameEnd } from '@/components/Game/GameEnd'
+import { Game, PixelHeader, PixelModal } from '@/components'
+import { useGameLogic } from '@/components/Game/hooks/useGameLogic'
 
-// Функция для генерирования массива опций для компонента Select, определяющих внешний вид героя
-const getOptions: () => OptionsType[] = () => {
-  const optionsArray: OptionsType[] = []
+import smallCat from '@/assets/smallCat.png'
+import cls from './GamePage.module.css'
 
-  for (let i = 1; i <= HEROES; i++) {
-    optionsArray.push({ value: String(i), label: `${i} variant` })
-  }
-
-  return optionsArray
-}
 interface RulesProps {
   isFullWidth?: boolean
 }
@@ -53,30 +37,21 @@ const RulesComponent: FC<RulesProps> = ({ isFullWidth }: RulesProps) => {
 }
 
 export const GamePage: FC = () => {
-  // Выбор внешнего вида героя (1-ый вариант)
-  const [heroVariant, setHeroVariant] = useState(1)
-  // Начало игры (false)
-  const [isGameStart, setIsGameStart] = useState(false)
-  // Завершение игры (false)
-  const [isGameFinish, setIsGameFinish] = useState(false)
+  const {
+    isGameStart,
+    isGameFinish,
+    heroVariant,
+    gameData,
+    startGame,
+    playAgain,
+    handleCarouselChange,
+  } = useGameLogic()
 
-  // Игровой контекст и функция для установки игровых данных в игровой контекст
-  const { gameData, setGameData } = useGameContext()
-  // Программная навигация
   const navigate = useNavigate()
 
-  // Начальная инициализация страницы с игрой
-  useEffect(() => {
-    setGameData(initialGameData)
-  }, [window.location.pathname])
-
-  // Эффект для завершения игры
-  useEffect(() => {
-    if (gameData.isWin === true || gameData.isWin === false) {
-      setIsGameFinish(true)
-      setIsGameStart(false)
-    }
-  }, [gameData])
+  const mainMenu = () => {
+    navigate('/')
+  }
 
   return (
     <>
@@ -88,68 +63,24 @@ export const GamePage: FC = () => {
 
       <main>
         {!isGameStart && !isGameFinish && (
-          <>
-            <RulesComponent isFullWidth />
-
-            <div className={cls.buttons}>
-              <PixelSelect
-                defaultValue={String(heroVariant)}
-                onChange={(value: string) => setHeroVariant(Number(value))}
-                options={getOptions()}
-              />
-
-              <PixelButton onClick={() => setIsGameStart(true)}>
-                START GAME
-              </PixelButton>
-              <PixelLink to="/">MAIN MENU</PixelLink>
-            </div>
-          </>
+          <PixelModal open={true}>
+            <GameStart
+              onStartGame={startGame}
+              onCarouselChange={handleCarouselChange}
+            />
+          </PixelModal>
         )}
 
         {isGameStart && <Game heroVariant={heroVariant} />}
 
         {isGameFinish && (
-          <>
-            {gameData.isWin && (
-              <h1 className={classNames(cls.h1, {}, [cls.withBackgroundColor])}>
-                CONGRATULATIONS ON YOUR VICTORY!
-              </h1>
-            )}
-            {!gameData.isWin && (
-              <h1 className={classNames(cls.h1, {}, [cls.withBackgroundColor])}>
-                LOSE THE GAME, DON'T BE UPSET!
-              </h1>
-            )}
-
-            <div className={cls.space}>
-              <h2 className={classNames(cls.h2, {}, [cls.withBackgroundColor])}>
-                Game results
-              </h2>
-
-              <Space
-                direction="vertical"
-                size="small"
-                align={'start'}
-                className={cls.spaceScore}>
-                <p>Scores: {gameData.scores}</p>
-                <p>Level: {gameData.level}</p>
-                <p>Time: {gameData.time}</p>
-                <p>Lives: {gameData.life}</p>
-              </Space>
-
-              <div className={cls.buttons}>
-                <PixelButton
-                  onClick={() => {
-                    setIsGameStart(false)
-                    setIsGameFinish(false)
-                  }}>
-                  PLAY AGAIN
-                </PixelButton>
-
-                <PixelLink to="/">MAIN MENU</PixelLink>
-              </div>
-            </div>
-          </>
+          <PixelModal open={true}>
+            <GameEnd
+              gameData={gameData}
+              onPlayAgain={playAgain}
+              onMainMenu={mainMenu}
+            />
+          </PixelModal>
         )}
       </main>
 

@@ -1,5 +1,5 @@
 .button {
-  min-width: calc($button-width - 2 * $border-size);
+  width: calc($button-width - 2 * $border-size);
   height: 100%;
   padding: 0;
   margin: $border-size;
