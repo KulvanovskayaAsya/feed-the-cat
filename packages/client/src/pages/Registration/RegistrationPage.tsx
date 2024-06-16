@@ -1,14 +1,14 @@
-import { FC, useState, useMemo } from 'react'
+import { FC, useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { PixelForm } from '@/components/PixelForm'
-import { authController } from '@/controllers/auth'
 import { SignUpRequest } from '@/api/auth-api'
 import { Spin, notification } from 'antd'
-import { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext, AuthData } from '../../context'
 import isEqual from 'lodash/isEqual'
 import { PATHS } from '@/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { create } from '@/store/slices/userSlice'
+import { RootState, AppDispatch } from '@/store'
 
 const registrationFields = [
   {
@@ -40,10 +40,13 @@ const registrationFields = [
 ]
 
 export const RegistrationPage: FC = () => {
-  const [isLoading, setIsLoading] = useState(false)
   const navigation = useNavigate()
   const [api, contextHolder] = notification.useNotification()
-  const { setAuthData } = useAuthContext()
+  const dispatch: AppDispatch = useDispatch()
+
+  const isAuth = useSelector((state: RootState) => state.user.isAuth)
+  const error = useSelector((state: RootState) => state.user.error)
+  const isLoading = useSelector((state: RootState) => state.user.loading)
 
   const [data, setData] = useState<SignUpRequest>({
     password: '',
@@ -69,33 +72,23 @@ export const RegistrationPage: FC = () => {
 
     setData(body)
 
-    setIsLoading(true)
-    const res = await authController.createUser(body as SignUpRequest)
-    setIsLoading(false)
-    if (res instanceof AxiosError && res.response?.data.reason) {
-      api.error({
-        message: res.response?.data.reason,
-      })
-
-      if (res.response?.data.reason === 'User already in system') {
-        setAuthData((prevAuthData: AuthData) => {
-          return { ...prevAuthData, isAuth: true }
-        })
-      } else {
-        setAuthData((prevAuthData: AuthData) => {
-          return { ...prevAuthData, isAuth: false }
-        })
-      }
-
-      return
-    }
-
-    setAuthData((prevAuthData: AuthData) => {
-      return { ...prevAuthData, isAuth: true }
-    })
-
-    navigation(PATHS.PROFILE)
+    await dispatch(create(body))
   }
+
+  useEffect(() => {
+    if (error) {
+      api.error({
+        message: error,
+      })
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (isAuth) {
+      navigation(PATHS.PROFILE)
+    }
+  }, [isAuth])
+
   return (
     <div>
       {contextHolder}

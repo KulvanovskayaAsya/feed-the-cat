@@ -1,14 +1,14 @@
-import { FC, useMemo, useState } from 'react'
+import { FC, useMemo, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { PixelForm } from '@/components/PixelForm'
-import { authController } from '@/controllers/auth'
 import { SignInRequest } from '@/api/auth-api'
 import { Spin, notification } from 'antd'
-import { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext, AuthData } from '../../context'
 import isEqual from 'lodash/isEqual'
 import { PATHS } from '@/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { signin } from '@/store/slices/userSlice'
+import { RootState, AppDispatch } from '@/store'
 
 const loginFields = [
   {
@@ -26,7 +26,10 @@ export const LoginPage: FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigation = useNavigate()
   const [api, contextHolder] = notification.useNotification()
-  const { setAuthData } = useAuthContext()
+  const dispatch: AppDispatch = useDispatch()
+
+  const isAuth = useSelector((state: RootState) => state.user.isAuth)
+  const error = useSelector((state: RootState) => state.user.error)
 
   const [data, setData] = useState<SignInRequest>({
     password: '',
@@ -47,33 +50,22 @@ export const LoginPage: FC = () => {
 
     setData(body)
 
-    setIsLoading(true)
-    const response = await authController.signinUser(body as SignInRequest)
-    setIsLoading(false)
-    if (response instanceof AxiosError && response.response?.data.reason) {
-      api.error({
-        message: response.response.data.reason,
-      })
-
-      if (response.response?.data.reason === 'User already in system') {
-        setAuthData((prevAuthData: AuthData) => {
-          return { ...prevAuthData, isAuth: true }
-        })
-      } else {
-        setAuthData((prevAuthData: AuthData) => {
-          return { ...prevAuthData, isAuth: false }
-        })
-      }
-
-      return
-    }
-
-    setAuthData((prevAuthData: AuthData) => {
-      return { ...prevAuthData, isAuth: true }
-    })
-
-    navigation(PATHS.PROFILE)
+    await dispatch(signin(body))
   }
+
+  useEffect(() => {
+    if (error) {
+      api.error({
+        message: error,
+      })
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (isAuth) {
+      navigation(PATHS.PROFILE)
+    }
+  }, [isAuth])
 
   return (
     <div>

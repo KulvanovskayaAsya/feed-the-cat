@@ -1,30 +1,28 @@
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { authController } from '../../controllers/auth'
-import { useAuthContext } from '@/context'
 import { Spin } from 'antd'
 import { PATHS } from '@/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { get } from '@/store/slices/userSlice'
+import { RootState, AppDispatch } from '@/store'
 
 export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   const navigate = useNavigate()
-  const { authData, setAuthData } = useAuthContext()
-  const [isLoadingUser, setIsLoadingUser] = useState(false)
+
   const [isReadyRedirect, setIsReadyRedirect] = useState(false)
+  const dispatch: AppDispatch = useDispatch()
+  const isAuth = useSelector((state: RootState) => state.user.isAuth)
+  const isLoading = useSelector((state: RootState) => state.user.loading)
 
   const isLoginPage = [PATHS.LOGIN, PATHS.REGISTRATION].includes(
     location.pathname
   )
 
   const getUser = async () => {
-    setIsLoadingUser(true)
     try {
-      await authController.getUser()
-      setAuthData({ isAuth: true })
-      setIsLoadingUser(false)
+      await dispatch(get())
       setIsReadyRedirect(true)
     } catch (e) {
-      setAuthData({ isAuth: false })
-      setIsLoadingUser(false)
       setIsReadyRedirect(true)
     }
   }
@@ -34,17 +32,17 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
       return
     }
 
-    if (!authData.isAuth && !isLoginPage) {
+    if (!isAuth && !isLoginPage) {
       navigate(PATHS.HOME)
     }
 
-    if (authData.isAuth && isLoginPage) {
+    if (isAuth && isLoginPage) {
       navigate(PATHS.PROFILE)
     }
   }
 
   useEffect(() => {
-    if (!authData.isAuth && !isLoadingUser) {
+    if (!isAuth && !isLoading) {
       getUser()
       return
     }
@@ -54,8 +52,8 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
 
   useEffect(redirect, [isReadyRedirect])
 
-  if (isLoadingUser) {
-    return <Spin spinning={isLoadingUser} fullscreen size={'large'} />
+  if (isLoading) {
+    return <Spin spinning={isLoading} fullscreen size={'large'} />
   }
 
   return <Element />
