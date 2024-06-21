@@ -31,22 +31,7 @@ export const movementEnemy = (enemy: Sprite, enemies: Boundary[]): void => {
         enemies[nextIndex].position.y +
         (boundaryHeight - enemy.image.height) / 2
 
-      if (
-        newEnemyLeftXCoord > enemy.position.x &&
-        newEnemyTopYCoord === enemy.position.y
-      ) {
-        enemy.image = enemy.sprites.right
-        enemy.position.x += enemyVelocity
-      } else if (newEnemyTopYCoord > enemy.position.y) {
-        enemy.image = enemy.sprites.down
-        enemy.position.y += enemyVelocity
-      } else if (newEnemyLeftXCoord < enemy.position.x) {
-        enemy.image = enemy.sprites.left
-        enemy.position.x -= enemyVelocity
-      } else if (newEnemyTopYCoord < enemy.position.y) {
-        enemy.image = enemy.sprites.up
-        enemy.position.y -= enemyVelocity
-      }
+      enemy.move(newEnemyLeftXCoord, newEnemyTopYCoord, enemyVelocity)
 
       break
     }

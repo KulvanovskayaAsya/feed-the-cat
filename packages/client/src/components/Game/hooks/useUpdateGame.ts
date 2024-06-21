@@ -76,7 +76,7 @@ export function useUpdateGame(
       })
 
       if (hero) {
-        hero.moving = false
+        hero.stop()
 
         if (
           pressedKey === lastKey &&
@@ -106,7 +106,7 @@ export function useUpdateGame(
       })
 
       if (enemy) {
-        enemy.moving = true
+        enemy.go()
 
         movementEnemy(enemy, enemies)
 

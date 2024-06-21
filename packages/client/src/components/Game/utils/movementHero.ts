@@ -21,10 +21,10 @@ export const movementHero = (
       indentFromBoundaryY,
     } = getHeroParameters(pressedKey, hero, canvas)
 
-    hero.moving = true
+    hero.go()
 
-    if (hero.sprites && heroImage) {
-      hero.image = heroImage
+    if (heroImage) {
+      hero.setImage(heroImage)
     }
 
     for (let i = 0; i < boundaries.length; i++) {
@@ -50,8 +50,7 @@ export const movementHero = (
     }
 
     if (moving) {
-      hero.position.x -= heroVelocityX
-      hero.position.y -= heroVelocityY
+      hero.hitBorder(heroVelocityX, heroVelocityY)
     }
   }
 }

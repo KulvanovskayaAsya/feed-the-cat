@@ -5,10 +5,5 @@ export const setHeroInitCoords = (
   hero: Sprite,
   heroInitCoords: Coords
 ): void => {
-  if (hero.sprites) {
-    hero.position.x = heroInitCoords.x
-    hero.position.y = heroInitCoords.y
-    hero.image = hero.sprites.down
-    hero.frames.val = 0
-  }
+  hero.init(heroInitCoords)
 }

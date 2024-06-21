@@ -38,7 +38,7 @@ export const Game = (props: GameProps): JSX.Element => {
   // Текущий уровень (изначально 1-й уровень)
   const [currentLevel, setCurrentLevel] = useState<number>(1)
 
-  // Хук для начальной загрузки игры
+  // Игровые данные
   const {
     ctx,
     level,
