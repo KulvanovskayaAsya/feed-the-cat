@@ -12,7 +12,6 @@ export function usePressedAndLastKey() {
   const [pressedKey, setPressedKey] = useState('')
   const [lastKey, setLastKey] = useState('')
 
-  // Функция-обработчик нажатия клавиш
   const onKeyDown = useCallback(
     (
       event: KeyboardEvent,
@@ -27,7 +26,6 @@ export function usePressedAndLastKey() {
     [setPressedKey, setLastKey]
   )
 
-  // Функция-обработчик отпускания клавиш
   const onKeyUp = useCallback(
     (
       event: KeyboardEvent,
@@ -40,7 +38,6 @@ export function usePressedAndLastKey() {
     [setPressedKey]
   )
 
-  // Эффект для добавления слушателей событий нажатия и отпускания клавиш
   useEffect(() => {
     const keyDownEventHandler = (event: KeyboardEvent) => {
       onKeyDown(event, setPressedKey, setLastKey)

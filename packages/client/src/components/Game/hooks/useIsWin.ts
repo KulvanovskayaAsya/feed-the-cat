@@ -12,7 +12,6 @@ export function useIsWin(
 ) {
   const [isWin, setIsWin] = useState<boolean | null>(null)
 
-  // Эффект для определения победы в игре
   useEffect(() => {
     if (
       time > 0 &&

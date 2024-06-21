@@ -1,6 +1,6 @@
-// Функция, отображающая текущий уровень
 import { getContextTextSettings } from './getContextTextSettings'
 
+// Функция, отображающая текущий уровень
 export const drawLevel = (
   ctx: CanvasRenderingContext2D,
   level: number,

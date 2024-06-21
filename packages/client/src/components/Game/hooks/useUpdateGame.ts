@@ -50,7 +50,6 @@ export function useUpdateGame(
   const boundariesRef = useRef<Boundary[]>([])
   const enemiesRef = useRef<Boundary[]>([])
 
-  // Эффект для обновления массивов границ и врагов при изменении уровня
   useEffect(() => {
     const updateBoundariesAndEnemies = async () => {
       boundariesRef.current = await getBoundaries(currentLevel)
@@ -60,7 +59,6 @@ export function useUpdateGame(
     updateBoundariesAndEnemies().then()
   }, [currentLevel])
 
-  // Функция для обновления игры с частотой около 60 кадров в секунду
   const update = useCallback(async (): Promise<void> => {
     const canvas: HTMLCanvasElement | null = canvasRef.current
     const boundaries = boundariesRef.current
@@ -148,7 +146,6 @@ export function useUpdateGame(
     currentLevel,
   ])
 
-  // Эффект для обновления игры с частотой около 60 кадров в секунду
   useEffect(() => {
     let animationFrameId = 0
     let lastFrame = performance.now()

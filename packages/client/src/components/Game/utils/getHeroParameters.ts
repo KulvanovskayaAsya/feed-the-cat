@@ -1,7 +1,6 @@
 import { Sprite } from '../classes'
 import { MOVE_KEYS } from '../data'
 
-// Интерфейс параметров героя
 export interface HeroParameters {
   heroImage: HTMLImageElement | undefined
   heroVelocityX: number

@@ -8,7 +8,6 @@ export async function getCollisionsMap(level: number): Promise<number[][]> {
 
   const collisionsMap: number[][] = []
 
-  // Размер карты 20*15 тайлов, 1 тайл 40*40 пикселей
   for (let i = 0; i < levelCollisions.collisions.length; i += mapWidth) {
     collisionsMap.push(levelCollisions.collisions.slice(i, mapWidth + i))
   }

@@ -26,10 +26,10 @@ export async function getEnemies(level: number): Promise<Boundary[]> {
 
   const length = enemiesArray.length
 
-  // Преобразование координат врага в траекторию его движения
-  const width = 6 // ширина прямоугольника траектории врага
-  const height = 7 // высота прямоугольника траектории врага
+  const width = 6 // Ширина прямоугольника траектории врага
+  const height = 7 // Высота прямоугольника траектории врага
 
+  // Преобразование координат врага в траекторию его движения
   for (let i = 0; i < length; i++) {
     if (i <= width - 1) {
       enemies[i] = enemiesArray[i]

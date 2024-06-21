@@ -43,7 +43,6 @@ export function useRunGame(
   const [enemy, setEnemy] = useState<Sprite | null>(null)
   const [lifeArray, setLifeArray] = useState<Array<Sprite>>([])
 
-  // Функция для начальной инициализации игры
   const run = useCallback(
     async (canvas: HTMLCanvasElement): Promise<void> => {
       const foodImgArray: HTMLImageElement[] = []
@@ -260,7 +259,6 @@ export function useRunGame(
     ]
   )
 
-  // Эффект для начальной инициализации игры
   useEffect(() => {
     const canvas: HTMLCanvasElement | null = canvasRef.current
 

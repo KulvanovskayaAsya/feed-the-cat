@@ -26,7 +26,7 @@ export const Game = (props: GameProps): JSX.Element => {
   // Ссылка на холст
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  // Нажатая и последняя нажатая клавишы
+  // Текущая нажатая и последняя нажатая клавиши
   const { pressedKey, lastKey } = usePressedAndLastKey()
   // Игровое время в секундах (изначально 120 секунд или 2 минуты)
   const { time, setTime } = useTime(LEVEL_TIME)
@@ -66,7 +66,6 @@ export const Game = (props: GameProps): JSX.Element => {
   // Флаг победил игрок в игре - true, или програл - false (изначально null)
   const isWinGame = useIsWin(time, foodArray, scores, life, currentLevel)
 
-  // Хук, запускающий обновление игры с частотой около 60 кадров в секунду
   useUpdateGame(
     canvasRef,
     ctx,
@@ -89,10 +88,8 @@ export const Game = (props: GameProps): JSX.Element => {
     currentLevel
   )
 
-  // Функция для установки игровых данных в игровой контекст
   const { setGameData } = useGameContext()
 
-  // Эффект для обновления игрового контекста при победе или поражении в игре
   useEffect(() => {
     if (isWinGame === true && currentLevel === LEVELS) {
       setGameData((prevGameData: GameData) => {

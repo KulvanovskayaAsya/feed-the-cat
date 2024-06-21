@@ -13,11 +13,8 @@ export function useUpdateLevel(
   currentLevel: number,
   setCurrentLevel: Dispatch<SetStateAction<number>>
 ) {
-  // Время прохождения игры в секундах (изначально 0 секунд)
   const [gameTime, setGameTime] = useState<number>(0)
 
-  // Эффект для запуска следующего уровня после прохождения текущего уровня,
-  // для обновления общего времени игры и для восстановления времени на новом уровне
   useEffect(() => {
     if (
       time > 0 &&
