@@ -23,3 +23,8 @@ export const MOVE_KEYS = {
   LEFT: 'ArrowLeft',
   RIGHT: 'ArrowRight',
 }
+
+export const SMALL_FOOD_SCORES = 100
+export const MEDIUM_FOOD_SCORES = 200
+export const BIG_FOOD_SCORES = 300
+export const EXTRA_FOOD_SCORES = 400

@@ -13,6 +13,10 @@ import {
   ENEMY,
   FOOD,
   EXTRA_FOOD,
+  SMALL_FOOD_SCORES,
+  MEDIUM_FOOD_SCORES,
+  BIG_FOOD_SCORES,
+  EXTRA_FOOD_SCORES,
 } from '../data'
 import { type Coords, Food, Sprite, Background } from '../classes'
 import enemyUpImage from '@/assets/enemyUp.png'
@@ -141,7 +145,7 @@ export function useRunGame(
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
               image,
-              score: 100 * currentLevel,
+              score: SMALL_FOOD_SCORES * currentLevel,
             })
 
             foodArr.push(smallFood)
@@ -154,7 +158,7 @@ export function useRunGame(
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
               image,
-              score: 200 * currentLevel,
+              score: MEDIUM_FOOD_SCORES * currentLevel,
             })
 
             foodArr.push(mediumFood)
@@ -167,7 +171,7 @@ export function useRunGame(
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
               image,
-              score: 300 * currentLevel,
+              score: BIG_FOOD_SCORES * currentLevel,
             })
 
             foodArr.push(bigFood)
@@ -180,7 +184,7 @@ export function useRunGame(
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
               image,
-              score: 400 * currentLevel,
+              score: EXTRA_FOOD_SCORES * currentLevel,
             })
 
             extraFoodArr.push(extraFood)
