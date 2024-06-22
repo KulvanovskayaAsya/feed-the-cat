@@ -1,6 +1,5 @@
 import { GameObject } from '../classes'
 
-// Функция для определения пересечения двух прямоугольников
 export function rectangularCollision(
   rectangle1: GameObject,
   rectangle2: GameObject

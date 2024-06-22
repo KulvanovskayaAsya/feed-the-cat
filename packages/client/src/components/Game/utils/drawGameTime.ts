@@ -1,4 +1,3 @@
-// Функция, отображающая оставшееся время игры
 import { getContextTextSettings } from './getContextTextSettings'
 
 export const drawGameTime = (

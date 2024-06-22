@@ -1,6 +1,5 @@
 import { Sprite } from '../classes'
 
-// Функция, отображающая жизни игрока
 export const drawLife = (
   ctx: CanvasRenderingContext2D,
   life: number,

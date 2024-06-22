@@ -1,4 +1,4 @@
-import { GameObject, type GameObjectProps } from './GameObject'
+import { Coords, GameObject, type GameObjectProps } from './GameObject'
 
 export type Frames = { max: number; val: number; elapsed: number }
 
@@ -31,7 +31,7 @@ export class Sprite extends GameObject {
 
     const {
       velocity,
-      velocityAnimation = 6, // 6 раз в секунду по умолчанию
+      velocityAnimation = 6,
       image,
       frames = { max: 1, val: 0, elapsed: 0 },
       sprites,
@@ -47,7 +47,7 @@ export class Sprite extends GameObject {
     this.sprites = sprites
   }
 
-  draw(ctx: CanvasRenderingContext2D, FPS: number) {
+  draw(ctx: CanvasRenderingContext2D, FPS: number): void {
     if (this.image) {
       ctx.drawImage(
         this.image,
@@ -77,6 +77,50 @@ export class Sprite extends GameObject {
         } else {
           this.frames.val = 0
         }
+      }
+    }
+  }
+
+  init(initCoords: Coords): void {
+    if (this.sprites) {
+      this.position.x = initCoords.x
+      this.position.y = initCoords.y
+      this.image = this.sprites.down
+      this.frames.val = 0
+    }
+  }
+
+  setImage(image: HTMLImageElement): void {
+    this.image = image
+  }
+
+  go(): void {
+    this.moving = true
+  }
+
+  stop(): void {
+    this.moving = false
+  }
+
+  hitBorder(velocityX: number, velocityY: number): void {
+    this.position.x -= velocityX
+    this.position.y -= velocityY
+  }
+
+  move(leftXCoord: number, topYCoord: number, velocity: number): void {
+    if (this.sprites) {
+      if (leftXCoord > this.position.x && topYCoord === this.position.y) {
+        this.image = this.sprites.right
+        this.position.x += velocity
+      } else if (topYCoord > this.position.y) {
+        this.image = this.sprites.down
+        this.position.y += velocity
+      } else if (leftXCoord < this.position.x) {
+        this.image = this.sprites.left
+        this.position.x -= velocity
+      } else if (topYCoord < this.position.y) {
+        this.image = this.sprites.up
+        this.position.y -= velocity
       }
     }
   }

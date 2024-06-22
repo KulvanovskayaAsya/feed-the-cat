@@ -19,6 +19,10 @@ export {
   FOOD,
   LEVEL_TIME,
   MOVE_KEYS,
+  SMALL_FOOD_SCORES,
+  MEDIUM_FOOD_SCORES,
+  BIG_FOOD_SCORES,
+  EXTRA_FOOD_SCORES,
 } from './consts'
 export { getBoundaries } from './boundaries'
 export { getEnemies } from './enemies'

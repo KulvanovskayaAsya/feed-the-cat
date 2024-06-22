@@ -13,6 +13,10 @@ import {
   ENEMY,
   FOOD,
   EXTRA_FOOD,
+  SMALL_FOOD_SCORES,
+  MEDIUM_FOOD_SCORES,
+  BIG_FOOD_SCORES,
+  EXTRA_FOOD_SCORES,
 } from '../data'
 import { type Coords, Food, Sprite, Background } from '../classes'
 import enemyUpImage from '@/assets/enemyUp.png'
@@ -21,7 +25,6 @@ import enemyLeftImage from '@/assets/enemyLeft.png'
 import enemyRightImage from '@/assets/enemyRight.png'
 import lifeImage from '@/assets/life.png'
 
-// Хук для начальной инициализации игры
 export function useRunGame(
   canvasRef: MutableRefObject<HTMLCanvasElement | null>,
   life: number,
@@ -39,7 +42,6 @@ export function useRunGame(
   const [enemy, setEnemy] = useState<Sprite | null>(null)
   const [lifeArray, setLifeArray] = useState<Array<Sprite>>([])
 
-  // Функция для начальной инициализации игры
   const run = useCallback(
     async (canvas: HTMLCanvasElement): Promise<void> => {
       const foodImgArray: HTMLImageElement[] = []
@@ -141,7 +143,7 @@ export function useRunGame(
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
               image,
-              score: 100 * currentLevel,
+              score: SMALL_FOOD_SCORES * currentLevel,
             })
 
             foodArr.push(smallFood)
@@ -154,7 +156,7 @@ export function useRunGame(
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
               image,
-              score: 200 * currentLevel,
+              score: MEDIUM_FOOD_SCORES * currentLevel,
             })
 
             foodArr.push(mediumFood)
@@ -167,7 +169,7 @@ export function useRunGame(
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
               image,
-              score: 300 * currentLevel,
+              score: BIG_FOOD_SCORES * currentLevel,
             })
 
             foodArr.push(bigFood)
@@ -180,7 +182,7 @@ export function useRunGame(
                 y: i * boundaryHeight + (boundaryHeight - image.height) / 2,
               },
               image,
-              score: 400 * currentLevel,
+              score: EXTRA_FOOD_SCORES * currentLevel,
             })
 
             extraFoodArr.push(extraFood)
@@ -256,7 +258,6 @@ export function useRunGame(
     ]
   )
 
-  // Эффект для начальной инициализации игры
   useEffect(() => {
     const canvas: HTMLCanvasElement | null = canvasRef.current
 

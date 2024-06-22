@@ -1,4 +1,3 @@
-// Функция, отображающая набранные очки
 import { getContextTextSettings } from './getContextTextSettings'
 
 export const drawScores = (

@@ -1,4 +1,3 @@
-// Функция, отображающая текущий уровень
 import { getContextTextSettings } from './getContextTextSettings'
 
 export const drawLevel = (

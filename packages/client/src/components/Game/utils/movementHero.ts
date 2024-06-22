@@ -2,7 +2,6 @@ import type { Dispatch, SetStateAction } from 'react'
 import { Boundary, Sprite } from '../classes'
 import { getHeroParameters, rectangularCollision } from '../utils'
 
-// Функция для движения героя и обнаружения столкновений с границами
 export const movementHero = (
   pressedKey: string,
   hero: Sprite,
@@ -21,10 +20,10 @@ export const movementHero = (
       indentFromBoundaryY,
     } = getHeroParameters(pressedKey, hero, canvas)
 
-    hero.moving = true
+    hero.go()
 
-    if (hero.sprites && heroImage) {
-      hero.image = heroImage
+    if (heroImage) {
+      hero.setImage(heroImage)
     }
 
     for (let i = 0; i < boundaries.length; i++) {
@@ -50,8 +49,7 @@ export const movementHero = (
     }
 
     if (moving) {
-      hero.position.x -= heroVelocityX
-      hero.position.y -= heroVelocityY
+      hero.hitBorder(heroVelocityX, heroVelocityY)
     }
   }
 }

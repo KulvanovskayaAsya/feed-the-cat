@@ -23,7 +23,6 @@ import {
 import { type Coords, Background, Boundary, Food, Sprite } from '../classes'
 import { getEnemies, getBoundaries, MOVE_KEYS } from '../data'
 
-// Хук для обновления игры с частотой около 60 кадров в секунду
 export function useUpdateGame(
   canvasRef: MutableRefObject<HTMLCanvasElement | null>,
   ctx: CanvasRenderingContext2D | null,
@@ -50,7 +49,6 @@ export function useUpdateGame(
   const boundariesRef = useRef<Boundary[]>([])
   const enemiesRef = useRef<Boundary[]>([])
 
-  // Эффект для обновления массивов границ и врагов при изменении уровня
   useEffect(() => {
     const updateBoundariesAndEnemies = async () => {
       boundariesRef.current = await getBoundaries(currentLevel)
@@ -60,7 +58,6 @@ export function useUpdateGame(
     updateBoundariesAndEnemies().then()
   }, [currentLevel])
 
-  // Функция для обновления игры с частотой около 60 кадров в секунду
   const update = useCallback(async (): Promise<void> => {
     const canvas: HTMLCanvasElement | null = canvasRef.current
     const boundaries = boundariesRef.current
@@ -78,7 +75,7 @@ export function useUpdateGame(
       })
 
       if (hero) {
-        hero.moving = false
+        hero.stop()
 
         if (
           pressedKey === lastKey &&
@@ -108,7 +105,7 @@ export function useUpdateGame(
       })
 
       if (enemy) {
-        enemy.moving = true
+        enemy.go()
 
         movementEnemy(enemy, enemies)
 
@@ -148,7 +145,6 @@ export function useUpdateGame(
     currentLevel,
   ])
 
-  // Эффект для обновления игры с частотой около 60 кадров в секунду
   useEffect(() => {
     let animationFrameId = 0
     let lastFrame = performance.now()

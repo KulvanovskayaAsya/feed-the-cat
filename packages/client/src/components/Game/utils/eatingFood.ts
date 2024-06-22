@@ -1,8 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { Food, Sprite } from '../classes'
 import { rectangularCollision } from '../utils'
+import { EXTRA_FOOD_SCORES } from '../data'
 
-// Функция для начисления очков и обновления массива еды при её поедании игроком
 export const eatingFood = (
   hero: Sprite,
   canvas: HTMLCanvasElement,
@@ -24,7 +24,7 @@ export const eatingFood = (
 
           if (
             newFoodArray.length === 0 &&
-            foodPiece.score !== 400 * currentLevel
+            foodPiece.score !== EXTRA_FOOD_SCORES * currentLevel
           ) {
             return extraFoodArray
           }

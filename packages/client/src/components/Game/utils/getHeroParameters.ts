@@ -1,7 +1,6 @@
 import { Sprite } from '../classes'
 import { MOVE_KEYS } from '../data'
 
-// Интерфейс параметров героя
 export interface HeroParameters {
   heroImage: HTMLImageElement | undefined
   heroVelocityX: number
@@ -11,7 +10,6 @@ export interface HeroParameters {
   indentFromBoundaryY: number
 }
 
-// Функция для получения параметров героя
 export const getHeroParameters = (
   pressedKey: string,
   hero: Sprite,
