@@ -7,7 +7,6 @@ import {
 } from 'react'
 import { MOVE_KEYS } from '@/components/Game/data'
 
-// Хук для добавления слушателей событий нажатия и отпускания клавиш
 export function usePressedAndLastKey() {
   const [pressedKey, setPressedKey] = useState('')
   const [lastKey, setLastKey] = useState('')

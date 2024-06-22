@@ -25,7 +25,6 @@ import enemyLeftImage from '@/assets/enemyLeft.png'
 import enemyRightImage from '@/assets/enemyRight.png'
 import lifeImage from '@/assets/life.png'
 
-// Хук для начальной инициализации игры
 export function useRunGame(
   canvasRef: MutableRefObject<HTMLCanvasElement | null>,
   life: number,

@@ -1,6 +1,5 @@
 import { getContextTextSettings } from './getContextTextSettings'
 
-// Функция, отображающая оставшееся время игры
 export const drawGameTime = (
   ctx: CanvasRenderingContext2D,
   time: string,

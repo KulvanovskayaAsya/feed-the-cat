@@ -10,7 +10,6 @@ export interface HeroParameters {
   indentFromBoundaryY: number
 }
 
-// Функция для получения параметров героя
 export const getHeroParameters = (
   pressedKey: string,
   hero: Sprite,

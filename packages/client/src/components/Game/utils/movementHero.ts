@@ -2,7 +2,6 @@ import type { Dispatch, SetStateAction } from 'react'
 import { Boundary, Sprite } from '../classes'
 import { getHeroParameters, rectangularCollision } from '../utils'
 
-// Функция для движения героя и обнаружения столкновений с границами
 export const movementHero = (
   pressedKey: string,
   hero: Sprite,

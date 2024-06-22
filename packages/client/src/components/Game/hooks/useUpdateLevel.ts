@@ -2,8 +2,6 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Food } from '../classes'
 import { LEVEL_TIME, LEVELS } from '@/components/Game/data'
 
-// Хук для запуска следующего уровня после прохождения текущего уровня,
-// для обновления общего времени игры и для восстановления времени на новом уровне
 export function useUpdateLevel(
   time: number,
   setTime: Dispatch<SetStateAction<number>>,

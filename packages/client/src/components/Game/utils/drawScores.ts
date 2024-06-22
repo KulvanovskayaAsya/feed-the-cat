@@ -1,6 +1,5 @@
 import { getContextTextSettings } from './getContextTextSettings'
 
-// Функция, отображающая набранные очки
 export const drawScores = (
   ctx: CanvasRenderingContext2D,
   scores: number,

@@ -1,4 +1,3 @@
-// Функция для очистки контекста холста
 export const clearGame = (
   canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D | null

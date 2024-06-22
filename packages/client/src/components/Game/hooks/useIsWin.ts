@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Food } from '../classes'
 import { LEVEL_TIME, LEVELS } from '@/components/Game/data'
 
-// Хук для определения победы в игре
 export function useIsWin(
   time: number,
   foodArray: Food[],

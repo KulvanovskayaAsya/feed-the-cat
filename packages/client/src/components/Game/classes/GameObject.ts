@@ -1,4 +1,3 @@
-// Тип для координат
 export type Coords = { x: number; y: number }
 
 export interface GameObjectProps {

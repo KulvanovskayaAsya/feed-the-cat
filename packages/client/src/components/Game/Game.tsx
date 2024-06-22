@@ -20,25 +20,14 @@ export interface GameProps {
 }
 
 export const Game = (props: GameProps): JSX.Element => {
-  // Размеры холста: ширина (800 пикселей) и высота (600 пикселей), внешний вид героя (1 вариант)
   const { width = 800, height = 600, heroVariant = 2 } = props
-
-  // Ссылка на холст
   const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  // Текущая нажатая и последняя нажатая клавиши
   const { pressedKey, lastKey } = usePressedAndLastKey()
-  // Игровое время в секундах (изначально 120 секунд или 2 минуты)
   const { time, setTime } = useTime(LEVEL_TIME)
-
-  // Набранные очки (изначально 0 очков)
   const [scores, setScores] = useState<number>(0)
-  // Жизни игрока (изначально 3 жизни)
   const [life, setLife] = useState<number>(3)
-  // Текущий уровень (изначально 1-й уровень)
   const [currentLevel, setCurrentLevel] = useState<number>(1)
 
-  // Игровые данные
   const {
     ctx,
     level,
@@ -52,7 +41,6 @@ export const Game = (props: GameProps): JSX.Element => {
     lifeArray,
   } = useRunGame(canvasRef, life, currentLevel, heroVariant)
 
-  // Общее время игры
   const gameTime = useUpdateLevel(
     time,
     setTime,
@@ -63,7 +51,6 @@ export const Game = (props: GameProps): JSX.Element => {
     setCurrentLevel
   )
 
-  // Флаг победил игрок в игре - true, или програл - false (изначально null)
   const isWinGame = useIsWin(time, foodArray, scores, life, currentLevel)
 
   useUpdateGame(

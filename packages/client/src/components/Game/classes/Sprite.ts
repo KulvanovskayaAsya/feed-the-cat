@@ -31,7 +31,7 @@ export class Sprite extends GameObject {
 
     const {
       velocity,
-      velocityAnimation = 6, // 6 раз в секунду по умолчанию
+      velocityAnimation = 6,
       image,
       frames = { max: 1, val: 0, elapsed: 0 },
       sprites,

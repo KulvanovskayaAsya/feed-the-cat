@@ -1,7 +1,6 @@
 import { Boundary, Sprite } from '../classes'
 import { boundaryHeight, boundaryWidth } from '../data'
 
-// Функция для движения врага по определённой траектории с определённой скоростью
 export const movementEnemy = (enemy: Sprite, enemies: Boundary[]): void => {
   const enemyVelocity = enemy.velocity
 

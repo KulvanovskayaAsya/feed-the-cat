@@ -23,7 +23,6 @@ import {
 import { type Coords, Background, Boundary, Food, Sprite } from '../classes'
 import { getEnemies, getBoundaries, MOVE_KEYS } from '../data'
 
-// Хук для обновления игры с частотой около 60 кадров в секунду
 export function useUpdateGame(
   canvasRef: MutableRefObject<HTMLCanvasElement | null>,
   ctx: CanvasRenderingContext2D | null,

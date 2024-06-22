@@ -3,7 +3,6 @@ import { Food, Sprite } from '../classes'
 import { rectangularCollision } from '../utils'
 import { EXTRA_FOOD_SCORES } from '../data'
 
-// Функция для начисления очков и обновления массива еды при её поедании игроком
 export const eatingFood = (
   hero: Sprite,
   canvas: HTMLCanvasElement,
