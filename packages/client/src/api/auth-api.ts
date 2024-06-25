@@ -32,13 +32,19 @@ export type User = {
 
 export class AuthAPI extends BaseAPI {
   async signup(body: SignUpRequest): Promise<AxiosResponse<SignUpResponse>> {
-    const response = await this.post('/auth/signup', body)
-    return response
+    return this.post('/auth/signup', body)
+      .then(({ data }) => data)
+      .catch(e => {
+        throw e
+      })
   }
 
   async signin(body: SignInRequest): Promise<AxiosResponse<string>> {
-    const { data } = await this.post('/auth/signin', body)
-    return data
+    return this.post('/auth/signin', body)
+      .then(({ data }) => data)
+      .catch(e => {
+        throw e
+      })
   }
 
   async logout(): Promise<AxiosResponse<string>> {
