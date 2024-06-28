@@ -1,10 +1,8 @@
 import { BaseAPI } from './base-api'
-import { AxiosResponse } from 'axios'
 import { TEAM_NAME } from './urls'
+import type { User } from '@/api/auth-api'
 
-export type LeaderboardData = {
-  login: string
-  email: string
+export type LeaderboardData = User & {
   scores: number
   life: number
   time: string
@@ -27,16 +25,14 @@ export type LeaderboardResponse = {
 }
 
 export class LeaderboardAPI extends BaseAPI {
-  async addNewLeader(
-    body: LeaderboardNewLeaderRequest
-  ): Promise<AxiosResponse<string>> {
-    return await this.post('/leaderboard', body)
+  async addNewLeader(body: LeaderboardNewLeaderRequest): Promise<string> {
+    return await this.post<string>('/leaderboard', body).then(data => data.data)
   }
 
-  async getTeam(
-    body: LeaderboardRequest
-  ): Promise<AxiosResponse<LeaderboardResponse[]>> {
-    const { data } = await this.post(`/leaderboard/${TEAM_NAME}`, body)
-    return data
+  async getTeam(body: LeaderboardRequest): Promise<LeaderboardResponse[]> {
+    return await this.post<LeaderboardResponse[]>(
+      `/leaderboard/${TEAM_NAME}`,
+      body
+    ).then(data => data.data)
   }
 }

@@ -1,24 +1,40 @@
 import { Flex } from 'antd'
-import { FC } from 'react'
-import { PixelCard, PixelHeader, PixelAvatar } from '@/components'
+import { FC, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import styles from './Leaderboard.module.css'
+import { PixelCard, PixelHeader, PixelAvatar } from '@/components'
 import tokens from '../../../tokens.json'
 import { classNames } from '@/utils'
-
-const currentUser = {
-  id: 2,
-}
-
-const data = Array.from({ length: 5 }, (_, i) => ({
-  id: i,
-  avatar: '',
-  name: 'Name ' + Math.ceil(Math.random() * 5),
-  score: Math.ceil(Math.random() * 100) + 100 * (5 - i),
-}))
+import { useAppDispatch } from '@/store'
+import { leaderboardSelectors, userSelectors } from '@/store/selectors'
+import { get } from '@/store/slices/leaderboardSlice'
+import type { LeaderboardRequest } from '@/api/leaderboard-api'
 
 const firstPlaceColor = '#F8D028'
 
 export const LeaderboardPage: FC = () => {
+  const dispatch = useAppDispatch()
+
+  const data = useSelector(leaderboardSelectors.leaderboard)
+  const error = useSelector(leaderboardSelectors.error)
+  const isLoading = useSelector(leaderboardSelectors.isLoading)
+
+  const currentUser = useSelector(userSelectors.user)
+
+  useEffect(() => {
+    const getLeaderboardData = async (body: LeaderboardRequest) => {
+      await dispatch(get(body))
+    }
+
+    const body = {
+      ratingFieldName: 'scores',
+      cursor: 0,
+      limit: 100,
+    }
+
+    getLeaderboardData(body)
+  }, [])
+
   return (
     <Flex
       vertical
@@ -34,13 +50,13 @@ export const LeaderboardPage: FC = () => {
           {data.map((row, rowIdx) => {
             return (
               <PixelCard
-                key={row.id}
+                key={row.data.id}
                 className={classNames('', {
-                  [styles.currentUserRow]: row.id === currentUser.id,
+                  [styles.currentUserRow]: row.data.id === currentUser.id,
                 })}>
                 <Flex gap={32} className={styles.row}>
                   <PixelAvatar
-                    src={row.avatar}
+                    src={row.data.avatar}
                     borderProps={{
                       size: 5,
                       color:
@@ -49,8 +65,11 @@ export const LeaderboardPage: FC = () => {
                           : tokens['color-accent-secondary'],
                     }}
                   />
-                  <div>{row.name}</div>
-                  <div>{row.score}</div>
+                  {row.data.display_name && <div>{row.data.display_name}</div>}
+                  {!row.data.display_name && <div>{row.data.login}</div>}
+                  <div>{row.data.life}</div>
+                  <div>{row.data.time}</div>
+                  <div>{row.data.scores}</div>
                 </Flex>
               </PixelCard>
             )

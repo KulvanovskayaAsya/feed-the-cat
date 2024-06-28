@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { YANDEX_API } from './urls'
 
 export type Indexed<T = unknown> = {
@@ -16,19 +16,19 @@ export class BaseAPI {
     })
   }
 
-  async get(url: string): Promise<any> {
-    return this.instance.get(url).then(this.extract)
+  async get<T>(url: string): Promise<AxiosResponse<T>> {
+    return this.instance.get<T>(url).then(this.extract)
   }
 
-  async post(url: string, data: Indexed): Promise<any> {
-    return this.instance.post(url, data).then(this.extract)
+  async post<T>(url: string, data: Indexed): Promise<AxiosResponse<T>> {
+    return this.instance.post<T>(url, data).then(this.extract)
   }
 
-  async put(url: string, data: Indexed): Promise<any> {
-    return this.instance.put(url, data).then(this.extract)
+  async put<T>(url: string, data: Indexed): Promise<AxiosResponse<T>> {
+    return this.instance.put<T>(url, data).then(this.extract)
   }
 
-  async delete(url: string, data: Indexed): Promise<any> {
-    return this.instance.delete(url, data).then(this.extract)
+  async delete<T>(url: string, data: Indexed): Promise<AxiosResponse<T>> {
+    return this.instance.delete<T>(url, data).then(this.extract)
   }
 }
