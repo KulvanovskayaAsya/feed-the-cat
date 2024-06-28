@@ -4,7 +4,7 @@ type LoadStatus = 'success' | 'pending' | 'failed' | 'error'
 type Nullable<T> = T | null
 
 type LeaderboardState = {
-  item: Nullable<{ data: LeaderboardData }>
+  item: Nullable<[{ data: LeaderboardData }]>
   status: LoadStatus
 }
 

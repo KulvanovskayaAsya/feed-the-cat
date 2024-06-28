@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { leaderboardController } from '@/controllers/leaderboard'
-import { LeaderboardData } from '@/api/leaderboard-api'
+import { LeaderboardResponse } from '@/api/leaderboard-api'
 
 export const add = createAsyncThunk(
   'leaderboard/add',
@@ -12,23 +12,13 @@ export const get = createAsyncThunk(
 )
 
 interface LeaderboardState {
-  leaderboard: { data: LeaderboardData }[]
+  leaderboard: LeaderboardResponse[]
   error: string | null
   loading: boolean
 }
 
 const initialState: LeaderboardState = {
-  leaderboard: [
-    {
-      data: {
-        login: '',
-        email: '',
-        scores: 0,
-        life: 0,
-        time: '',
-      },
-    },
-  ],
+  leaderboard: [],
   error: '',
   loading: false,
 }
@@ -56,11 +46,14 @@ export const leaderboardSlice = createSlice({
 
         state.error = error.message
       })
-      .addCase(get.fulfilled, (state, action) => {
-        state.leaderboard = action.payload.data
-        state.loading = false
-        state.error = ''
-      })
+      .addCase(
+        get.fulfilled,
+        (state, action: PayloadAction<LeaderboardResponse[]>) => {
+          state.leaderboard = action.payload
+          state.loading = false
+          state.error = ''
+        }
+      )
       .addCase(get.pending, state => {
         state.loading = true
       })
