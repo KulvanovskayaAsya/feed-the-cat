@@ -1,12 +1,9 @@
 import { BaseAPI } from './base-api'
 import { TEAM_NAME } from './urls'
 import type { User } from '@/api/auth-api'
+import type { GameData } from '@/context'
 
-export type LeaderboardData = User & {
-  scores: number
-  life: number
-  time: string
-}
+export type LeaderboardData = User & GameData
 
 export type LeaderboardNewLeaderRequest = {
   data: LeaderboardData

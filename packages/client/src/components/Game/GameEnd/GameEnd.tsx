@@ -1,7 +1,13 @@
-import { FC } from 'react'
-import { Flex, Typography } from 'antd'
+import { FC, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { Flex, notification, Spin, Typography } from 'antd'
 import { PixelButton } from '@/components/PixelButton'
 import cls from './GameEnd.module.css'
+import { useAppDispatch } from '@/store'
+import type { LeaderboardNewLeaderRequest } from '@/api/leaderboard-api'
+import { leaderboardSelectors, userSelectors } from '@/store/selectors'
+import { add } from '@/store/slices/leaderboardSlice'
+import { TEAM_NAME } from '@/api/urls'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -22,8 +28,45 @@ export const GameEnd: FC<GameEndProps> = ({
   onPlayAgain,
   onMainMenu,
 }) => {
+  const [api, contextHolder] = notification.useNotification()
+  const dispatch = useAppDispatch()
+
+  const error = useSelector(leaderboardSelectors.error)
+  const isLoading = useSelector(leaderboardSelectors.isLoading)
+
+  const currentUser = useSelector(userSelectors.user)
+
+  useEffect(() => {
+    const addNewLeader = async (body: LeaderboardNewLeaderRequest) => {
+      await dispatch(add(body))
+    }
+
+    const body: LeaderboardNewLeaderRequest = {
+      data: {
+        ...currentUser,
+        ...gameData,
+      },
+      ratingFieldName: 'scores',
+      teamName: TEAM_NAME,
+    }
+
+    addNewLeader(body)
+  }, [])
+
+  useEffect(() => {
+    if (error) {
+      api.error({
+        message: 'Error sending Leaderboard data',
+      })
+    }
+  }, [error])
+
   return (
     <>
+      {contextHolder}
+
+      <Spin spinning={isLoading} fullscreen size={'large'} />
+
       {gameData.isWin ? (
         <Title className={cls.centerText}>
           Congratulations on your victory!
