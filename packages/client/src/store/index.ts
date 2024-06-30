@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userSlice from './slices/userSlice'
 import { useDispatch } from 'react-redux'
+import userSlice from './slices/userSlice'
+import leaderboardSlice from './slices/leaderboardSlice'
 
 export const store = configureStore({
   reducer: {
     user: userSlice,
+    leaderboard: leaderboardSlice,
   },
 })
 
