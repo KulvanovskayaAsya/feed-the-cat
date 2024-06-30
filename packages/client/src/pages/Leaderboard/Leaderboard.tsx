@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Col, Flex, notification, Row, Spin } from 'antd'
 import { FC, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styles from './Leaderboard.module.css'
@@ -13,6 +13,7 @@ import type { LeaderboardRequest } from '@/api/leaderboard-api'
 const firstPlaceColor = '#F8D028'
 
 export const LeaderboardPage: FC = () => {
+  const [api, contextHolder] = notification.useNotification()
   const dispatch = useAppDispatch()
 
   const data = useSelector(leaderboardSelectors.leaderboard)
@@ -35,6 +36,14 @@ export const LeaderboardPage: FC = () => {
     getLeaderboardData(body)
   }, [])
 
+  useEffect(() => {
+    if (error) {
+      api.error({
+        message: 'Error receiving Leaderboard data',
+      })
+    }
+  }, [error])
+
   return (
     <Flex
       vertical
@@ -46,34 +55,106 @@ export const LeaderboardPage: FC = () => {
         <PixelHeader>LEADERBOARD</PixelHeader>
       </header>
       <main>
+        {contextHolder}
+
+        <Spin spinning={isLoading} fullscreen size={'large'} />
+
         <Flex vertical gap={32}>
-          {data.map((row, rowIdx) => {
-            return (
-              <PixelCard
-                key={row.data.id}
-                className={classNames('', {
-                  [styles.currentUserRow]: row.data.id === currentUser.id,
-                })}>
-                <Flex gap={32} className={styles.row}>
-                  <PixelAvatar
-                    src={row.data.avatar}
-                    borderProps={{
-                      size: 5,
-                      color:
-                        rowIdx === 0
-                          ? firstPlaceColor
-                          : tokens['color-accent-secondary'],
-                    }}
-                  />
-                  {row.data.display_name && <div>{row.data.display_name}</div>}
-                  {!row.data.display_name && <div>{row.data.login}</div>}
-                  <div>{row.data.life}</div>
-                  <div>{row.data.time}</div>
-                  <div>{row.data.scores}</div>
-                </Flex>
+          {data.length === 0 && (
+            <PixelCard>
+              <Row justify="center" className={styles.row}>
+                <Col span={3} className={styles.col}>
+                  <div>No data</div>
+                </Col>
+              </Row>
+            </PixelCard>
+          )}
+
+          {data.length > 0 && (
+            <>
+              <PixelCard>
+                <Row justify="space-between" className={styles.row}>
+                  <Col span={3} className={styles.col}>
+                    <div>Avatar</div>
+                  </Col>
+
+                  <Col span={8} className={styles.col}>
+                    <div>Login</div>
+                  </Col>
+
+                  <Col span={2} className={styles.col}>
+                    <div>Level</div>
+                  </Col>
+
+                  <Col span={2} className={styles.col}>
+                    <div>Life</div>
+                  </Col>
+
+                  <Col span={2} className={styles.col}>
+                    <div>Time</div>
+                  </Col>
+
+                  <Col span={2} className={styles.col}>
+                    <div>Win</div>
+                  </Col>
+
+                  <Col span={2} className={styles.col}>
+                    <div>Scores</div>
+                  </Col>
+                </Row>
               </PixelCard>
-            )
-          })}
+
+              {data.map((row, rowIdx) => {
+                return (
+                  <PixelCard
+                    key={row.data.id}
+                    className={classNames('', {
+                      [styles.currentUserRow]: row.data.id === currentUser.id,
+                    })}>
+                    <Row justify="space-between" className={styles.row}>
+                      <Col span={3} className={styles.colAvatar}>
+                        <PixelAvatar
+                          className={styles.rowAvatar}
+                          src={row.data.avatar}
+                          borderProps={{
+                            size: 5,
+                            color:
+                              rowIdx === 0
+                                ? firstPlaceColor
+                                : tokens['color-accent-secondary'],
+                          }}
+                        />
+                      </Col>
+
+                      <Col span={8} className={styles.col}>
+                        <div>{row.data.login}</div>
+                      </Col>
+
+                      <Col span={2} className={styles.col}>
+                        <div>{row.data.level}</div>
+                      </Col>
+
+                      <Col span={2} className={styles.col}>
+                        <div>{row.data.life}</div>
+                      </Col>
+
+                      <Col span={2} className={styles.col}>
+                        <div>{row.data.time}</div>
+                      </Col>
+
+                      <Col span={2} className={styles.col}>
+                        <div>{row.data.isWin ? 'yes' : 'no'}</div>
+                      </Col>
+
+                      <Col span={2} className={styles.col}>
+                        <div>{row.data.scores}</div>
+                      </Col>
+                    </Row>
+                  </PixelCard>
+                )
+              })}
+            </>
+          )}
         </Flex>
       </main>
     </Flex>
