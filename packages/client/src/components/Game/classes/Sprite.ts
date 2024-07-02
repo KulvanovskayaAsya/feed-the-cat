@@ -1,4 +1,6 @@
 import { Coords, GameObject, type GameObjectProps } from './GameObject'
+import { Sound } from './Sound'
+import { CustomAudioBuffer } from '@/components/Game/classes/CustomAudioBuffer'
 
 export type Frames = { max: number; val: number; elapsed: number }
 
@@ -15,6 +17,9 @@ export interface SpriteProps extends GameObjectProps {
   image: HTMLImageElement
   frames?: Frames
   sprites?: SpriteImages
+  audioBuffer?: CustomAudioBuffer | null
+  audioContext?: AudioContext | null
+  soundId?: number
 }
 
 // Класс игрока и врага
@@ -25,6 +30,7 @@ export class Sprite extends GameObject {
   frames: Frames
   moving: boolean
   sprites?: SpriteImages
+  sound?: Sound
 
   constructor(props: SpriteProps) {
     super(props)
@@ -35,6 +41,9 @@ export class Sprite extends GameObject {
       image,
       frames = { max: 1, val: 0, elapsed: 0 },
       sprites,
+      audioBuffer,
+      audioContext,
+      soundId,
     } = props
 
     this.velocity = velocity
@@ -45,6 +54,13 @@ export class Sprite extends GameObject {
     this.height = image.height
     this.moving = false
     this.sprites = sprites
+
+    if (audioBuffer && audioContext && Number.isInteger(soundId)) {
+      this.sound = new Sound(
+        audioContext,
+        audioBuffer.getSoundByIndex(soundId ?? 0)
+      )
+    }
   }
 
   draw(ctx: CanvasRenderingContext2D, FPS: number): void {

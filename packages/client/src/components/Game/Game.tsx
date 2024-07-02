@@ -6,6 +6,7 @@ import {
   useIsWin,
   usePressedAndLastKey,
   useRunGame,
+  useSound,
   useTime,
   useUpdateGame,
   useUpdateLevel,
@@ -28,6 +29,8 @@ export const Game = (props: GameProps): JSX.Element => {
   const [life, setLife] = useState<number>(3)
   const [currentLevel, setCurrentLevel] = useState<number>(1)
 
+  const { audioBuffer, audioContext } = useSound(currentLevel)
+
   const {
     ctx,
     level,
@@ -39,7 +42,14 @@ export const Game = (props: GameProps): JSX.Element => {
     extraFoodArray,
     enemy,
     lifeArray,
-  } = useRunGame(canvasRef, life, currentLevel, heroVariant)
+  } = useRunGame(
+    canvasRef,
+    life,
+    currentLevel,
+    heroVariant,
+    audioBuffer,
+    audioContext
+  )
 
   const gameTime = useUpdateLevel(
     time,

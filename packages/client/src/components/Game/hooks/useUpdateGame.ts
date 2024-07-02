@@ -117,6 +117,7 @@ export function useUpdateGame(
             setLife(prevLife => prevLife - 1)
             setHeroInitCoords(hero, heroInitCoords)
             hero.draw(ctx, FPS)
+            enemy.sound?.play()
           }
         }
       }

@@ -18,7 +18,14 @@ import {
   BIG_FOOD_SCORES,
   EXTRA_FOOD_SCORES,
 } from '../data'
-import { type Coords, Food, Sprite, Background } from '../classes'
+import {
+  type Coords,
+  Food,
+  Sprite,
+  Background,
+  CustomAudioBuffer,
+  Sound,
+} from '../classes'
 import enemyUpImage from '@/assets/enemyUp.png'
 import enemyDownImage from '@/assets/enemyDown.png'
 import enemyLeftImage from '@/assets/enemyLeft.png'
@@ -29,11 +36,14 @@ export function useRunGame(
   canvasRef: MutableRefObject<HTMLCanvasElement | null>,
   life: number,
   currentLevel: number,
-  heroVariant: number
+  heroVariant: number,
+  audioBuffer: CustomAudioBuffer | null,
+  audioContext: AudioContext | null
 ) {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
 
   const [level, setLevel] = useState<Background | null>(null)
+  const [levelSound, setLevelSound] = useState<Sound | null>(null)
   const [foreground, setForeground] = useState<Background | null>(null)
   const [hero, setHero] = useState<Sprite | null>(null)
   const [heroInitCoords, setHeroInitCoords] = useState<Coords | null>(null)
@@ -54,6 +64,14 @@ export function useRunGame(
         image: levelImg,
       })
       setLevel(levelBackground)
+
+      if (audioBuffer && audioContext) {
+        setLevelSound(new Sound(audioContext, audioBuffer.getSoundByIndex(1)))
+      }
+
+      if (levelSound) {
+        levelSound.play()
+      }
 
       const foregroundImg = await loadTexture(
         `src/assets/levels/${currentLevel}/foregroundObjects.png`
@@ -144,6 +162,9 @@ export function useRunGame(
               },
               image,
               score: SMALL_FOOD_SCORES * currentLevel,
+              audioBuffer,
+              audioContext,
+              soundId: 2,
             })
 
             foodArr.push(smallFood)
@@ -157,6 +178,9 @@ export function useRunGame(
               },
               image,
               score: MEDIUM_FOOD_SCORES * currentLevel,
+              audioBuffer,
+              audioContext,
+              soundId: 2,
             })
 
             foodArr.push(mediumFood)
@@ -170,6 +194,9 @@ export function useRunGame(
               },
               image,
               score: BIG_FOOD_SCORES * currentLevel,
+              audioBuffer,
+              audioContext,
+              soundId: 2,
             })
 
             foodArr.push(bigFood)
@@ -183,6 +210,9 @@ export function useRunGame(
               },
               image,
               score: EXTRA_FOOD_SCORES * currentLevel,
+              audioBuffer,
+              audioContext,
+              soundId: 3,
             })
 
             extraFoodArr.push(extraFood)
@@ -218,6 +248,9 @@ export function useRunGame(
                   left: enemyLeftImg,
                   right: enemyRightImg,
                 },
+                audioBuffer,
+                audioContext,
+                soundId: 0,
               })
             )
           }
@@ -255,6 +288,8 @@ export function useRunGame(
       setLifeArray,
       currentLevel,
       heroVariant,
+      audioBuffer,
+      audioContext,
     ]
   )
 
@@ -266,7 +301,7 @@ export function useRunGame(
       clearGame(canvas, ctx)
       run(canvas).then()
     }
-  }, [canvasRef, ctx, currentLevel])
+  }, [canvasRef, ctx, currentLevel, audioBuffer, audioContext])
 
   return {
     ctx,
