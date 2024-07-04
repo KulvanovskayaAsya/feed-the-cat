@@ -4,6 +4,7 @@ export class Sound {
   buffer: AudioBuffer
   gainNode: GainNode
   source: AudioBufferSourceNode
+  isSoundPlaying: boolean
 
   constructor(context: AudioContext, buffer: AudioBuffer) {
     this.context = context
@@ -11,6 +12,7 @@ export class Sound {
     this.gainNode = this.context.createGain()
     this.source = this.context.createBufferSource()
     this.connect()
+    this.isSoundPlaying = false
   }
 
   connect(): void {
@@ -24,6 +26,7 @@ export class Sound {
   play(): void {
     this.connect()
     this.source.start(this.context.currentTime)
+    this.isSoundPlaying = true
   }
 
   stop(): void {

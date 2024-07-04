@@ -24,7 +24,6 @@ import {
   Sprite,
   Background,
   CustomAudioBuffer,
-  Sound,
 } from '../classes'
 import enemyUpImage from '@/assets/enemyUp.png'
 import enemyDownImage from '@/assets/enemyDown.png'
@@ -43,7 +42,6 @@ export function useRunGame(
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
 
   const [level, setLevel] = useState<Background | null>(null)
-  const [levelSound, setLevelSound] = useState<Sound | null>(null)
   const [foreground, setForeground] = useState<Background | null>(null)
   const [hero, setHero] = useState<Sprite | null>(null)
   const [heroInitCoords, setHeroInitCoords] = useState<Coords | null>(null)
@@ -64,14 +62,6 @@ export function useRunGame(
         image: levelImg,
       })
       setLevel(levelBackground)
-
-      if (audioBuffer && audioContext) {
-        setLevelSound(new Sound(audioContext, audioBuffer.getSoundByIndex(1)))
-      }
-
-      if (levelSound) {
-        levelSound.play()
-      }
 
       const foregroundImg = await loadTexture(
         `src/assets/levels/${currentLevel}/foregroundObjects.png`
