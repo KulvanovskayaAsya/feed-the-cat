@@ -6,6 +6,8 @@ export class Sound {
   source: AudioBufferSourceNode
   isSoundPlaying: boolean
 
+  static volume = 1
+
   constructor(context: AudioContext, buffer: AudioBuffer) {
     this.context = context
     this.buffer = buffer
@@ -20,6 +22,7 @@ export class Sound {
     this.source = this.context.createBufferSource()
     this.source.buffer = this.buffer
     this.source.connect(this.gainNode)
+    this.gainNode.gain.value = Sound.volume
     this.gainNode.connect(this.context.destination)
   }
 
@@ -35,7 +38,13 @@ export class Sound {
       this.context.currentTime + 0.5
     )
     this.source.stop(this.context.currentTime + 0.5)
-    this.source.disconnect(this.gainNode)
-    this.gainNode.disconnect(this.context.destination)
+  }
+
+  setGain(): void {
+    this.gainNode.gain.value = Sound.volume
+  }
+
+  static setVolume(volume: number): void {
+    Sound.volume = volume / 100
   }
 }

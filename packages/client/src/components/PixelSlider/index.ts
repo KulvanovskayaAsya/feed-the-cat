@@ -1,0 +1,1 @@
+export { PixelSlider } from './PixelSlider'

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { CustomAudioBuffer, Sound } from '../classes'
 
-export const useSound = (currentLevel: number) => {
+export const useSound = (currentLevel: number, volume: number) => {
   const [audioBuffer, setAudioBuffer] = useState<CustomAudioBuffer | null>(null)
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null)
   const [levelSound, setLevelSound] = useState<Sound | null>(null)
@@ -51,12 +51,16 @@ export const useSound = (currentLevel: number) => {
       levelSound.play()
     }
 
-    // return () => {
-    //   if (levelSound && levelSound.isSoundPlaying) {
-    //     levelSound.stop()
-    //   }
-    // }
+    return () => {
+      if (levelSound && levelSound.isSoundPlaying) {
+        levelSound.stop()
+      }
+    }
   }, [currentLevel, levelSound])
+
+  useEffect(() => {
+    levelSound?.setGain()
+  }, [volume])
 
   return { audioBuffer, audioContext }
 }
