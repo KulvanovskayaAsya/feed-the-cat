@@ -1,4 +1,3 @@
-// Класс звука
 export class Sound {
   context: AudioContext
   buffer: AudioBuffer
@@ -30,6 +29,9 @@ export class Sound {
     this.connect()
     this.source.start(this.context.currentTime)
     this.isSoundPlaying = true
+    this.source.onended = () => {
+      this.isSoundPlaying = false
+    }
   }
 
   stop(): void {

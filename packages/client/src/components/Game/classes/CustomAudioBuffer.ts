@@ -31,10 +31,11 @@ export class CustomAudioBuffer {
   }
 
   async loadAll(): Promise<void> {
-    for (const url of this.urls) {
-      const index = this.urls.indexOf(url)
-      await this.loadSound(url, index)
-    }
+    const requests = this.urls.map((url, index) => {
+      return this.loadSound(url, index)
+    })
+
+    await Promise.all(requests)
   }
 
   getSoundByIndex(index: number): AudioBuffer {
