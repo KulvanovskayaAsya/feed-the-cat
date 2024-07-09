@@ -6,27 +6,32 @@ import {
   useIsWin,
   usePressedAndLastKey,
   useRunGame,
+  useSound,
   useTime,
   useUpdateGame,
   useUpdateLevel,
 } from './hooks'
-import { LEVEL_TIME, LEVELS } from '@/components/Game/data'
+import { LEVEL_TIME, LEVELS } from './data'
 import { useFullscreen } from '@/utils/hooks'
+import { Sound } from './classes'
 
 export interface GameProps {
   width?: number
   height?: number
   heroVariant?: number
+  volume?: number
 }
 
 export const Game = (props: GameProps): JSX.Element => {
-  const { width = 800, height = 600, heroVariant = 2 } = props
+  const { width = 800, height = 600, heroVariant = 2, volume = 100 } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { pressedKey, lastKey } = usePressedAndLastKey()
   const { time, setTime } = useTime(LEVEL_TIME)
   const [scores, setScores] = useState<number>(0)
   const [life, setLife] = useState<number>(3)
   const [currentLevel, setCurrentLevel] = useState<number>(1)
+
+  const { audioBuffer, audioContext } = useSound(currentLevel, volume)
 
   const {
     ctx,
@@ -39,7 +44,14 @@ export const Game = (props: GameProps): JSX.Element => {
     extraFoodArray,
     enemy,
     lifeArray,
-  } = useRunGame(canvasRef, life, currentLevel, heroVariant)
+  } = useRunGame(
+    canvasRef,
+    life,
+    currentLevel,
+    heroVariant,
+    audioBuffer,
+    audioContext
+  )
 
   const gameTime = useUpdateLevel(
     time,
@@ -104,6 +116,10 @@ export const Game = (props: GameProps): JSX.Element => {
   }, [isWinGame])
 
   useFullscreen(canvasRef)
+
+  useEffect(() => {
+    Sound.setVolume(volume)
+  }, [volume])
 
   return (
     <canvas

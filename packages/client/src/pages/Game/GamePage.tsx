@@ -1,13 +1,11 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { Flex } from 'antd'
 import { classNames } from '@/utils'
-
 import { GameStart } from '@/components/Game/GameStart'
 import { GameEnd } from '@/components/Game/GameEnd'
-import { Game, PixelHeader, PixelModal } from '@/components'
+import { Game, PixelHeader, PixelModal, PixelSlider } from '@/components'
 import { useGameLogic } from '@/components/Game/hooks/useGameLogic'
-
 import smallCat from '@/assets/smallCat.png'
 import cls from './GamePage.module.css'
 
@@ -53,6 +51,8 @@ export const GamePage: FC = () => {
     navigate('/')
   }
 
+  const [volume, setVolume] = useState(100)
+
   return (
     <>
       <header className={cls.header}>
@@ -71,7 +71,14 @@ export const GamePage: FC = () => {
           </PixelModal>
         )}
 
-        {isGameStart && <Game heroVariant={heroVariant} />}
+        {isGameStart && (
+          <>
+            <Flex gap="middle" vertical>
+              <PixelSlider max={100} min={0} onSetVolume={setVolume} />
+              <Game heroVariant={heroVariant} volume={volume} />
+            </Flex>
+          </>
+        )}
 
         {isGameFinish && (
           <PixelModal open={true}>
