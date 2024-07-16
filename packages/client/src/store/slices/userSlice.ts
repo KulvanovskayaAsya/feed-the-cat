@@ -34,7 +34,10 @@ export const fetchUserThunk = createAsyncThunk(
   'user/fetchUserThunk',
   async (_: void) => {
     const url = `http://localhost:3001/user`
-    return fetch(url).then(res => res.json())
+    return fetch(url).then(res => {
+      console.log(res)
+      return res.json()
+    })
   }
 )
 
