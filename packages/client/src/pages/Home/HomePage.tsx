@@ -1,11 +1,32 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import styles from './HomePage.module.css'
 import { PixelHeader } from '@/components'
 import smallCat from '@/assets/smallCat.png'
 import { PixelLink } from '@/components'
 import { PATHS } from '@/constants'
+import { useSearchParams } from 'react-router-dom'
+import { postCode } from '@/store/slices/serviceSlice'
+import { useAppDispatch } from '@/store'
+import { SERVICE_URL_LOCAL } from '@/api/urls'
 
 export const HomePage: FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const dispatch = useAppDispatch()
+
+  const query = searchParams.get('code')
+
+  useEffect(() => {
+    if (query) {
+      dispatch(postCode({ code: query, redirect_uri: SERVICE_URL_LOCAL })).then(
+        () => {
+          searchParams.delete('code')
+          searchParams.delete('cid')
+          setSearchParams(searchParams)
+        }
+      )
+    }
+  }, [query])
+
   return (
     <>
       <section className={styles.homeWrapper}>

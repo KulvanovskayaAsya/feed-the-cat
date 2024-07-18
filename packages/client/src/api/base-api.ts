@@ -16,8 +16,11 @@ export class BaseAPI {
     })
   }
 
-  async get<T>(url: string): Promise<AxiosResponse<T>> {
-    return this.instance.get<T>(url).then(this.extract)
+  async get<T>(
+    url: string,
+    params?: Record<string, string>
+  ): Promise<AxiosResponse<T>> {
+    return this.instance.get<T>(url, { params } ?? {}).then(this.extract)
   }
 
   async post<T>(url: string, data: Indexed): Promise<AxiosResponse<T>> {

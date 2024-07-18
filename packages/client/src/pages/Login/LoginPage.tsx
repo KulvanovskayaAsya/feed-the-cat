@@ -10,6 +10,7 @@ import { signin } from '@/store/slices/userSlice'
 import { useAppDispatch } from '@/store'
 import { userSelectors } from '@/store/selectors'
 import { useSelector } from 'react-redux'
+import { OAuth } from '@/components'
 
 const loginFields = [
   {
@@ -76,6 +77,8 @@ export const LoginPage: FC = () => {
         buttonText="Log in"
         onFinish={values => onFinish(values as SignInRequest)}
       />
+
+      <OAuth separatorText={'OR LOG IN WITH'} />
 
       <Link to={PATHS.REGISTRATION}>No account yet?</Link>
 
