@@ -14,8 +14,6 @@ import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { reducer } from './store'
 
-import { fetchUserThunk } from '@/store/slices/userSlice'
-
 import './index.css'
 
 export const render = async (req: ExpressRequest) => {
@@ -32,8 +30,6 @@ export const render = async (req: ExpressRequest) => {
   })
 
   const router = createStaticRouter(dataRoutes, context)
-
-  await store.dispatch(fetchUserThunk())
 
   return {
     html: ReactDOM.renderToString(
