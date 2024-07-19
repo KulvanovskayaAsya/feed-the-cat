@@ -8,10 +8,11 @@ import { useSearchParams } from 'react-router-dom'
 import { postCode } from '@/store/slices/serviceSlice'
 import { useAppDispatch } from '@/store'
 import { SERVICE_URL_LOCAL } from '@/api/urls'
+import { ThunkDispatch } from 'redux-thunk'
 
 export const HomePage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch<ThunkDispatch<any, any, any>>()
 
   const query = searchParams.get('code')
 

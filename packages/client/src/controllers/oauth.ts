@@ -4,8 +4,6 @@ import {
   ServiceIDGetResponse,
   OauthSignInRequest,
 } from '@/api/o-auth-api'
-import { AxiosError } from 'axios'
-
 const oAuth = new OAuthAPI()
 
 export class OAuthController {
@@ -20,7 +18,10 @@ export class OAuthController {
     }
   }
 
-  public async postCode({ code, redirect_uri }: OauthSignInRequest) {
+  public async postCode({
+    code,
+    redirect_uri,
+  }: OauthSignInRequest): Promise<void> {
     try {
       const res = await oAuth.postCode({ code, redirect_uri })
       return res
