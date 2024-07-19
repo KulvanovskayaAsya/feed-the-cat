@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { authController } from '@/controllers/auth'
 import { User } from '@/api/auth-api'
 import { RootState } from '..'
+import { SERVER_HOST } from '@/constants'
 
 export const get = createAsyncThunk('user/get', authController.getUser)
 export const create = createAsyncThunk('user/create', authController.createUser)
@@ -33,7 +34,7 @@ const initialState: State = {
 export const fetchUserThunk = createAsyncThunk(
   'user/fetchUserThunk',
   async (_: void) => {
-    const url = `http://localhost:3001/user`
+    const url = `${SERVER_HOST}/user`
     return fetch(url).then(res => {
       console.log(res)
       return res.json()
