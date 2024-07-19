@@ -16,15 +16,19 @@ export const HomePage: FC = () => {
   const query = searchParams.get('code')
 
   useEffect(() => {
-    if (query) {
-      dispatch(postCode({ code: query, redirect_uri: SERVICE_URL_LOCAL })).then(
-        () => {
+    const postQAuthCode = async () => {
+      if (query) {
+        await dispatch(
+          postCode({ code: query, redirect_uri: SERVICE_URL_LOCAL })
+        ).then(() => {
           searchParams.delete('code')
           searchParams.delete('cid')
           setSearchParams(searchParams)
-        }
-      )
+        })
+      }
     }
+
+    postQAuthCode()
   }, [query])
 
   return (
