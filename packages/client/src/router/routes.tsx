@@ -1,10 +1,10 @@
-import { useRoutes } from 'react-router-dom'
+import { useRoutes, RouteObject } from 'react-router-dom'
 import * as Pages from '../pages'
 import { BaseLayout } from '../layouts/BaseLayout'
 import { WithAuth } from '@/utils/HOCs'
 import { PATHS } from '@/constants'
 
-const routes = [
+export const routes: RouteObject[] = [
   {
     path: PATHS.HOME,
     element: <BaseLayout />,
