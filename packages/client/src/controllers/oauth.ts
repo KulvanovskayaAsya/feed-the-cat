@@ -20,10 +20,7 @@ export class OAuthController {
     }
   }
 
-  public async postCode({
-    code,
-    redirect_uri,
-  }: OauthSignInRequest): Promise<void> {
+  public async postCode({ code, redirect_uri }: OauthSignInRequest) {
     try {
       const res = await oAuth.postCode({ code, redirect_uri })
       return res
