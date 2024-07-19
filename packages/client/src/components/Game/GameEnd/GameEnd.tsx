@@ -8,6 +8,7 @@ import type { LeaderboardNewLeaderRequest } from '@/api/leaderboard-api'
 import { leaderboardSelectors, userSelectors } from '@/store/selectors'
 import { add } from '@/store/slices/leaderboardSlice'
 import { TEAM_NAME } from '@/api/urls'
+import { ThunkDispatch } from 'redux-thunk'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -29,7 +30,7 @@ export const GameEnd: FC<GameEndProps> = ({
   onMainMenu,
 }) => {
   const [api, contextHolder] = notification.useNotification()
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch<ThunkDispatch<any, any, any>>()
 
   const error = useSelector(leaderboardSelectors.error)
   const isLoading = useSelector(leaderboardSelectors.isLoading)

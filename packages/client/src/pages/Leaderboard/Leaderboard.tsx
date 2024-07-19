@@ -9,12 +9,13 @@ import { useAppDispatch } from '@/store'
 import { leaderboardSelectors, userSelectors } from '@/store/selectors'
 import { get } from '@/store/slices/leaderboardSlice'
 import type { LeaderboardRequest } from '@/api/leaderboard-api'
+import { ThunkDispatch } from 'redux-thunk'
 
 const firstPlaceColor = '#F8D028'
 
 export const LeaderboardPage: FC = () => {
   const [api, contextHolder] = notification.useNotification()
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch<ThunkDispatch<any, any, any>>()
 
   const data = useSelector(leaderboardSelectors.leaderboard)
   const error = useSelector(leaderboardSelectors.error)
