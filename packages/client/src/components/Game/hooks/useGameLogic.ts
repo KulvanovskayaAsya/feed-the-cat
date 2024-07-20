@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react'
-import { initialGameData, useGameContext } from '@/context'
+import { resetGameData, selectGameData } from '@/store/slices/gameSlice'
+import { useDispatch, useSelector } from '@/store'
 
 export const useGameLogic = () => {
   const [isGameStart, setIsGameStart] = useState(false)
   const [isGameFinish, setIsGameFinish] = useState(false)
   const [heroVariant, setHeroVariant] = useState(1)
-  const { gameData, setGameData } = useGameContext()
+  const gameData = useSelector(selectGameData)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    setGameData(initialGameData)
-  }, [window.location.pathname])
+    dispatch(resetGameData())
+  }, [window.location.pathname, dispatch])
 
   useEffect(() => {
     if (gameData.isWin === true || gameData.isWin === false) {

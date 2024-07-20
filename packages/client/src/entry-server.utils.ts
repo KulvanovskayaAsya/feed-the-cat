@@ -60,6 +60,8 @@ export const fetchPageDataThunk = createAsyncThunk<void, string>(
 
     for (const { route } of matchedRoutes) {
       if ('fetchData' in route && route.fetchData) {
+        // не получилось справится с типизацией объектов массива роутера
+        // @ts-ignore
         await route.fetchData({ dispatch, state })
       }
     }
