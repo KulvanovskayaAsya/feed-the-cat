@@ -1,10 +1,16 @@
-import { useRoutes, RouteObject } from 'react-router-dom'
+import { useRoutes } from 'react-router-dom'
 import * as Pages from '../pages'
 import { BaseLayout } from '../layouts/BaseLayout'
 import { WithAuth } from '@/utils/HOCs'
 import { PATHS } from '@/constants'
+import { AppDispatch, RootState } from '@/store'
 
-export const routes: RouteObject[] = [
+export type PageInitArgs = {
+  dispatch: AppDispatch
+  state: RootState
+}
+
+export const routes = [
   {
     path: PATHS.HOME,
     element: <BaseLayout />,
@@ -21,10 +27,15 @@ export const routes: RouteObject[] = [
         path: PATHS.REGISTRATION,
         element: <WithAuth Element={Pages.RegistrationPage} />,
       },
-      { path: PATHS.GAME, element: <WithAuth Element={Pages.GamePage} /> },
+      {
+        path: PATHS.GAME,
+        element: <WithAuth Element={Pages.GamePage} />,
+        fetchData: Pages.initGamePage,
+      },
       {
         path: PATHS.PROFILE,
         element: <WithAuth Element={Pages.ProfilePage} />,
+        fetchData: Pages.initProfilePage,
       },
       {
         path: PATHS.LEADERBOARD,

@@ -1,1 +1,1 @@
-export { GamePage } from './GamePage'
+export { initGamePage, GamePage } from './GamePage'

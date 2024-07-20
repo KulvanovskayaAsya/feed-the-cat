@@ -1,6 +1,5 @@
 import { Request as ExpressRequest } from 'express'
 import ReactDOM from 'react-dom/server'
-import { matchRoutes } from 'react-router-dom'
 import {
   createStaticHandler,
   createStaticRouter,
@@ -8,13 +7,18 @@ import {
 } from 'react-router-dom/server'
 import { routes } from '@/router/routes'
 
-import { createFetchRequest, createUrl } from './entry-server.utils'
+import {
+  createFetchRequest,
+  createUrl,
+  fetchPageDataThunk,
+} from './entry-server.utils'
 
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { reducer } from './store'
 
 import './index.css'
+import { setPageHasBeenInitializedOnServer } from './store/slices/ssrSlice'
 
 export const render = async (req: ExpressRequest) => {
   const { query, dataRoutes } = createStaticHandler(routes)
@@ -28,6 +32,11 @@ export const render = async (req: ExpressRequest) => {
   const store = configureStore({
     reducer,
   })
+
+  store.dispatch(setPageHasBeenInitializedOnServer(true))
+
+  const url = createUrl(req)
+  await store.dispatch(fetchPageDataThunk(url.toString()))
 
   const router = createStaticRouter(dataRoutes, context)
 

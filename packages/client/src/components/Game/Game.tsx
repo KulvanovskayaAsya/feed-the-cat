@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import './Game.css'
 import { getGameTime } from './utils'
-import { type GameData, useGameContext } from '@/context'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateGameData, selectGameData } from '@/store/slices/gameSlice'
 import {
   useIsWin,
   usePressedAndLastKey,
@@ -32,6 +33,8 @@ export const Game = (props: GameProps): JSX.Element => {
   const [currentLevel, setCurrentLevel] = useState<number>(1)
 
   const { audioBuffer, audioContext } = useSound(currentLevel, volume)
+  const dispatch = useDispatch()
+  const gameData = useSelector(selectGameData)
 
   const {
     ctx,
@@ -87,31 +90,27 @@ export const Game = (props: GameProps): JSX.Element => {
     currentLevel
   )
 
-  const { setGameData } = useGameContext()
-
   useEffect(() => {
     if (isWinGame === true && currentLevel === LEVELS) {
-      setGameData((prevGameData: GameData) => {
-        return {
-          ...prevGameData,
+      dispatch(
+        updateGameData({
           scores,
           level: currentLevel,
           life,
           time: getGameTime(gameTime + LEVEL_TIME - time),
           isWin: true,
-        }
-      })
+        })
+      )
     } else if (isWinGame === false) {
-      setGameData((prevGameData: GameData) => {
-        return {
-          ...prevGameData,
+      dispatch(
+        updateGameData({
           scores,
           level: currentLevel,
           life,
           time: getGameTime(gameTime + LEVEL_TIME - time),
           isWin: false,
-        }
-      })
+        })
+      )
     }
   }, [isWinGame])
 

@@ -1,15 +1,15 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '@/store'
 
 export interface GameData {
-  scores: number
-  level: number
-  life: number
-  time: string
-  isWin: boolean | null
+  scores: number // набранные очки
+  level: number // последний уровень
+  life: number // оставшиеся жизни
+  time: string // время игры на всех уровнях
+  isWin: boolean | null // игрок победил в игре: true - победил, false - проиграл, null - неизвестно
 }
 
-const initialState: GameData = {
+export const initialState: GameData = {
   scores: 0,
   level: 1,
   life: 3,
@@ -17,43 +17,35 @@ const initialState: GameData = {
   isWin: null,
 }
 
+export const fetchGameDataThunk = createAsyncThunk(
+  'game/fetchGameDataThunk',
+  async () => {
+    return initialState
+  }
+)
+
 const gameSlice = createSlice({
   name: 'game',
-  initialState: initialState,
+  initialState,
   reducers: {
-    setGameData: (state, action: PayloadAction<GameData>) => {
-      state.scores = action.payload.scores
-      state.level = action.payload.level
-      state.life = action.payload.life
-      state.time = action.payload.time
-      state.isWin = action.payload.isWin
+    setGameData(state, action: PayloadAction<GameData>) {
+      return action.payload
     },
-    updateScores: (state, action: PayloadAction<number>) => {
-      state.scores += action.payload
+    updateGameData(state, action: PayloadAction<Partial<GameData>>) {
+      return { ...state, ...action.payload }
     },
-    updateLevel: (state, action: PayloadAction<number>) => {
-      state.level = action.payload
+    resetGameData(state) {
+      return initialState
     },
-    updateLife: (state, action: PayloadAction<number>) => {
-      state.life = action.payload
-    },
-    updateTime: (state, action: PayloadAction<string>) => {
-      state.time = action.payload
-    },
-    updateIsWin: (state, action: PayloadAction<boolean | null>) => {
-      state.isWin = action.payload
-    },
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchGameDataThunk.fulfilled, (state, action) => {
+      return action.payload
+    })
   },
 })
 
-export const {
-  setGameData,
-  updateScores,
-  updateLevel,
-  updateLife,
-  updateTime,
-  updateIsWin,
-} = gameSlice.actions
+export const { setGameData, updateGameData, resetGameData } = gameSlice.actions
 
 export const selectGameData = (state: RootState) => state.game
 

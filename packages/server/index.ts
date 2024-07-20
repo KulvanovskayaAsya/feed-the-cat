@@ -34,6 +34,19 @@ async function createServer() {
     )
   }
 
+  app.get('/user', (_, res) => {
+    res.json({
+      id: 1,
+      first_name: 'John',
+      second_name: 'Doe',
+      display_name: 'johndoe',
+      phone: '1234567890',
+      login: 'johndoe',
+      avatar: '',
+      email: 'johndoe@example.com',
+    })
+  })
+
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
 
