@@ -127,7 +127,6 @@ export const GamePage: FC = () => {
 }
 
 export const initGamePage = async ({ dispatch, state }: PageInitArgs) => {
-  console.log(selectGameData(state))
   if (!selectGameData(state)) {
     return dispatch(fetchGameDataThunk())
   }
