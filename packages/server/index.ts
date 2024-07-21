@@ -2,17 +2,19 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 dotenv.config()
 
-import express from 'express'
+import express, { Request as ExpressRequest } from 'express'
 import path from 'path'
 import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
-import { createClientAndConnect } from './db'
+// import { createClientAndConnect } from './db'
+
+import serialize from 'serialize-javascript'
 
 const port = Number(process.env.SERVER_PORT) || 3001
 const clientPath = path.join(__dirname, '../client')
 const isDev = process.env.NODE_ENV === 'development'
 
-createClientAndConnect()
+// createClientAndConnect()
 
 async function createServer() {
   const app = express()
@@ -32,11 +34,26 @@ async function createServer() {
     )
   }
 
+  app.get('/user', (_, res) => {
+    res.json({
+      id: 1,
+      first_name: 'John',
+      second_name: 'Doe',
+      display_name: 'johndoe',
+      phone: '1234567890',
+      login: 'johndoe',
+      avatar: '',
+      email: 'johndoe@example.com',
+    })
+  })
+
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
 
     try {
-      let render: () => Promise<string>
+      let render: (
+        req: ExpressRequest
+      ) => Promise<{ html: string; initialState: unknown }>
       let template: string
       if (vite) {
         template = await fs.readFile(
@@ -70,11 +87,14 @@ async function createServer() {
         render = (await import(pathToServer)).render
       }
 
-      // Получаем HTML-строку из JSX
-      const appHtml = await render()
-
-      // Заменяем комментарий на сгенерированную HTML-строку
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+      const { html: appHtml, initialState } = await render(req)
+      const serializedInitialState = serialize(initialState, { isJSON: true })
+      const html = template
+        .replace(`<!--ssr-outlet-->`, appHtml)
+        .replace(
+          `<!--ssr-initial-state-->`,
+          `<script>window.APP_INITIAL_STATE = ${serializedInitialState}</script>`
+        )
 
       // Завершаем запрос и отдаём HTML-страницу
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
