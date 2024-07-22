@@ -4,10 +4,11 @@ const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
   process.env
 
 export const createClientAndConnect = async (): Promise<Client | null> => {
+  console.log('user is ', POSTGRES_USER)
   try {
     const client = new Client({
       user: POSTGRES_USER,
-      host: 'localhost',
+      host: 'postgres',
       database: POSTGRES_DB,
       password: POSTGRES_PASSWORD,
       port: Number(POSTGRES_PORT),
