@@ -22,12 +22,7 @@ export class OAuthController {
     code,
     redirect_uri,
   }: OauthSignInRequest): Promise<void> {
-    try {
-      const res = await oAuth.postCode({ code, redirect_uri })
-      return res
-    } catch (e) {
-      throw new Error(e as string)
-    }
+    return await oAuth.postCode({ code, redirect_uri })
   }
 }
 

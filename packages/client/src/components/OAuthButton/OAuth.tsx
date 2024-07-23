@@ -6,6 +6,8 @@ import { serviceSelectors } from '@/store/selectors'
 import { useAppDispatch } from '@/store'
 import { SERVICE_URL_LOCAL } from '@/api/urls'
 import { ThunkDispatch } from 'redux-thunk'
+import { YANDEX_OAUTH_API } from '@/api/urls'
+import yandexLogo from '@/assets/yandex/yandexLogo.png'
 
 import cls from './OAuth.module.css'
 
@@ -21,8 +23,8 @@ export const OAuth: FC<OAuthProps> = ({ separatorText }) => {
     await dispatch(getServiceID({ redirect_uri: SERVICE_URL_LOCAL }))
 
     if (service_id) {
-      await window.location.replace(
-        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${service_id}&redirect_uri=${SERVICE_URL_LOCAL}`
+      window.location.replace(
+        `${YANDEX_OAUTH_API}?response_type=code&client_id=${service_id}&redirect_uri=${SERVICE_URL_LOCAL}`
       )
     }
   }
@@ -31,7 +33,9 @@ export const OAuth: FC<OAuthProps> = ({ separatorText }) => {
     <div className={cls.oauthWrapper}>
       <span className={cls.separator}>{separatorText}</span>
 
-      <PixelButton onClick={oauth}>OAUTH</PixelButton>
+      <PixelButton onClick={oauth}>
+        <img className={cls.yandexLogo} src={yandexLogo} alt="yandex" />
+      </PixelButton>
     </div>
   )
 }
