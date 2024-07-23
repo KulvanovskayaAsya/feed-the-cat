@@ -1,11 +1,40 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import styles from './HomePage.module.css'
 import { PixelHeader } from '@/components'
 import smallCat from '@/assets/smallCat.png'
 import { PixelLink } from '@/components'
 import { PATHS } from '@/constants'
+import { useSearchParams } from 'react-router-dom'
+import { postCode } from '@/store/slices/serviceSlice'
+import { useAppDispatch } from '@/store'
+import { SERVICE_URL_LOCAL } from '@/api/urls'
+import { ThunkDispatch } from 'redux-thunk'
 
 export const HomePage: FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const dispatch = useAppDispatch<ThunkDispatch<any, any, any>>()
+
+  const query = searchParams.get('code')
+
+  const deleteQuery = () => {
+    searchParams.delete('code')
+    searchParams.delete('cid')
+    setSearchParams(searchParams)
+  }
+
+  useEffect(() => {
+    const postQAuthCode = async () => {
+      if (query) {
+        await dispatch(
+          postCode({ code: query, redirect_uri: SERVICE_URL_LOCAL })
+        )
+        await deleteQuery()
+      }
+    }
+
+    postQAuthCode()
+  }, [query])
+
   return (
     <>
       <section className={styles.homeWrapper}>

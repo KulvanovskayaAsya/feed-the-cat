@@ -10,6 +10,8 @@ import { create } from '@/store/slices/userSlice'
 import { useAppDispatch } from '@/store'
 import { userSelectors } from '@/store/selectors'
 import { useSelector } from 'react-redux'
+import { OAuth } from '@/components'
+import { ThunkDispatch } from 'redux-thunk'
 
 const registrationFields = [
   {
@@ -43,7 +45,7 @@ const registrationFields = [
 export const RegistrationPage: FC = () => {
   const navigation = useNavigate()
   const [api, contextHolder] = notification.useNotification()
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch<ThunkDispatch<any, any, any>>()
 
   const isAuth = useSelector(userSelectors.isAuth)
   const error = useSelector(userSelectors.error)
@@ -98,6 +100,8 @@ export const RegistrationPage: FC = () => {
         buttonText="Register"
         onFinish={values => onFinish(values as SignUpRequest)}
       />
+
+      <OAuth separatorText={'OR SIGN UP WITH'} />
 
       <Link to={PATHS.LOGIN}>Already have an account?</Link>
 
