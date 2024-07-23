@@ -18,6 +18,8 @@
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "lib": ["es2019", "esnext.asynciterable", "DOM"],
     "types": ["node", "jest"],
     "baseUrl": ".",
