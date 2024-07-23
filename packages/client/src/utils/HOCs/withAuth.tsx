@@ -6,12 +6,13 @@ import { get } from '@/store/slices/userSlice'
 import { useAppDispatch } from '@/store'
 import { userSelectors } from '@/store/selectors'
 import { useSelector } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
 
 export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   const navigate = useNavigate()
 
   const [isReadyRedirect, setIsReadyRedirect] = useState(false)
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch<ThunkDispatch<any, any, any>>()
 
   const isAuth = useSelector(userSelectors.isAuth)
   const isLoading = useSelector(userSelectors.isLoading)

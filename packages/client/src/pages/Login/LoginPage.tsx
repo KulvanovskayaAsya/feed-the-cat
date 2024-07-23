@@ -10,6 +10,8 @@ import { signin } from '@/store/slices/userSlice'
 import { useAppDispatch } from '@/store'
 import { userSelectors } from '@/store/selectors'
 import { useSelector } from 'react-redux'
+import { OAuth } from '@/components'
+import { ThunkDispatch } from 'redux-thunk'
 
 const loginFields = [
   {
@@ -26,7 +28,7 @@ const loginFields = [
 export const LoginPage: FC = () => {
   const navigation = useNavigate()
   const [api, contextHolder] = notification.useNotification()
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch<ThunkDispatch<any, any, any>>()
 
   const isAuth = useSelector(userSelectors.isAuth)
   const error = useSelector(userSelectors.error)
@@ -76,6 +78,8 @@ export const LoginPage: FC = () => {
         buttonText="Log in"
         onFinish={values => onFinish(values as SignInRequest)}
       />
+
+      <OAuth separatorText={'OR LOG IN WITH'} />
 
       <Link to={PATHS.REGISTRATION}>No account yet?</Link>
 
