@@ -8,6 +8,12 @@ import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import { createClientAndConnect } from './db'
 
+import authRoutes from './routes/auth'
+import userRoutes from './routes/user'
+import topicRoutes from './routes/topic'
+import commentRoutes from './routes/comment'
+import replyRoutes from './routes/reply'
+
 import serialize from 'serialize-javascript'
 
 const port = Number(process.env.SERVER_PORT) || 3001
@@ -34,18 +40,10 @@ async function createServer() {
     )
   }
 
-  app.get('/user', (_, res) => {
-    res.json({
-      id: 1,
-      first_name: 'John',
-      second_name: 'Doe',
-      display_name: 'johndoe',
-      phone: '1234567890',
-      login: 'johndoe',
-      avatar: '',
-      email: 'johndoe@example.com',
-    })
-  })
+  app.use('/api/user', userRoutes)
+  app.use('/api/topic', topicRoutes)
+  app.use('/api/comment', commentRoutes)
+  app.use('/api/reply', replyRoutes)
 
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
