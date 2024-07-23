@@ -1,7 +1,7 @@
 import { BaseAPI } from './base-api'
 import { TEAM_NAME } from './urls'
 import type { User } from '@/api/auth-api'
-import type { GameData } from '@/context'
+import { GameData } from '@/store/slices/gameSlice'
 
 export type LeaderboardData = User & GameData
 
