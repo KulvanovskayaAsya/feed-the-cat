@@ -16,6 +16,7 @@ export const eatingFood = (
     for (const foodPiece of foodArray) {
       if (rectangularCollision(hero, foodPiece)) {
         setScores(prevScores => prevScores + foodPiece.score)
+        foodPiece.sound?.play()
 
         setFoodArray(prevFoodArray => {
           const newFoodArray = prevFoodArray.filter(prevFoodPiece => {

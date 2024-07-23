@@ -12,8 +12,8 @@ const currentUser = {
 const data = Array.from({ length: 5 }, (_, i) => ({
   id: i,
   avatar: '',
-  name: 'Name ' + Math.ceil(Math.random() * 5),
-  score: Math.ceil(Math.random() * 100) + 100 * (5 - i),
+  name: 'Name ' + i,
+  score: Math.ceil(i * 100) + 100 * (5 - i),
 }))
 
 const firstPlaceColor = '#F8D028'

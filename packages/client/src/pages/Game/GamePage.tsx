@@ -1,19 +1,24 @@
-import { FC } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { Flex } from 'antd'
 import { classNames } from '@/utils'
-
 import { GameStart } from '@/components/Game/GameStart'
 import { GameEnd } from '@/components/Game/GameEnd'
-import { Game, PixelHeader, PixelModal } from '@/components'
-import { useGameLogic } from '@/components/Game/hooks/useGameLogic'
-
+import { Game, PixelHeader, PixelModal, PixelSlider } from '@/components'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  selectGameData,
+  resetGameData,
+  fetchGameDataThunk,
+} from '@/store/slices/gameSlice'
 import smallCat from '@/assets/smallCat.png'
 import cls from './GamePage.module.css'
+import { PageInitArgs } from '@/router/routes'
 
 interface RulesProps {
   isFullWidth?: boolean
 }
+
 const RulesComponent: FC<RulesProps> = ({ isFullWidth }: RulesProps) => {
   return (
     <div
@@ -37,21 +42,42 @@ const RulesComponent: FC<RulesProps> = ({ isFullWidth }: RulesProps) => {
 }
 
 export const GamePage: FC = () => {
-  const {
-    isGameStart,
-    isGameFinish,
-    heroVariant,
-    gameData,
-    startGame,
-    playAgain,
-    handleCarouselChange,
-  } = useGameLogic()
+  const dispatch = useDispatch()
+  const gameData = useSelector(selectGameData)
+  const { isWin } = gameData
+
+  const [isGameStart, setIsGameStart] = useState(false)
+  const [isGameFinish, setIsGameFinish] = useState(false)
+  const [heroVariant, setHeroVariant] = useState(1)
 
   const navigate = useNavigate()
 
   const mainMenu = () => {
     navigate('/')
   }
+
+  const startGame = () => {
+    setIsGameStart(true)
+  }
+
+  const playAgain = () => {
+    setIsGameStart(false)
+    setIsGameFinish(false)
+    dispatch(resetGameData())
+  }
+
+  const handleCarouselChange = (currentSlide: number) => {
+    setHeroVariant(currentSlide + 1)
+  }
+
+  const [volume, setVolume] = useState(100)
+
+  useEffect(() => {
+    if (isWin !== null) {
+      setIsGameFinish(true)
+      setIsGameStart(false)
+    }
+  }, [isWin])
 
   return (
     <>
@@ -71,7 +97,14 @@ export const GamePage: FC = () => {
           </PixelModal>
         )}
 
-        {isGameStart && <Game heroVariant={heroVariant} />}
+        {isGameStart && (
+          <>
+            <Flex gap="middle" vertical>
+              <PixelSlider max={100} min={0} onSetVolume={setVolume} />
+              <Game heroVariant={heroVariant} volume={volume} />
+            </Flex>
+          </>
+        )}
 
         {isGameFinish && (
           <PixelModal open={true}>
@@ -91,4 +124,10 @@ export const GamePage: FC = () => {
       )}
     </>
   )
+}
+
+export const initGamePage = async ({ dispatch, state }: PageInitArgs) => {
+  if (!selectGameData(state)) {
+    return dispatch(fetchGameDataThunk())
+  }
 }

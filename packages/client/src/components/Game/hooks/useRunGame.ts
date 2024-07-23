@@ -18,7 +18,13 @@ import {
   BIG_FOOD_SCORES,
   EXTRA_FOOD_SCORES,
 } from '../data'
-import { type Coords, Food, Sprite, Background } from '../classes'
+import {
+  type Coords,
+  Food,
+  Sprite,
+  Background,
+  CustomAudioBuffer,
+} from '../classes'
 import enemyUpImage from '@/assets/enemyUp.png'
 import enemyDownImage from '@/assets/enemyDown.png'
 import enemyLeftImage from '@/assets/enemyLeft.png'
@@ -29,7 +35,9 @@ export function useRunGame(
   canvasRef: MutableRefObject<HTMLCanvasElement | null>,
   life: number,
   currentLevel: number,
-  heroVariant: number
+  heroVariant: number,
+  audioBuffer: CustomAudioBuffer | null,
+  audioContext: AudioContext | null
 ) {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
 
@@ -144,6 +152,9 @@ export function useRunGame(
               },
               image,
               score: SMALL_FOOD_SCORES * currentLevel,
+              audioBuffer,
+              audioContext,
+              soundId: 2,
             })
 
             foodArr.push(smallFood)
@@ -157,6 +168,9 @@ export function useRunGame(
               },
               image,
               score: MEDIUM_FOOD_SCORES * currentLevel,
+              audioBuffer,
+              audioContext,
+              soundId: 2,
             })
 
             foodArr.push(mediumFood)
@@ -170,6 +184,9 @@ export function useRunGame(
               },
               image,
               score: BIG_FOOD_SCORES * currentLevel,
+              audioBuffer,
+              audioContext,
+              soundId: 2,
             })
 
             foodArr.push(bigFood)
@@ -183,6 +200,9 @@ export function useRunGame(
               },
               image,
               score: EXTRA_FOOD_SCORES * currentLevel,
+              audioBuffer,
+              audioContext,
+              soundId: 3,
             })
 
             extraFoodArr.push(extraFood)
@@ -218,6 +238,9 @@ export function useRunGame(
                   left: enemyLeftImg,
                   right: enemyRightImg,
                 },
+                audioBuffer,
+                audioContext,
+                soundId: 0,
               })
             )
           }
@@ -255,6 +278,8 @@ export function useRunGame(
       setLifeArray,
       currentLevel,
       heroVariant,
+      audioBuffer,
+      audioContext,
     ]
   )
 
@@ -266,7 +291,7 @@ export function useRunGame(
       clearGame(canvas, ctx)
       run(canvas).then()
     }
-  }, [canvasRef, ctx, currentLevel])
+  }, [canvasRef, ctx, currentLevel, audioBuffer, audioContext])
 
   return {
     ctx,

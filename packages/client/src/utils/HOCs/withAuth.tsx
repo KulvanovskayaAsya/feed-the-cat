@@ -7,6 +7,7 @@ import { useAppDispatch } from '@/store'
 import { userSelectors } from '@/store/selectors'
 import { useSelector } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
+import { isClient } from '@/utils'
 
 export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   const navigate = useNavigate()
@@ -17,9 +18,9 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   const isAuth = useSelector(userSelectors.isAuth)
   const isLoading = useSelector(userSelectors.isLoading)
 
-  const isLoginPage = [PATHS.LOGIN, PATHS.REGISTRATION].includes(
-    location.pathname
-  )
+  const isLoginPage = isClient()
+    ? [PATHS.LOGIN, PATHS.REGISTRATION].includes(location.pathname)
+    : false
 
   const getUser = async () => {
     try {
@@ -45,15 +46,23 @@ export function WithAuth({ Element }: { Element: FC }): JSX.Element {
   }
 
   useEffect(() => {
-    if (!isAuth && !isLoading && window.location.pathname !== PATHS.LOGIN) {
+    if (
+      isClient() &&
+      !isAuth &&
+      !isLoading &&
+      window.location.pathname !== PATHS.LOGIN
+    ) {
       getUser()
       return
     }
 
     setIsReadyRedirect(true)
-  }, [window.location.pathname])
+  }, [isClient() ? window.location.pathname : null])
 
-  useEffect(redirect, [isReadyRedirect, window.location.pathname])
+  useEffect(redirect, [
+    isReadyRedirect,
+    isClient() ? window.location.pathname : null,
+  ])
 
   if (isLoading) {
     return <Spin spinning={isLoading} fullscreen size={'large'} />

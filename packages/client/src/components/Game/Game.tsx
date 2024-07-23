@@ -1,32 +1,40 @@
 import { useEffect, useRef, useState } from 'react'
 import './Game.css'
 import { getGameTime } from './utils'
-import { type GameData, useGameContext } from '@/context'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateGameData, selectGameData } from '@/store/slices/gameSlice'
 import {
   useIsWin,
   usePressedAndLastKey,
   useRunGame,
+  useSound,
   useTime,
   useUpdateGame,
   useUpdateLevel,
 } from './hooks'
-import { LEVEL_TIME, LEVELS } from '@/components/Game/data'
+import { LEVEL_TIME, LEVELS } from './data'
 import { useFullscreen } from '@/utils/hooks'
+import { Sound } from './classes'
 
 export interface GameProps {
   width?: number
   height?: number
   heroVariant?: number
+  volume?: number
 }
 
 export const Game = (props: GameProps): JSX.Element => {
-  const { width = 800, height = 600, heroVariant = 2 } = props
+  const { width = 800, height = 600, heroVariant = 2, volume = 100 } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { pressedKey, lastKey } = usePressedAndLastKey()
   const { time, setTime } = useTime(LEVEL_TIME)
   const [scores, setScores] = useState<number>(0)
   const [life, setLife] = useState<number>(3)
   const [currentLevel, setCurrentLevel] = useState<number>(1)
+
+  const { audioBuffer, audioContext } = useSound(currentLevel, volume)
+  const dispatch = useDispatch()
+  const gameData = useSelector(selectGameData)
 
   const {
     ctx,
@@ -39,7 +47,14 @@ export const Game = (props: GameProps): JSX.Element => {
     extraFoodArray,
     enemy,
     lifeArray,
-  } = useRunGame(canvasRef, life, currentLevel, heroVariant)
+  } = useRunGame(
+    canvasRef,
+    life,
+    currentLevel,
+    heroVariant,
+    audioBuffer,
+    audioContext
+  )
 
   const gameTime = useUpdateLevel(
     time,
@@ -75,35 +90,35 @@ export const Game = (props: GameProps): JSX.Element => {
     currentLevel
   )
 
-  const { setGameData } = useGameContext()
-
   useEffect(() => {
     if (isWinGame === true && currentLevel === LEVELS) {
-      setGameData((prevGameData: GameData) => {
-        return {
-          ...prevGameData,
+      dispatch(
+        updateGameData({
           scores,
           level: currentLevel,
           life,
           time: getGameTime(gameTime + LEVEL_TIME - time),
           isWin: true,
-        }
-      })
+        })
+      )
     } else if (isWinGame === false) {
-      setGameData((prevGameData: GameData) => {
-        return {
-          ...prevGameData,
+      dispatch(
+        updateGameData({
           scores,
           level: currentLevel,
           life,
           time: getGameTime(gameTime + LEVEL_TIME - time),
           isWin: false,
-        }
-      })
+        })
+      )
     }
   }, [isWinGame])
 
   useFullscreen(canvasRef)
+
+  useEffect(() => {
+    Sound.setVolume(volume)
+  }, [volume])
 
   return (
     <canvas
