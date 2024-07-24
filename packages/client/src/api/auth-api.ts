@@ -1,5 +1,4 @@
 import { BaseAPI } from './base-api'
-import { AxiosResponse } from 'axios'
 
 export type SignInRequest = {
   login: string
@@ -31,29 +30,27 @@ export type User = {
 }
 
 export class AuthAPI extends BaseAPI {
-  async signup(body: SignUpRequest): Promise<AxiosResponse<SignUpResponse>> {
-    return this.post('/auth/signup', body)
-      .then(({ data }) => data)
+  async signup(body: SignUpRequest): Promise<SignUpResponse | void> {
+    return this.post<SignUpResponse>('/auth/signup', body)
+      .then(data => data.data)
       .catch(e => {
         throw e
       })
   }
 
-  async signin(body: SignInRequest): Promise<AxiosResponse<string>> {
-    return this.post('/auth/signin', body)
-      .then(({ data }) => data)
+  async signin(body: SignInRequest): Promise<string | void> {
+    return this.post<string>('/auth/signin', body)
+      .then(data => data.data)
       .catch(e => {
         throw e
       })
   }
 
-  async logout(): Promise<AxiosResponse<string>> {
-    const response = await this.post('/auth/logout', {})
-    return response
+  async logout(): Promise<string> {
+    return await this.post<string>('/auth/logout', {}).then(data => data.data)
   }
 
-  async getUser(): Promise<AxiosResponse<User>> {
-    const { data } = await this.get('/auth/user')
-    return data
+  async getUser(): Promise<User> {
+    return await this.get<User>('/auth/user').then(data => data.data)
   }
 }

@@ -10,6 +10,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './slices/userSlice'
 import gameReducer from './slices/gameSlice'
 import ssrReducer from './slices/ssrSlice'
+import serviceReducer from './slices/serviceSlice'
+import leaderboardReducer from './slices/leaderboardSlice'
 
 declare global {
   interface Window {
@@ -19,8 +21,10 @@ declare global {
 
 export const reducer = combineReducers({
   user: userReducer,
+  leaderboard: leaderboardReducer,
   game: gameReducer,
   ssr: ssrReducer,
+  service: serviceReducer,
 })
 
 export const store = configureStore({
