@@ -63,7 +63,7 @@ import React, { useEffect, useState } from 'react'
 import { forumAPI, Topic, Comment, Reply } from '@/api/forum-api'
 import { useNavigate } from 'react-router-dom'
 
-const ForumPage: React.FC = () => {
+export const ForumPage: React.FC = () => {
   const [topics, setTopics] = useState<Topic[]>([])
   const [comments, setComments] = useState<Comment[]>([])
   const [replies, setReplies] = useState<Reply[]>([])
@@ -143,5 +143,3 @@ const ForumPage: React.FC = () => {
     </div>
   )
 }
-
-export default ForumPage
