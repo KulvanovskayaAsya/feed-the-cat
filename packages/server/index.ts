@@ -8,10 +8,7 @@ import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import { createClientAndConnect } from './db'
 
-import userRoutes from './routes/user'
-import topicRoutes from './routes/topic'
-import commentRoutes from './routes/comment'
-import replyRoutes from './routes/reply'
+import apiRoutes from './routes'
 
 import serialize from 'serialize-javascript'
 
@@ -23,7 +20,7 @@ createClientAndConnect()
 
 async function createServer() {
   const app = express()
-  app.use(cors())
+  app.use(cors({ credentials: true }))
   app.use(express.json())
 
   let vite: ViteDevServer | undefined
@@ -40,10 +37,7 @@ async function createServer() {
     )
   }
 
-  app.use('/api', userRoutes)
-  app.use('/api', topicRoutes)
-  app.use('/api', commentRoutes)
-  app.use('/api', replyRoutes)
+  app.use('/api', apiRoutes)
 
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
