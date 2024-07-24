@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { User } from '../models/user'
 
 export const createUser = async (req: Request, res: Response) => {
+  console.log(req.body)
   const { username, password, email } = req.body
 
   try {

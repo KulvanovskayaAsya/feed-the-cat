@@ -9,10 +9,12 @@ import {
 
 const router = Router()
 
-router.post('/user', createUser)
-router.get('/user', getUsers)
-router.get('/user/:id', getUserById)
-router.put('/user/:id', updateUser)
-router.delete('/user/:id', deleteUser)
+const BASE_ROUTE = '/user'
+
+router.post(BASE_ROUTE, createUser)
+router.get(BASE_ROUTE, getUsers)
+router.get(`${BASE_ROUTE}/:id`, getUserById)
+router.put(`${BASE_ROUTE}/:id`, updateUser)
+router.delete(`${BASE_ROUTE}/:id`, deleteUser)
 
 export default router

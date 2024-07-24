@@ -9,10 +9,12 @@ import {
 
 const router = Router()
 
-router.post('/topic', createTopic)
-router.get('/topic', getTopics)
-router.get('/topic/:id', getTopicById)
-router.put('/topic/:id', updateTopic)
-router.delete('/topic/:id', deleteTopic)
+const BASE_ROUTE = '/topic'
+
+router.post(BASE_ROUTE, createTopic)
+router.get(BASE_ROUTE, getTopics)
+router.get(`${BASE_ROUTE}/:id`, getTopicById)
+router.put(`${BASE_ROUTE}/:id`, updateTopic)
+router.delete(`${BASE_ROUTE}/:id`, deleteTopic)
 
 export default router

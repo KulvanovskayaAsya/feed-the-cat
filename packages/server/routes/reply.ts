@@ -9,10 +9,12 @@ import {
 
 const router = Router()
 
-router.post('/reply', createReply)
-router.get('/reply/:commentId', getReplies)
-router.get('/reply/:id', getReplyById)
-router.put('/reply/:id', updateReply)
-router.delete('/reply/:id', deleteReply)
+const BASE_ROUTE = '/reply'
+
+router.post(BASE_ROUTE, createReply)
+router.get(`${BASE_ROUTE}/:commentId`, getReplies)
+router.get(`${BASE_ROUTE}/:id`, getReplyById)
+router.put(`${BASE_ROUTE}/:id`, updateReply)
+router.delete(`${BASE_ROUTE}/:id`, deleteReply)
 
 export default router

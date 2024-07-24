@@ -9,10 +9,12 @@ import {
 
 const router = Router()
 
-router.post('/comment', createComment)
-router.get('/comment/:topicId', getComments)
-router.get('/comment/:id', getCommentById)
-router.put('/comment/:id', updateComment)
-router.delete('/comment/:id', deleteComment)
+const BASE_ROUTE = '/comment'
+
+router.post(BASE_ROUTE, createComment)
+router.get(`${BASE_ROUTE}/:topicId`, getComments)
+router.get(`${BASE_ROUTE}/:id`, getCommentById)
+router.put(`${BASE_ROUTE}/:id`, updateComment)
+router.delete(`${BASE_ROUTE}/:id`, deleteComment)
 
 export default router

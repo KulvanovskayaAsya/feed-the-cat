@@ -24,6 +24,7 @@ createClientAndConnect()
 async function createServer() {
   const app = express()
   app.use(cors())
+  app.use(express.json())
 
   let vite: ViteDevServer | undefined
   if (isDev) {
@@ -39,10 +40,10 @@ async function createServer() {
     )
   }
 
-  app.use('/api/user', userRoutes)
-  app.use('/api/topic', topicRoutes)
-  app.use('/api/comment', commentRoutes)
-  app.use('/api/reply', replyRoutes)
+  app.use('/api', userRoutes)
+  app.use('/api', topicRoutes)
+  app.use('/api', commentRoutes)
+  app.use('/api', replyRoutes)
 
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
