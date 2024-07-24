@@ -14,7 +14,7 @@ export const authMiddleware = async (
       return res.status(401).json({ message: 'Кука где?!' })
     }
 
-    const response = await fetch('https://your-yandex-api-endpoint/auth/user', {
+    const response = await fetch('https://ya-praktikum.tech/api/v2/auth/user', {
       headers: { cookie: cookies },
       credentials: 'include',
     })

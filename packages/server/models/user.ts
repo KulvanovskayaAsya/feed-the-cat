@@ -13,7 +13,7 @@ export class User extends Model<User> {
     primaryKey: true,
     autoIncrement: true,
   })
-  id!: number
+  override id: number
 
   @Column({
     type: DataType.STRING,
@@ -25,14 +25,14 @@ export class User extends Model<User> {
     type: DataType.STRING,
     allowNull: false,
   })
-  password!: string
+  override password!: string
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
     unique: true,
   })
-  email!: string
+  override email!: string
 
   @HasMany(() => Topic)
   topics: Topic[]
