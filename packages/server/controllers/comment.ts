@@ -1,17 +1,24 @@
-// @ts-nocheck
 import { Request, Response } from 'express'
 import { Comment } from '../models/comment'
 import { Reply } from '../models/reply'
 
 export const createComment = async (req: Request, res: Response) => {
   const { content, topicId } = req.body
-  const userId = req.user.id
+  const userId = req.user?.id
+
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID is required' })
+  }
 
   try {
-    const comment = await Comment.create({ content, topicId, userId })
-    res.status(201).json(comment)
+    const comment = await Comment.create({
+      content: content,
+      topicId: topicId,
+      userId: Number(userId),
+    } as Comment)
+    return res.status(201).json(comment)
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    return res.status(500).json({ error: (error as Error).message })
   }
 }
 
@@ -25,7 +32,7 @@ export const getComments = async (req: Request, res: Response) => {
     })
     res.json(comments)
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ error: (error as Error).message })
   }
 }
 
@@ -40,7 +47,7 @@ export const getCommentById = async (req: Request, res: Response) => {
       res.status(404).json({ error: 'Comment not found' })
     }
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ error: (error as Error).message })
   }
 }
 
@@ -58,7 +65,7 @@ export const updateComment = async (req: Request, res: Response) => {
       res.status(404).json({ error: 'Comment not found' })
     }
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ error: (error as Error).message })
   }
 }
 
@@ -74,6 +81,6 @@ export const deleteComment = async (req: Request, res: Response) => {
       res.status(404).json({ error: 'Comment not found' })
     }
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ error: (error as Error).message })
   }
 }

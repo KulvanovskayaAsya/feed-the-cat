@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Table,
   Column,
@@ -8,7 +7,6 @@ import {
   BelongsTo,
   HasMany,
 } from 'sequelize-typescript'
-import { User } from './user'
 import { Comment } from './comment'
 
 @Table({
@@ -20,40 +18,36 @@ export class Reply extends Model<Reply> {
     primaryKey: true,
     autoIncrement: true,
   })
-  id!: number
+  declare id: number
 
   @Column({
     type: DataType.TEXT,
     allowNull: false,
   })
-  content!: string
+  declare content: string
 
-  @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  userId!: number
-
-  @BelongsTo(() => User)
-  user: User
+  declare userId: number
 
   @ForeignKey(() => Comment)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  commentId: number
+  declare commentId: number
 
   @BelongsTo(() => Comment)
-  comment: Comment
+  declare comment: Comment
 
   @ForeignKey(() => Reply)
   @Column({
     type: DataType.INTEGER,
   })
-  parentId: number
+  declare parentId: number
 
   @HasMany(() => Reply, { as: 'Replies' })
-  replies: Reply[]
+  declare replies: Reply[]
 }

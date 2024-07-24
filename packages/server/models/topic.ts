@@ -1,14 +1,4 @@
-// @ts-nocheck
-import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  ForeignKey,
-  BelongsTo,
-  HasMany,
-} from 'sequelize-typescript'
-import { User } from './user'
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript'
 import { Comment } from './comment'
 
 @Table({
@@ -20,30 +10,26 @@ export class Topic extends Model<Topic> {
     primaryKey: true,
     autoIncrement: true,
   })
-  id!: number
+  declare id: number
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  title!: string
+  declare title: string
 
   @Column({
     type: DataType.TEXT,
     allowNull: false,
   })
-  content!: string
+  declare content: string
 
-  @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  userId: number
-
-  @BelongsTo(() => User)
-  user: User
+  declare userId: number
 
   @HasMany(() => Comment)
-  comments: Comment[]
+  declare comments: Comment[]
 }

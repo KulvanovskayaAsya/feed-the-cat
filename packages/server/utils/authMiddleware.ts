@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Request, Response, NextFunction } from 'express'
 
 export const authMiddleware = async (
@@ -8,10 +7,9 @@ export const authMiddleware = async (
 ) => {
   try {
     const cookies = req.headers.cookie
-    console.log('cookies = ', cookies)
 
     if (!cookies) {
-      return res.status(401).json({ message: 'Кука где?!' })
+      return res.status(401).json({ message: 'Not authenticated' })
     }
 
     const response = await fetch('https://ya-praktikum.tech/api/v2/auth/user', {
@@ -19,19 +17,15 @@ export const authMiddleware = async (
       credentials: 'include',
     })
 
-    console.log(response)
-
     if (response.ok) {
       const userData = await response.json()
+
       req.user = userData
-      next()
+      return next()
     } else {
       res.status(401).json({ message: 'Not authenticated' })
     }
-
-    next()
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: 'Internal Server Error' })
+    res.status(500).json({ message: 'Not authenticated' })
   }
 }

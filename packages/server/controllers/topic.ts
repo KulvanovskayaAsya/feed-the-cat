@@ -1,26 +1,33 @@
-// @ts-nocheck
 import { Request, Response } from 'express'
 import { Topic } from '../models/topic'
 import { Comment } from '../models/comment'
 
 export const createTopic = async (req: Request, res: Response) => {
   const { title, content } = req.body
-  const userId = req.user.id
+  const userId = req.user?.id
+
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID is required' })
+  }
 
   try {
-    const topic = await Topic.create({ title, content, userId })
-    res.status(201).json(topic)
+    const topic = await Topic.create({
+      title: title,
+      content: content,
+      userId: Number(userId),
+    } as Topic)
+    return res.status(201).json(topic)
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    return res.status(500).json({ error: (error as Error).message })
   }
 }
 
-export const getTopics = async (req: Request, res: Response) => {
+export const getTopics = async (_: Request, res: Response) => {
   try {
     const topics = await Topic.findAll({ include: [Comment] })
     res.json(topics)
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ error: (error as Error).message })
   }
 }
 
@@ -35,7 +42,7 @@ export const getTopicById = async (req: Request, res: Response) => {
       res.status(404).json({ error: 'Topic not found' })
     }
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ error: (error as Error).message })
   }
 }
 
@@ -54,7 +61,7 @@ export const updateTopic = async (req: Request, res: Response) => {
       res.status(404).json({ error: 'Topic not found' })
     }
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ error: (error as Error).message })
   }
 }
 
@@ -70,6 +77,6 @@ export const deleteTopic = async (req: Request, res: Response) => {
       res.status(404).json({ error: 'Topic not found' })
     }
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ error: (error as Error).message })
   }
 }

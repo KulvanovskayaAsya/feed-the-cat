@@ -4,16 +4,12 @@ dotenv.config()
 
 import express, { Request as ExpressRequest } from 'express'
 import path from 'path'
-import fsPromises from 'fs/promises'
-import fs from 'fs'
-import https from 'https'
+import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import { createClientAndConnect } from './db'
-// import cookieParser = require("cookie-parser")
 
 import { authMiddleware } from './utils/authMiddleware'
 
-import userRoutes from './routes/user'
 import topicRoutes from './routes/topic'
 import commentRoutes from './routes/comment'
 import replyRoutes from './routes/reply'
@@ -24,14 +20,29 @@ const port = Number(process.env.SERVER_PORT) || 3001
 const clientPath = path.join(__dirname, '../client')
 const isDev = process.env.NODE_ENV === 'development'
 
+export type User = {
+  id: number
+  first_name: string
+  second_name: string
+  display_name: string
+  phone: string
+  login: string
+  avatar: string
+  email: string
+}
+
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: User
+  }
+}
+
 createClientAndConnect()
 
 async function createServer() {
-  // console.log('cookieParser', cookieParser())
   const app = express()
   app.use(cors())
   app.use(express.json())
-  // app.use(cookieParser())
 
   let vite: ViteDevServer | undefined
   if (isDev) {
@@ -47,10 +58,9 @@ async function createServer() {
     )
   }
 
-  app.use('/api', authMiddleware, userRoutes)
   app.use('/api', authMiddleware, topicRoutes)
-  app.use('/api', commentRoutes)
-  app.use('/api', replyRoutes)
+  app.use('/api', authMiddleware, commentRoutes)
+  app.use('/api', authMiddleware, replyRoutes)
 
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
@@ -61,7 +71,7 @@ async function createServer() {
       ) => Promise<{ html: string; initialState: unknown }>
       let template: string
       if (vite) {
-        template = await fsPromises.readFile(
+        template = await fs.readFile(
           path.resolve(clientPath, 'index.html'),
           'utf-8'
         )
@@ -77,7 +87,7 @@ async function createServer() {
           )
         ).render
       } else {
-        template = await fsPromises.readFile(
+        template = await fs.readFile(
           path.join(clientPath, 'dist/client/index.html'),
           'utf-8'
         )
@@ -109,13 +119,8 @@ async function createServer() {
     }
   })
 
-  const httpsOptions = {
-    key: fs.readFileSync('./local.ya-praktikum.tech-key.pem'),
-    cert: fs.readFileSync('./local.ya-praktikum.tech.pem'),
-  }
-
-  https.createServer(httpsOptions, app).listen(port, () => {
-    console.log(`  ➜ 🎸 HTTPS Server is listening on port: ${port}`)
+  app.listen(port, () => {
+    console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
   })
 }
 
