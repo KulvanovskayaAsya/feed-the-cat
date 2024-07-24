@@ -6,7 +6,7 @@ import express, { Request as ExpressRequest } from 'express'
 import path from 'path'
 import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
-// import { createClientAndConnect } from './db'
+import { createClientAndConnect } from './db'
 
 import serialize from 'serialize-javascript'
 
@@ -14,7 +14,7 @@ const port = Number(process.env.SERVER_PORT) || 3001
 const clientPath = path.join(__dirname, '../client')
 const isDev = process.env.NODE_ENV === 'development'
 
-// createClientAndConnect()
+createClientAndConnect()
 
 async function createServer() {
   const app = express()

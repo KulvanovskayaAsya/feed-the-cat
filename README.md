@@ -76,6 +76,18 @@ _Хотелки:_
 ## Игровое видео:
 ![Видео](docs/game_video.gif)
 
+# DOCKER
+### Запуск контейнеров:
+`docker-compose -f docker-compose.yml up --build`
+### Будут запущены следующие контейнеры:
+- Клиент: http://localhost:3000/
+- Сервер: http://localhost:3001/
+- База данных PostgreSQL: http://localhost:5432/
+- Графическая утилита Pgadmin: http://localhost:8080/
+
+### Остановка контейнеров:
+`docker-compose down`
+
 ### Как запускать?
 
 1. Убедитесь что у вас установлен `node` и `docker`
