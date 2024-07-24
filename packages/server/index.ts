@@ -4,9 +4,14 @@ dotenv.config()
 
 import express, { Request as ExpressRequest } from 'express'
 import path from 'path'
-import fs from 'fs/promises'
+import fsPromises from 'fs/promises'
+import fs from 'fs'
+import https from 'https'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import { createClientAndConnect } from './db'
+// import cookieParser = require("cookie-parser")
+
+import { authMiddleware } from './utils/authMiddleware'
 
 import userRoutes from './routes/user'
 import topicRoutes from './routes/topic'
@@ -22,9 +27,11 @@ const isDev = process.env.NODE_ENV === 'development'
 createClientAndConnect()
 
 async function createServer() {
+  // console.log('cookieParser', cookieParser())
   const app = express()
   app.use(cors())
   app.use(express.json())
+  // app.use(cookieParser())
 
   let vite: ViteDevServer | undefined
   if (isDev) {
@@ -40,8 +47,8 @@ async function createServer() {
     )
   }
 
-  app.use('/api', userRoutes)
-  app.use('/api', topicRoutes)
+  app.use('/api', authMiddleware, userRoutes)
+  app.use('/api', authMiddleware, topicRoutes)
   app.use('/api', commentRoutes)
   app.use('/api', replyRoutes)
 
@@ -54,7 +61,7 @@ async function createServer() {
       ) => Promise<{ html: string; initialState: unknown }>
       let template: string
       if (vite) {
-        template = await fs.readFile(
+        template = await fsPromises.readFile(
           path.resolve(clientPath, 'index.html'),
           'utf-8'
         )
@@ -70,7 +77,7 @@ async function createServer() {
           )
         ).render
       } else {
-        template = await fs.readFile(
+        template = await fsPromises.readFile(
           path.join(clientPath, 'dist/client/index.html'),
           'utf-8'
         )
@@ -102,8 +109,13 @@ async function createServer() {
     }
   })
 
-  app.listen(port, () => {
-    console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
+  const httpsOptions = {
+    key: fs.readFileSync('./local.ya-praktikum.tech-key.pem'),
+    cert: fs.readFileSync('./local.ya-praktikum.tech.pem'),
+  }
+
+  https.createServer(httpsOptions, app).listen(port, () => {
+    console.log(`  ➜ 🎸 HTTPS Server is listening on port: ${port}`)
   })
 }
 
