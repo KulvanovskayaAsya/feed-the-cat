@@ -19,12 +19,15 @@ export const createCommentThunk = createAsyncThunk(
 )
 
 export type TComment = {
-  id: string
-  text: string
+  id: number
+  topicId: number
+  content: string
+  avatar: string
+  userId: string
 }
 
 export type TTopic = {
-  id: string
+  id: number
   title: string
   description: string
   comments: TComment[]
@@ -107,7 +110,7 @@ export const forumSlice = createSlice({
       })
       .addCase(createCommentThunk.fulfilled, (state, action) => {
         state.topicList
-          .find(topic => topic.id === action.payload.id)
+          .find(topic => topic.id === action.payload.topicId)
           ?.comments.push(action.payload)
         state.selectedTopic?.comments.push(action.payload)
         state.loading = false

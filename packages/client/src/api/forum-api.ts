@@ -3,7 +3,7 @@ import { BaseAPI } from './base-api'
 import { COMMENT_URL, TEAM_NAME, TOPIC_URL } from './urls'
 
 export type TCreateCommentRequest = {
-  topicId: string
+  topicId: number
   content: string
 }
 
