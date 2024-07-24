@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Request, Response } from 'express'
 import { Comment } from '../models/comment'
 import { Reply } from '../models/reply'

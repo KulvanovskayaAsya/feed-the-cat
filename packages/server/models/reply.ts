@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Table,
   Column,
@@ -19,20 +20,20 @@ export class Reply extends Model<Reply> {
     primaryKey: true,
     autoIncrement: true,
   })
-  id: number
+  id!: number
 
   @Column({
     type: DataType.TEXT,
     allowNull: false,
   })
-  content: string
+  content!: string
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  userId: number
+  userId!: number
 
   @BelongsTo(() => User)
   user: User

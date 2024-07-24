@@ -8,7 +8,6 @@ import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import { createClientAndConnect } from './db'
 
-import authRoutes from './routes/auth'
 import userRoutes from './routes/user'
 import topicRoutes from './routes/topic'
 import commentRoutes from './routes/comment'

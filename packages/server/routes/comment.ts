@@ -1,4 +1,11 @@
 import { Router } from 'express'
+import {
+  createComment,
+  getComments,
+  getCommentById,
+  updateComment,
+  deleteComment,
+} from '../controllers/comment'
 
 const router = Router()
 

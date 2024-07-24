@@ -1,5 +1,9 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
-import path from 'path'
+
+import { User } from './models/user'
+import { Topic } from './models/topic'
+import { Comment } from './models/comment'
+import { Reply } from './models/reply'
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
   process.env
@@ -12,7 +16,7 @@ export const createClientAndConnect = async (): Promise<Sequelize | null> => {
     password: POSTGRES_PASSWORD,
     database: POSTGRES_DB,
     dialect: 'postgres',
-    models: [path.join(__dirname, 'models')],
+    models: [User, Topic, Comment, Reply],
   }
 
   const sequelize = new Sequelize(sequelizeOptions)

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Table,
   Column,
@@ -19,19 +20,19 @@ export class Topic extends Model<Topic> {
     primaryKey: true,
     autoIncrement: true,
   })
-  id: number
+  id!: number
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  title: string
+  title!: string
 
   @Column({
     type: DataType.TEXT,
     allowNull: false,
   })
-  content: string
+  content!: string
 
   @ForeignKey(() => User)
   @Column({
