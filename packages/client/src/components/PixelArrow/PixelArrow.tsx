@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { Mods, classNames } from '@/utils'
-
+import { classNames } from '@/utils'
+import arrowImage from '@/assets/arrow.jpeg'
 import cls from './PixelArrow.module.css'
 
 interface PixelArrowProps {
@@ -16,7 +16,7 @@ export const PixelArrow: FC<PixelArrowProps> = ({
 }) => {
   return (
     <img
-      src={`/src/assets/arrow.jpeg`}
+      src={arrowImage}
       alt={`${direction} arrow`}
       className={classNames(cls.arrow, {}, [className, cls[direction]])}
       onClick={onClick}

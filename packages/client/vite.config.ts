@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
+import path from 'path'
 dotenv.config()
 
 type ViteConfigInput = {
@@ -24,6 +25,9 @@ export default (args: ViteConfigInput) => {
       __INTERNAL_SERVER_URL__: JSON.stringify(process.env.INTERNAL_SERVER_URL),
       __SERVER_PORT__: process.env.SERVER_PORT,
     },
+    ssr: {
+      format: 'cjs',
+    },
     css: {
       modules: {
         localsConvention: 'camelCase',
@@ -33,6 +37,10 @@ export default (args: ViteConfigInput) => {
     plugins: [react()],
     resolve: {
       alias: [{ find: '@', replacement: '/src' }],
+    },
+    build: {
+      outDir: path.join(__dirname, 'dist/client'),
+      assetsDir: 'assets',
     },
   })
 }
