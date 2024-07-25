@@ -8,8 +8,7 @@ import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import serialize from 'serialize-javascript'
 import { connectToPostrgess } from './sequelize'
-import { themeService } from './services/Theme'
-import { userThemeService } from './services/UserTheme'
+import themeRoutes from './routes/theme'
 
 const port = Number(process.env.SERVER_PORT) || 3001
 const isDev = process.env.NODE_ENV === 'development'
@@ -51,45 +50,7 @@ async function createServer() {
     })
   })
 
-  app.get('/theme/:userId', async (req, res) => {
-    const userId = req.params?.userId
-
-    const result = await userThemeService.find({
-      userId: Number(userId),
-    })
-    res.send(result)
-  })
-
-  app.post('/theme/:userId', async (req, res) => {
-    const userId = req.params?.userId
-    let rawBody = ''
-
-    req.on('data', chunk => {
-      rawBody += chunk
-    })
-
-    req.on('end', async () => {
-      const themeObj = JSON.parse(rawBody)
-      await userThemeService.set({
-        userId,
-        themeId: Number(themeObj.theme),
-      })
-      res.send({})
-    })
-  })
-
-  app.put('/theme', async (req, res) => {
-    let rawBody = ''
-
-    req.on('data', chunk => {
-      rawBody += chunk
-    })
-
-    req.on('end', async () => {
-      await themeService.create(JSON.parse(rawBody))
-      await res.json({})
-    })
-  })
+  app.use('/api', themeRoutes)
 
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
