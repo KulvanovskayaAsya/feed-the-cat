@@ -25,3 +25,8 @@
   height: 100%;
   background-color: $color-light;
 }
+
+&:last-child { 
+  display: inlineblock; 
+  width: 100%; 
+} 
