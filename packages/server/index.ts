@@ -12,8 +12,10 @@ import { themeService } from './services/Theme'
 import { userThemeService } from './services/UserTheme'
 
 const port = Number(process.env.SERVER_PORT) || 3001
-const clientPath = path.join(__dirname, '../client')
 const isDev = process.env.NODE_ENV === 'development'
+const clientPath = isDev
+  ? path.join(__dirname, '../client')
+  : path.join(__dirname, './')
 
 connectToPostrgess()
 
@@ -122,7 +124,7 @@ async function createServer() {
         // Получаем путь до сбилдженого модуля клиента, чтобы не тащить средства сборки клиента на сервер
         const pathToServer = path.join(
           clientPath,
-          'dist/server/entry-server.js'
+          'dist/server/entry-server.cjs'
         )
 
         // Импортируем этот модуль и вызываем с инишл стейтом

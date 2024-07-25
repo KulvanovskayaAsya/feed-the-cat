@@ -41,7 +41,12 @@ export const GameStart: FC<GameStartProps> = ({
               <div className={cls.imageContainer}>
                 <img
                   className={cls.heroImage}
-                  src={`/src/assets/heroes/${index + 1}/heroDown.png`}
+                  src={
+                    new URL(
+                      `/src/assets/heroes/${index + 1}/heroDown.png`,
+                      import.meta.url
+                    ).href
+                  }
                   alt={`Hero ${index + 1}`}
                 />
               </div>

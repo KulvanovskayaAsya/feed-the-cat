@@ -55,7 +55,8 @@ export function useRunGame(
       const foodImgArray: HTMLImageElement[] = []
 
       const levelImg = await loadTexture(
-        `src/assets/levels/${currentLevel}/level.png`
+        new URL(`/src/assets/levels/${currentLevel}/level.png`, import.meta.url)
+          .href
       )
       const levelBackground = new Background({
         position: { x: 0, y: 0 },
@@ -64,7 +65,10 @@ export function useRunGame(
       setLevel(levelBackground)
 
       const foregroundImg = await loadTexture(
-        `src/assets/levels/${currentLevel}/foregroundObjects.png`
+        new URL(
+          `/src/assets/levels/${currentLevel}/foregroundObjects.png`,
+          import.meta.url
+        ).href
       )
       const foreground = new Background({
         position: { x: 0, y: 0 },
@@ -73,21 +77,34 @@ export function useRunGame(
       setForeground(foreground)
 
       const heroUpImg = await loadTexture(
-        `./src/assets/heroes/${heroVariant}/heroUp.png`
+        new URL(`/src/assets/heroes/${heroVariant}/heroUp.png`, import.meta.url)
+          .href
       )
       const heroDownImg = await loadTexture(
-        `./src/assets/heroes/${heroVariant}/heroDown.png`
+        new URL(
+          `/src/assets/heroes/${heroVariant}/heroDown.png`,
+          import.meta.url
+        ).href
       )
       const heroLeftImg = await loadTexture(
-        `./src/assets/heroes/${heroVariant}/heroLeft.png`
+        new URL(
+          `/src/assets/heroes/${heroVariant}/heroLeft.png`,
+          import.meta.url
+        ).href
       )
       const heroRightImg = await loadTexture(
-        `./src/assets/heroes/${heroVariant}/heroRight.png`
+        new URL(
+          `/src/assets/heroes/${heroVariant}/heroRight.png`,
+          import.meta.url
+        ).href
       )
 
       for (let i = 1; i <= FOOD; i++) {
         const foodImg = await loadTexture(
-          `src/assets/levels/${currentLevel}/food/${i}.png`
+          new URL(
+            `/src/assets/levels/${currentLevel}/food/${i}.png`,
+            import.meta.url
+          ).href
         )
         foodImgArray.push(foodImg)
       }

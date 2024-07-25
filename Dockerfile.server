@@ -12,6 +12,7 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 RUN yarn lerna bootstrap
+RUN rm -rf /app/packages/client/dist/ && yarn build --scope=client
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
 
 
@@ -20,9 +21,11 @@ WORKDIR /app
 
 COPY --from=builder /app/packages/server/dist/ /app/
 COPY --from=builder /app/packages/server/package.json /app/package.json
+COPY --from=builder /app/packages/client/dist/ /app/dist/
 RUN yarn install --production=true
 
 ENV POSTGRES_PORT=${POSTGRES_PORT}
 ENV SERVER_PORT=${SERVER_PORT}
+ENV NODE_ENV="production"
 EXPOSE $SERVER_PORT
 CMD [ "node", "/app/index.js" ]
