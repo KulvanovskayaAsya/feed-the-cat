@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CustomAudioBuffer, Sound } from '../classes'
+import enemySound from '@/assets/enemy.mp3'
 
 export const useSound = (currentLevel: number, volume: number) => {
   const [audioBuffer, setAudioBuffer] = useState<CustomAudioBuffer | null>(null)
@@ -15,10 +16,19 @@ export const useSound = (currentLevel: number, volume: number) => {
       try {
         const context = new (window.AudioContext || window.webkitAudioContext)()
         const sounds = [
-          `src/assets/enemy.mp3`,
-          `src/assets/levels/${currentLevel}/level.mp3`,
-          `src/assets/levels/${currentLevel}/food/food.mp3`,
-          `src/assets/levels/${currentLevel}/food/extra_food.mp3`,
+          enemySound,
+          new URL(
+            `/src/assets/levels/${currentLevel}/level.mp3`,
+            import.meta.url
+          ).href,
+          new URL(
+            `/src/assets/levels/${currentLevel}/food/food.mp3`,
+            import.meta.url
+          ).href,
+          new URL(
+            `/src/assets/levels/${currentLevel}/food/extra_food.mp3`,
+            import.meta.url
+          ).href,
         ]
         const buffer = new CustomAudioBuffer(context, sounds)
         await buffer.loadAll()

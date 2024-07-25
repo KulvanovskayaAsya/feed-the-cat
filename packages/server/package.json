@@ -26,7 +26,7 @@
     "sequelize": "^6.37.3",
     "sequelize-typescript": "^2.1.6",
     "serialize-javascript": "^6.0.2",
-    "vite": "^3.0.0"
+    "vite": "^3.0.7"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

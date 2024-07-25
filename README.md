@@ -76,6 +76,27 @@ _Хотелки:_
 ## Игровое видео:
 ![Видео](docs/game_video.gif)
 
+# DOCKER
+## Запуск контейнеров в production-сборке:
+`docker-compose -f docker-compose.yml up --build`
+### Будут запущены следующие контейнеры:
+- Клиент: http://localhost:3000/
+- Сервер: http://localhost:3001/
+- База данных PostgreSQL: http://localhost:5432/
+- Графическая утилита Pgadmin: http://localhost:8080/
+### Игра будет запущена на порту http://localhost:3001/
+
+## Остановка контейнеров:
+`docker-compose down`
+
+## Запуск контейнеров в development-сборке:
+`docker-compose -f docker-compose.yml up postgres pgadmin --build`
+### Будут запущены следующие контейнеры:
+- База данных PostgreSQL: http://localhost:5432/
+- Графическая утилита Pgadmin: http://localhost:8080/
+### Игру запускать командой (игра будет запущена на порту http://localhost:3000/):
+- `yarn dev`
+
 ### Как запускать?
 
 1. Убедитесь что у вас установлен `node` и `docker`
