@@ -20,7 +20,7 @@
   }
 
   &:last-child { 
-    display: inlineblock; 
+    display: inline-block; 
     width: 100%;
   } 
 }
