@@ -4,6 +4,7 @@
     "target": "es2019",
     "module": "commonjs",
     "moduleResolution": "node",
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": true,
@@ -18,12 +19,16 @@
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "lib": ["es2019", "esnext.asynciterable", "DOM"],
     "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
-      "*": ["types/*"]
+      "*": ["types/*"],
+      "rollup/parseAst": ["./node_modules/rollup/dist/parseAst"]
     },
     "outDir": "dist"
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

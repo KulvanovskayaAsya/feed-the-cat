@@ -18,6 +18,11 @@
     box-shadow: 15px 15px 15px 0 $color-gray;
     color: $color-accent !important;
   }
+
+  &:last-child { 
+    display: inline-block; 
+    width: 100%;
+  } 
 }
 
 .background {

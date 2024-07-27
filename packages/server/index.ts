@@ -8,6 +8,12 @@ import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import { createClientAndConnect } from './db'
 
+import { authMiddleware } from './utils/authMiddleware'
+
+import topicRoutes from './routes/topic'
+import commentRoutes from './routes/comment'
+import replyRoutes from './routes/reply'
+
 import serialize from 'serialize-javascript'
 
 const port = Number(process.env.SERVER_PORT) || 3001
@@ -16,11 +22,29 @@ const clientPath = isDev
   ? path.join(__dirname, '../client')
   : path.join(__dirname, './')
 
+export type User = {
+  id: number
+  first_name: string
+  second_name: string
+  display_name: string
+  phone: string
+  login: string
+  avatar: string
+  email: string
+}
+
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: User
+  }
+}
+
 createClientAndConnect()
 
 async function createServer() {
   const app = express()
   app.use(cors())
+  app.use(express.json())
 
   let vite: ViteDevServer | undefined
   if (isDev) {
@@ -36,18 +60,9 @@ async function createServer() {
     )
   }
 
-  app.get('/user', (_, res) => {
-    res.json({
-      id: 1,
-      first_name: 'John',
-      second_name: 'Doe',
-      display_name: 'johndoe',
-      phone: '1234567890',
-      login: 'johndoe',
-      avatar: '',
-      email: 'johndoe@example.com',
-    })
-  })
+  app.use('/api', authMiddleware, topicRoutes)
+  app.use('/api', authMiddleware, commentRoutes)
+  app.use('/api', authMiddleware, replyRoutes)
 
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
