@@ -1,21 +1,30 @@
 import { Flex } from 'antd'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PixelButton, PixelCard, PixelHeader } from '@/components'
 import smallCat from '@/assets/smallCat.png'
 import styles from './ForumPage.module.css'
 import { PATHS } from '@/constants'
-
-const fakeTopics = Array.from({ length: 5 }, (_, i) => ({
-  id: i,
-  name: 'Level ' + (i + 1),
-  messageCount: Math.ceil(Math.random() * 10),
-}))
+import { useAppDispatch, useSelector } from '@/store'
+import { getForumListThunk, getTopicByIdThunk } from '@/store/slices/forumSlice'
+import { selectForumData } from '@/store/selectors/forum'
 
 export const ForumPage: FC = () => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const { topicList } = useSelector(selectForumData)
+
+  useEffect(() => {
+    if (!topicList) dispatch(getForumListThunk())
+  }, [dispatch])
+
   const handleCreate = () => navigate(PATHS.TOPIC_CREATE)
-  const handleSelect = (id: number) => navigate(PATHS.TOPIC(String(id)))
+  const handleSelect = (id: number) => {
+    dispatch(getTopicByIdThunk(String(id))).then(() =>
+      navigate(PATHS.TOPIC(String(id)))
+    )
+  }
 
   return (
     <Flex
@@ -35,7 +44,7 @@ export const ForumPage: FC = () => {
             <div>Name</div>
             <div>Messages</div>
           </Flex>
-          {fakeTopics.map(topic => {
+          {topicList.map(topic => {
             return (
               <div
                 key={String(topic.id)}
@@ -43,8 +52,8 @@ export const ForumPage: FC = () => {
                 className={styles.topicRowWrapper}>
                 <PixelCard>
                   <Flex justify="space-between" className={styles.topicRow}>
-                    <div>{topic.name}</div>
-                    <div>{topic.messageCount}</div>
+                    <div>{topic.title}</div>
+                    <div>{topic.comments.length}</div>
                   </Flex>
                 </PixelCard>
               </div>

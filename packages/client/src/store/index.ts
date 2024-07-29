@@ -12,6 +12,7 @@ import gameReducer from './slices/gameSlice'
 import ssrReducer from './slices/ssrSlice'
 import serviceReducer from './slices/serviceSlice'
 import leaderboardReducer from './slices/leaderboardSlice'
+import forumReducer from './slices/forumSlice'
 
 declare global {
   interface Window {
@@ -25,6 +26,7 @@ export const reducer = combineReducers({
   game: gameReducer,
   ssr: ssrReducer,
   service: serviceReducer,
+  forum: forumReducer,
 })
 
 export const store = configureStore({
