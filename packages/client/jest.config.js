@@ -6,6 +6,13 @@ export default {
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
   globals: {
+    __EXTERNAL_SERVER_URL__: process.env.EXTERNAL_SERVER_URL,
+    __INTERNAL_SERVER_URL__: process.env.INTERNAL_SERVER_URL,
     __SERVER_PORT__: process.env.SERVER_PORT,
+  },
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.(gif|ttf|eot|svg|png)$': 'identity-obj-proxy',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
 }

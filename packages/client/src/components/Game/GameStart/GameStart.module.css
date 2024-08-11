@@ -1,0 +1,31 @@
+.heroChoose {
+  width: 150px;
+}
+
+.heroImage {
+  display: block;
+  margin: 0 auto;
+  height: 100px;
+}
+
+.imageContainer {
+  width: 75px;
+  height: 100px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.carouselItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carouselArrow {
+  position: absolute;
+}
+
+.centerText {
+  text-align: center;
+}

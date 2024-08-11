@@ -1,0 +1,11 @@
+body {
+  font-family: 'VT323';
+}
+
+.ant-form-item-explain-error {
+  font-size: 0.75rem;
+}
+
+.ant-form-item-control-input-content {
+  margin-top: 30px;
+}

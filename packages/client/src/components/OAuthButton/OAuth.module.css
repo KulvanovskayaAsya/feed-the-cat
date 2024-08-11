@@ -1,0 +1,25 @@
+.separator::before {
+  content: '--- ';
+}
+
+.separator::after {
+  content: ' ---';
+}
+
+.separator {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.oauthWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.yandexLogo {
+  width: 150px;
+  margin-top: -10px;
+}

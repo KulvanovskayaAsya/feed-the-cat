@@ -1,0 +1,31 @@
+.border-top {
+  position: absolute;
+  width: 100%;
+  height: $border-size;
+  inset: -$border-size 0 0 0;
+  background-color: $color-accent;
+}
+
+.border-right {
+  position: absolute;
+  width: $border-size;
+  height: 100%;
+  inset: 0 -$border-size 0 100%;
+  background-color: $color-accent;
+}
+
+.border-bottom {
+  position: absolute;
+  width: 100%;
+  height: $border-size;
+  inset: 100% 0 -$border-size 0;
+  background-color: $color-accent;
+}
+
+.border-left {
+  position: absolute;
+  width: 10px;
+  height: 100%;
+  inset: 0 100% 0 -$border-size;
+  background-color: $color-accent;
+}

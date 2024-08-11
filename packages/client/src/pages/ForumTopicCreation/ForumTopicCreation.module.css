@@ -1,0 +1,13 @@
+.page {
+  flex: 1;
+  padding: 8px 0;
+}
+
+.topic-name {
+  text-align: center;
+  margin: 32px 0;
+}
+
+.input {
+  width: 450px;
+}

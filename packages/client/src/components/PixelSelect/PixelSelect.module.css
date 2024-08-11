@@ -1,0 +1,46 @@
+.select-wrapper {
+  position: relative;
+  min-width: calc(500px - 2 * 10px);
+  margin: 10px;
+  transition: all 0.3s;
+}
+
+.select {
+  width: 100%;
+  font-family: $font-family;
+  font-size: $font-body;
+  color: $color-accent;
+  height: calc($button-height - 2 * $border-size);
+  border: none;
+  border-radius: 0;
+  position: relative;
+  background-color: $color-light;
+}
+
+.selectArrow {
+  font-size: $font-button;
+  color: $color-accent;
+  transition: 0.3s;
+}
+
+.selectArrowOpen {
+  transform: rotate(180deg);
+}
+
+.selectOption {
+  font-family: $font-family;
+  font-size: $font-body;
+  border-radius: 0;
+}
+
+.selectPopup {
+  border: none;
+  border-radius: 0;
+}
+
+.selectLabel {
+  font-size: $font-button;
+  line-height: calc($button-height - 2 * $border-size);
+  display: flex;
+  justify-content: center;
+}
