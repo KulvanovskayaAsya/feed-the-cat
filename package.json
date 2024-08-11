@@ -21,6 +21,10 @@
   },
   "devDependencies": {
     "@evilmartians/lefthook": "^1.3.9",
+    "@types/pg": "^8.11.6",
     "lerna": "^5.4.3"
+  },
+  "dependencies": {
+    "pg": "^8.12.0"
   }
 }

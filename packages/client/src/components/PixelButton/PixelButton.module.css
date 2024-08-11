@@ -19,10 +19,10 @@
     color: $color-accent !important;
   }
 
-  &:last-child { 
-    display: inline-block; 
+  &:last-child {
+    display: inline-block;
     width: 100%;
-  } 
+  }
 }
 
 .background {

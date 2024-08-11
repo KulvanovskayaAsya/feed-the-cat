@@ -15,6 +15,7 @@ import commentRoutes from './routes/comment'
 import replyRoutes from './routes/reply'
 
 import serialize from 'serialize-javascript'
+import themeRoutes from './routes/theme'
 
 const port = Number(process.env.SERVER_PORT) || 3001
 const isDev = process.env.NODE_ENV === 'development'
@@ -44,6 +45,7 @@ createClientAndConnect()
 async function createServer() {
   const app = express()
   app.use(cors())
+  app.disable('x-powered-by').enable('trust proxy')
   app.use(express.json())
 
   let vite: ViteDevServer | undefined
@@ -63,6 +65,8 @@ async function createServer() {
   app.use('/api', authMiddleware, topicRoutes)
   app.use('/api', authMiddleware, commentRoutes)
   app.use('/api', authMiddleware, replyRoutes)
+
+  app.use('/api', themeRoutes)
 
   app.get('*', async (req, res, next) => {
     const url = req.originalUrl
