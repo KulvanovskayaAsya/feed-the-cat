@@ -20,7 +20,7 @@ import { reducer } from './store'
 import './index.css'
 import { setPageHasBeenInitializedOnServer } from './store/slices/ssrSlice'
 
-export const render = async (req: ExpressRequest) => {
+export const render = async (req: ExpressRequest, nonce: string) => {
   const { query, dataRoutes } = createStaticHandler(routes)
   const fetchRequest = createFetchRequest(req)
   const context = await query(fetchRequest)
@@ -43,7 +43,7 @@ export const render = async (req: ExpressRequest) => {
   return {
     html: ReactDOM.renderToString(
       <Provider store={store}>
-        <StaticRouterProvider router={router} context={context} />
+        <StaticRouterProvider router={router} context={context} nonce={nonce} />
       </Provider>
     ),
     initialState: store.getState(),

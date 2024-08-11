@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import cors from 'cors'
+import crypto from 'crypto'
 dotenv.config()
 
 import express, { Request as ExpressRequest } from 'express'
@@ -46,6 +47,22 @@ async function createServer() {
   app.use(cors())
   app.use(express.json())
 
+  app.use((_, res, next) => {
+    const nonce = crypto.randomBytes(16).toString('base64') // Генерация nonce
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'nonce-" + nonce + "'",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data:",
+      "connect-src 'self' https://ya-praktikum.tech/ http://localhost:3001 data:",
+    ].join('; ')
+
+    res.setHeader('Content-Security-Policy', csp)
+    res.locals.nonce = nonce
+    next()
+  })
+
   let vite: ViteDevServer | undefined
   if (isDev) {
     vite = await createViteServer({
@@ -69,7 +86,8 @@ async function createServer() {
 
     try {
       let render: (
-        req: ExpressRequest
+        req: ExpressRequest,
+        nonce: string
       ) => Promise<{ html: string; initialState: unknown }>
       let template: string
       if (vite) {
@@ -104,14 +122,18 @@ async function createServer() {
         render = (await import(pathToServer)).render
       }
 
-      const { html: appHtml, initialState } = await render(req)
+      const { html: appHtml, initialState } = await render(
+        req,
+        res.locals.nonce
+      )
       const serializedInitialState = serialize(initialState, { isJSON: true })
       const html = template
         .replace(`<!--ssr-outlet-->`, appHtml)
         .replace(
           `<!--ssr-initial-state-->`,
-          `<script>window.APP_INITIAL_STATE = ${serializedInitialState}</script>`
+          `<script nonce='${res.locals.nonce}'>window.APP_INITIAL_STATE = ${serializedInitialState}</script>`
         )
+        .replace(/{{nonce}}/g, res.locals.nonce)
 
       // Завершаем запрос и отдаём HTML-страницу
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
