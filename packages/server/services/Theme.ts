@@ -1,5 +1,5 @@
 import { BaseRESTService } from './BaseRESTService'
-import { SiteThemeModel } from '../sequelize'
+import { SiteThemeModel } from '../db'
 import { Optional } from 'sequelize'
 
 interface FindRequest {

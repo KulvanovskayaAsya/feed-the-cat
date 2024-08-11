@@ -11,37 +11,27 @@ import {
 import smallCat from '@/assets/smallCat.png'
 import styles from './ForumTopicPage.module.css'
 import tokens from '../../../tokens.json'
-
-const topicData = {
-  name: 'Topic Name',
-}
-const data = Array.from({ length: 5 }, (_, i) => ({
-  id: i,
-  avatar: '',
-  name: 'Name ' + Math.ceil(Math.random() * 5),
-  content: 'Some text ' + i,
-}))
+import { useAppDispatch, useSelector } from '@/store'
+import { selectForumData } from '@/store/selectors/forum'
+import { createCommentThunk } from '@/store/slices/forumSlice'
 
 export const ForumTopicPage: FC = () => {
-  const [messages, setMessages] = useState(data)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [newMessage, setNewMessage] = useState('')
+  const dispatch = useAppDispatch()
+  const { selectedTopic } = useSelector(selectForumData)
 
   const toggleModal = () => {
     setIsModalOpen(c => !c)
   }
   const handleAddMessage = () => {
-    setMessages(old => [
-      ...old,
-      {
-        id: old.length + 1,
-        avatar: '',
-        name: 'Name',
-        content: newMessage,
-      },
-    ])
-    setNewMessage('')
-    toggleModal()
+    if (selectedTopic)
+      dispatch(
+        createCommentThunk({ topicId: selectedTopic.id, content: newMessage })
+      ).then(() => {
+        setNewMessage('')
+        toggleModal()
+      })
   }
 
   return (
@@ -55,11 +45,13 @@ export const ForumTopicPage: FC = () => {
         <PixelHeader>
           FEED THE <img src={smallCat} alt="cat" /> CAT
         </PixelHeader>
-        <PixelHeader className={styles.topicName}>{topicData.name}</PixelHeader>
+        <PixelHeader className={styles.topicName}>
+          {selectedTopic?.title}
+        </PixelHeader>
       </header>
       <main>
         <Flex vertical gap={32}>
-          {messages.map(message => {
+          {selectedTopic?.comments.map(message => {
             return (
               <PixelCard key={message.id}>
                 <Flex gap={32} className={styles.messageRow}>
@@ -71,7 +63,7 @@ export const ForumTopicPage: FC = () => {
                     }}
                   />
                   <div>
-                    <div>{message.name}</div>
+                    <div>{message.userId}</div>
                     <div>{message.content}</div>
                   </div>
                 </Flex>

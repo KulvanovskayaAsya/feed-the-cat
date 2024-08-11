@@ -21,7 +21,11 @@ WORKDIR /app
 
 COPY --from=builder /app/packages/server/dist/ /app/
 COPY --from=builder /app/packages/server/package.json /app/package.json
+
+COPY wait-for.sh /app/wait-for.sh
+RUN chmod +x /app/wait-for.sh
 COPY --from=builder /app/packages/client/dist/ /app/dist/
+
 RUN yarn install --production=true
 
 ENV POSTGRES_PORT=${POSTGRES_PORT}

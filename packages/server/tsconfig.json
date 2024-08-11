@@ -4,6 +4,7 @@
     "target": "es2019",
     "module": "commonjs",
     "moduleResolution": "node",
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": true,
@@ -25,8 +26,10 @@
     "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
-      "*": ["types/*"]
+      "*": ["types/*"],
+      "rollup/parseAst": ["./node_modules/rollup/dist/parseAst"]
     },
     "outDir": "dist"
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

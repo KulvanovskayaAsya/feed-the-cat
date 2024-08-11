@@ -1,5 +1,5 @@
 import { BaseRESTService } from './BaseRESTService'
-import { UserModel } from '../sequelize'
+import { UserModel } from '../db'
 import { Optional } from 'sequelize'
 
 export class UserService implements BaseRESTService {
