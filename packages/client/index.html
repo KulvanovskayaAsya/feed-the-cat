@@ -9,7 +9,7 @@
   <body>
     <!--ssr-initial-state-->
     <div id="root"><!--ssr-outlet--></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script type="module" src="/index.js"></script>
+    <script type="module" src="/src/main.tsx" nonce="{{nonce}}"></script>
+    <script type="module" src="/index.js" nonce="{{nonce}}"></script>
   </body>
 </html>
