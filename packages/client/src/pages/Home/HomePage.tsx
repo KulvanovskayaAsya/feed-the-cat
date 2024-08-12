@@ -7,7 +7,7 @@ import { PATHS } from '@/constants'
 import { useSearchParams } from 'react-router-dom'
 import { postCode } from '@/store/slices/serviceSlice'
 import { useAppDispatch } from '@/store'
-import { SERVICE_URL_LOCAL } from '@/api/urls'
+import { SERVICE_URL } from '@/api/urls'
 import { ThunkDispatch } from 'redux-thunk'
 
 export const HomePage: FC = () => {
@@ -25,9 +25,7 @@ export const HomePage: FC = () => {
   useEffect(() => {
     const postQAuthCode = async () => {
       if (query) {
-        await dispatch(
-          postCode({ code: query, redirect_uri: SERVICE_URL_LOCAL })
-        )
+        await dispatch(postCode({ code: query, redirect_uri: SERVICE_URL }))
         await deleteQuery()
       }
     }
