@@ -47,7 +47,7 @@ async function createServer() {
   const app = express()
   app.use(
     cors({
-      origin: 'https://game-shakers-feed-the-cat-38.ya-praktikum.tech/',
+      origin: 'https://game-shakers-feed-the-cat-38.ya-praktikum.tech',
     })
   )
   app.disable('x-powered-by').enable('trust proxy')
