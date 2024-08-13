@@ -9,7 +9,7 @@ export const authMiddleware = async (
     const cookies = req.headers.cookie
 
     if (!cookies) {
-      return res.status(401).json({ message: 'Not authenticated' })
+      return res.status(401).json({ message: 'No cookie' })
     }
 
     const response = await fetch('https://ya-praktikum.tech/api/v2/auth/user', {
@@ -23,7 +23,7 @@ export const authMiddleware = async (
       req.user = userData
       return next()
     } else {
-      res.status(401).json({ message: 'Not authenticated' })
+      res.status(401).json({ message: response })
     }
   } catch (error) {
     res.status(500).json({ message: 'Not authenticated' })
