@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import cors from 'cors'
-import crypto from 'crypto'
+// import crypto from 'crypto'
 dotenv.config()
 
 import express, { Request as ExpressRequest } from 'express'
@@ -47,9 +47,7 @@ async function createServer() {
   const app = express()
   app.use(
     cors({
-      origin: 'https://game-shakers-feed-the-cat-38.ya-praktikum.tech',
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
+      origin: '*',
       credentials: true,
     })
   )
