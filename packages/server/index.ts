@@ -48,6 +48,9 @@ async function createServer() {
   app.use(
     cors({
       origin: 'https://game-shakers-feed-the-cat-38.ya-praktikum.tech',
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: true,
     })
   )
   app.disable('x-powered-by').enable('trust proxy')
