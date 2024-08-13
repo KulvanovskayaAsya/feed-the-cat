@@ -57,21 +57,21 @@ async function createServer() {
 
   app.use(express.json())
 
-  app.use((_, res, next) => {
-    const nonce = crypto.randomBytes(16).toString('base64') // Генерация nonce
-    const csp = [
-      "default-src 'self'",
-      "script-src 'self' 'nonce-" + nonce + "'",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data:",
-      "connect-src 'self' https://ya-praktikum.tech/ http://localhost:3001 data:",
-    ].join('; ')
+  // app.use((_, res, next) => {
+  //   const nonce = crypto.randomBytes(16).toString('base64') // Генерация nonce
+  //   const csp = [
+  //     "default-src 'self'",
+  //     "script-src 'self' 'nonce-" + nonce + "'",
+  //     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  //     "font-src 'self' https://fonts.gstatic.com",
+  //     "img-src 'self' data:",
+  //     "connect-src 'self' https://ya-praktikum.tech/ http://localhost:3001 data:",
+  //   ].join('; ')
 
-    res.setHeader('Content-Security-Policy', csp)
-    res.locals.nonce = nonce
-    next()
-  })
+  //   res.setHeader('Content-Security-Policy', csp)
+  //   res.locals.nonce = nonce
+  //   next()
+  // })
 
   let vite: ViteDevServer | undefined
   if (isDev) {
