@@ -53,7 +53,7 @@ async function createServer() {
       credentials: true,
     })
   )
-  app.disable('x-powered-by').enable('trust proxy')
+  // app.disable('x-powered-by').enable('trust proxy')
 
   app.use(express.json())
 
