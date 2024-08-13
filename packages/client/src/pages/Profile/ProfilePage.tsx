@@ -6,8 +6,7 @@ import { usePage } from '@/utils/hooks'
 
 async function testRequest() {
   const uuid = '3d0abf17-31fc-4f76-b530-3d1987047604'
-  const url = 'http://localhost:3001/api/users'
-
+  const url = `${process.env.EXTERNAL_SERVER_URL}/api/user`
   const body = {
     username: 'testuser',
     password: 'testpassword',
