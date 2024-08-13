@@ -63,7 +63,7 @@ async function createServer() {
   //     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   //     "font-src 'self' https://fonts.gstatic.com",
   //     "img-src 'self' data:",
-  //     "connect-src 'self' https://ya-praktikum.tech/ http://localhost:3001 data:",
+  //     "connect-src 'self' http://game-shakers-feed-the-cat-38.ya-praktikum.tech:3001 https://ya-praktikum.tech/ data:",
   //   ].join('; ')
 
   //   res.setHeader('Content-Security-Policy', csp)
